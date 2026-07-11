@@ -1,11 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>TeachCraft</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8f7f2" />
+  <title>TeachCraft</title>
+  <style>
+    :root{
+      --cream:#f8f7f2;
+      --navy:#1b2a47;
+      --blue:#85a1c1;
+      --gold:#cfa144;
+      --white:#ffffff;
+      --muted:#667085;
+      --line:#d9dfe7;
+      --shadow:0 14px 35px rgba(27,42,71,.10);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top right, rgba(133,161,193,.16), transparent 30%),
+        var(--cream);
+      color:var(--navy);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a{color:inherit}
+    .wrap{
+      width:min(1180px, calc(100% - 32px));
+      margin:0 auto;
+      padding:24px 0 calc(48px + env(safe-area-inset-bottom));
+    }
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      padding:8px 0 28px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      text-decoration:none;
+    }
+    .mark{
+      width:48px;
+      height:48px;
+      border:8px solid var(--navy);
+      border-radius:50%;
+      box-shadow:inset 0 0 0 2px var(--gold);
+      flex:0 0 auto;
+    }
+    .brand strong{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:1.45rem;
+      letter-spacing:.01em;
+    }
+    .tag{
+      color:var(--muted);
+      font-size:.92rem;
+      margin-top:2px;
+    }
+    .hero{
+      background:rgba(255,255,255,.78);
+      border:1px solid rgba(27,42,71,.08);
+      border-radius:32px;
+      box-shadow:var(--shadow);
+      padding:clamp(28px,5vw,68px);
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:36px;
+      align-items:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero:after{
+      content:"";
+      width:280px;
+      height:280px;
+      border-radius:50%;
+      border:46px solid rgba(207,161,68,.14);
+      position:absolute;
+      right:-100px;
+      top:-95px;
+      pointer-events:none;
+    }
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:#9b7126;
+      font-weight:800;
+      font-size:.78rem;
+      margin-bottom:14px;
+    }
+    h1{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:clamp(2.7rem,6vw,5.2rem);
+      line-height:.96;
+      margin:0 0 20px;
+      max-width:760px;
+    }
+    .lead{
+      font-size:clamp(1.05rem,2vw,1.3rem);
+      color:var(--muted);
+      line-height:1.65;
+      max-width:720px;
+      margin:0;
+    }
+    .hero-card{
+      background:var(--navy);
+      color:var(--white);
+      border-radius:26px;
+      padding:28px;
+      position:relative;
+      z-index:1;
+    }
+    .hero-card small{
+      color:#c9d4e2;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:700;
+    }
+    .hero-card h2{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:2rem;
+      margin:12px 0 10px;
+    }
+    .hero-card p{color:#dbe2ea;line-height:1.55}
+    .btn{
+      min-height:48px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:14px;
+      padding:0 18px;
+      font-weight:800;
+      text-decoration:none;
+      border:1px solid transparent;
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+      touch-action:manipulation;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{
+      background:var(--gold);
+      color:var(--navy);
+      box-shadow:0 8px 20px rgba(207,161,68,.25);
+    }
+    .btn-secondary{
+      background:transparent;
+      color:var(--navy);
+      border-color:var(--line);
+    }
+    section{margin-top:42px}
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .section-head h2{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:clamp(1.8rem,3.5vw,2.7rem);
+      margin:0;
+    }
+    .section-head p{margin:0;color:var(--muted)}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:18px;
+    }
+    .category{
+      background:rgba(255,255,255,.82);
+      border:1px solid rgba(27,42,71,.08);
+      border-radius:22px;
+      padding:22px;
+      min-height:170px;
+      box-shadow:0 8px 24px rgba(27,42,71,.06);
+    }
+    .category .icon{
+      width:46px;height:46px;border-radius:14px;
+      background:rgba(133,161,193,.18);
+      display:grid;place-items:center;
+      font-size:1.1rem;
+      font-weight:800;
+      margin-bottom:18px;
+    }
+    .category h3{margin:0 0 8px;font-size:1.15rem}
+    .category p{margin:0;color:var(--muted);line-height:1.5}
+    .lessons{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:20px;
+    }
+    .lesson{
+      background:var(--white);
+      border:1px solid rgba(27,42,71,.09);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:0 10px 28px rgba(27,42,71,.07);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .lesson-top{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:flex-start;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      min-height:32px;
+      border-radius:999px;
+      background:rgba(133,161,193,.18);
+      padding:0 11px;
+      font-size:.78rem;
+      font-weight:800;
+    }
+    .meta{
+      color:var(--muted);
+      font-size:.88rem;
+      white-space:nowrap;
+    }
+    .lesson h3{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:1.75rem;
+      margin:0;
+    }
+    .lesson p{margin:0;color:var(--muted);line-height:1.55}
+    .lesson-actions{
+      display:flex;
+      gap:12px;
+      margin-top:auto;
+      flex-wrap:wrap;
+    }
+    footer{
+      margin-top:54px;
+      padding-top:24px;
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width:640px){
+      .wrap{width:min(100% - 20px,1180px);padding-top:14px}
+      header{align-items:flex-start}
+      .tag{display:none}
+      .hero{padding:26px 22px}
+      .grid,.lessons{grid-template-columns:1fr}
+      .section-head{align-items:flex-start;flex-direction:column}
+      footer{flex-direction:column}
+      .btn{width:100%}
+      .lesson-actions{display:grid;grid-template-columns:1fr}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *{scroll-behavior:auto!important;transition:none!important}
+    }
+  </style>
 </head>
 <body>
-<h1>TeachCraft</h1>
-<p>Platform under construction.</p>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="./" aria-label="TeachCraft home">
+        <span class="mark" aria-hidden="true"></span>
+        <span>
+          <strong>TeachCraft</strong>
+          <div class="tag">Interactive English learning</div>
+        </span>
+      </a>
+      <a class="btn btn-secondary" href="#lessons">Browse lessons</a>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <div class="eyebrow">Advanced English. Better decisions.</div>
+          <h1 id="hero-title">Learn English by thinking more precisely.</h1>
+          <p class="lead">
+            Interactive lessons for Cambridge, Matura and English for IT.
+            Built around strong explanations, meaningful practice and clear feedback.
+          </p>
+        </div>
+        <aside class="hero-card">
+          <small>Featured now</small>
+          <h2>C1 Revision Check</h2>
+          <p>Vocabulary, transformations and collocations in one focused interactive lesson.</p>
+          <a class="btn btn-primary" href="https://augustateach.github.io/c1-precision-demo/think-like-c1-speaker/">
+            Start lesson
+          </a>
+        </aside>
+      </section>
+
+      <section aria-labelledby="pathways-title">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Learning pathways</div>
+            <h2 id="pathways-title">Choose your area</h2>
+          </div>
+          <p>More lessons will be added gradually.</p>
+        </div>
+
+        <div class="grid">
+          <article class="category">
+            <div class="icon" aria-hidden="true">C1</div>
+            <h3>Cambridge C1</h3>
+            <p>Vocabulary precision, transformations, speaking and writing.</p>
+          </article>
+          <article class="category">
+            <div class="icon" aria-hidden="true">B2</div>
+            <h3>Cambridge FCE</h3>
+            <p>Clear progression towards confident upper-intermediate performance.</p>
+          </article>
+          <article class="category">
+            <div class="icon" aria-hidden="true">M</div>
+            <h3>Matura</h3>
+            <p>Extended and bilingual exam preparation with practical feedback.</p>
+          </article>
+          <article class="category">
+            <div class="icon" aria-hidden="true">IT</div>
+            <h3>English for IT</h3>
+            <p>Technical vocabulary and communication for real digital contexts.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="lessons" aria-labelledby="lessons-title">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Available now</div>
+            <h2 id="lessons-title">Featured lessons</h2>
+          </div>
+          <p>Open a lesson in your browser. No installation required.</p>
+        </div>
+
+        <div class="lessons">
+          <article class="lesson">
+            <div class="lesson-top">
+              <span class="pill">C1 Vocabulary</span>
+              <span class="meta">15–20 min</span>
+            </div>
+            <h3>C1 Precision Challenge</h3>
+            <p>Practise choosing precise vocabulary instead of relying on broad, general words.</p>
+            <div class="lesson-actions">
+              <a class="btn btn-primary" href="https://augustateach.github.io/c1-precision-demo/">
+                Start lesson
+              </a>
+            </div>
+          </article>
+
+          <article class="lesson">
+            <div class="lesson-top">
+              <span class="pill">C1 Revision</span>
+              <span class="meta">20–25 min</span>
+            </div>
+            <h3>Revision Check</h3>
+            <p>Review vocabulary, transformations and collocations through interactive practice.</p>
+            <div class="lesson-actions">
+              <a class="btn btn-primary" href="https://augustateach.github.io/c1-precision-demo/think-like-c1-speaker/">
+                Start lesson
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>TeachCraft by AugustaTeach</span>
+      <span>Cambridge • Matura • English for IT</span>
+    </footer>
+  </div>
 </body>
 </html>
