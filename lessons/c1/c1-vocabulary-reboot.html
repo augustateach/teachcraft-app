@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1b2a47" />
+  <title>C1 Vocabulary Reboot — Technology, Materials & Innovation</title>
+  <style>
+    :root{
+      --cream:#f8f7f2;
+      --navy:#1b2a47;
+      --blue:#85a1c1;
+      --gold:#cfa144;
+      --white:#ffffff;
+      --ink:#26344f;
+      --muted:#68758a;
+      --line:#d9dee7;
+      --good:#1f6b4f;
+      --good-bg:#e9f6ef;
+      --bad:#9f3535;
+      --bad-bg:#fff0ef;
+      --info:#eef3f8;
+      --shadow:0 16px 42px rgba(27,42,71,.10);
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{min-height:100dvh}
+    button,input,select,textarea{font:inherit}
+    button{touch-action:manipulation}
+    .app{
+      height:100dvh;
+      min-height:100dvh;
+      display:grid;
+      grid-template-rows:auto minmax(0,1fr) auto;
+      overflow:hidden;
+    }
+    .topbar{
+      background:var(--navy);
+      color:white;
+      padding:14px clamp(16px,3vw,32px);
+      padding-top:max(14px,env(safe-area-inset-top));
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:18px;
+      box-shadow:0 4px 18px rgba(27,42,71,.18);
+      z-index:5;
+    }
+    .brand{min-width:0}
+    .eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#c9d5e4;font-weight:800}
+    .brand-title{font-size:clamp(1rem,2.5vw,1.35rem);font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+    .progress-wrap{display:flex;align-items:center;gap:12px;min-width:220px}
+    .progress-track{height:9px;flex:1;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+    .progress-bar{height:100%;width:0;background:var(--gold);transition:width .25s ease}
+    .progress-text{font-weight:800;font-size:.9rem;min-width:56px;text-align:right}
+
+    .stage{
+      min-height:0;
+      overflow:auto;
+      -webkit-overflow-scrolling:touch;
+      padding:clamp(18px,3vw,34px);
+      padding-bottom:26px;
+    }
+    .slide{
+      width:min(1040px,100%);
+      margin:0 auto;
+      background:var(--white);
+      border:1px solid rgba(27,42,71,.08);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:clamp(20px,4vw,42px);
+      min-height:min(640px,calc(100dvh - 235px));
+    }
+    .slide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:24px}
+    .task-label{color:var(--gold);font-weight:900;letter-spacing:.09em;text-transform:uppercase;font-size:.78rem}
+    h1,h2,h3{color:var(--navy);margin:0}
+    h1{font-size:clamp(2rem,6vw,4.5rem);line-height:1.02;letter-spacing:-.045em}
+    h2{font-size:clamp(1.55rem,4vw,2.35rem);line-height:1.1}
+    h3{font-size:1.05rem}
+    .subtitle{font-size:clamp(1.05rem,2.4vw,1.35rem);color:var(--muted);line-height:1.55;margin:14px 0 0}
+    .mission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+    .mission-card{background:var(--info);border-radius:18px;padding:20px;border:1px solid #dce5ef}
+    .mission-card strong{display:block;color:var(--navy);font-size:1.04rem;margin-bottom:7px}
+    .instruction{
+      background:linear-gradient(135deg,#eef3f8,#f7f4eb);
+      border-left:5px solid var(--gold);
+      border-radius:14px;
+      padding:14px 16px;
+      color:var(--navy);
+      font-weight:700;
+      line-height:1.45;
+      margin:0 0 22px;
+    }
+    .question-list{display:grid;gap:18px}
+    .question-card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      background:#fff;
+    }
+    .question-number{font-size:.78rem;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .stem{font-size:1.05rem;line-height:1.55;margin:0 0 14px}
+    .options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .option{
+      min-height:48px;
+      text-align:left;
+      border:1.5px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      padding:11px 14px;
+      color:var(--ink);
+      cursor:pointer;
+      transition:transform .12s ease,border-color .12s ease,background .12s ease;
+    }
+    .option:active{transform:scale(.99)}
+    .option.selected{border-color:var(--navy);background:#eef2f7;box-shadow:0 0 0 2px rgba(27,42,71,.08)}
+    .option.correct{border-color:var(--good);background:var(--good-bg);color:var(--good)}
+    .option.incorrect{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+    .option.reveal{border-color:var(--good);background:var(--good-bg);color:var(--good)}
+    .option[disabled]{cursor:default;opacity:1}
+    .feedback{
+      margin-top:14px;
+      border-radius:14px;
+      padding:14px 16px;
+      line-height:1.5;
+      display:none;
+    }
+    .feedback.show{display:block}
+    .feedback.good{background:var(--good-bg);border:1px solid #bce0ce;color:#174f3b}
+    .feedback.bad{background:var(--bad-bg);border:1px solid #efc3bf;color:#792929}
+    .feedback.neutral{background:var(--info);border:1px solid #d7e2ed;color:var(--navy)}
+    .feedback strong{color:inherit}
+    select,input[type="text"],textarea{
+      width:100%;
+      min-height:48px;
+      border:1.5px solid var(--line);
+      border-radius:13px;
+      padding:11px 13px;
+      background:white;
+      color:var(--ink);
+    }
+    select:focus,input:focus,textarea:focus{outline:3px solid rgba(133,161,193,.28);border-color:var(--blue)}
+    .inline-answer{margin-top:10px}
+    .word-bank{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      padding:16px;
+      background:var(--info);
+      border:1px solid #d7e2ed;
+      border-radius:16px;
+      margin-bottom:20px;
+    }
+    .word-chip{
+      border:1.5px solid var(--blue);
+      background:white;
+      color:var(--navy);
+      border-radius:999px;
+      min-height:44px;
+      padding:9px 15px;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .word-chip.active{background:var(--navy);color:white;border-color:var(--navy)}
+    .word-chip.used{opacity:.45;text-decoration:line-through}
+    .clue-controls{display:flex;justify-content:flex-end;margin-bottom:16px}
+    .secondary-btn{
+      min-height:44px;
+      border:1.5px solid var(--navy);
+      border-radius:12px;
+      background:white;
+      color:var(--navy);
+      font-weight:800;
+      padding:9px 15px;
+      cursor:pointer;
+    }
+    .secondary-btn:disabled{opacity:.45;cursor:not-allowed}
+    .manufacturing-text{
+      font-size:1.12rem;
+      line-height:2.1;
+      background:#fcfcfa;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:20px;
+    }
+    .drop-slot{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      vertical-align:middle;
+      min-width:145px;
+      min-height:44px;
+      padding:5px 10px;
+      margin:3px 4px;
+      border:2px dashed var(--blue);
+      border-radius:11px;
+      color:var(--navy);
+      background:#f7fafc;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .drop-slot.filled{border-style:solid;background:white}
+    .drop-slot.correct{border-color:var(--good);background:var(--good-bg);color:var(--good)}
+    .drop-slot.incorrect{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+    .surgery-sentence{line-height:1.7;margin:0 0 13px}
+    .phrase{
+      display:inline;
+      border:0;
+      background:transparent;
+      color:inherit;
+      border-radius:7px;
+      padding:3px 5px;
+      cursor:pointer;
+      text-decoration:underline;
+      text-decoration-color:#c8d0dc;
+      text-underline-offset:4px;
+      min-height:44px;
+    }
+    .phrase.selected{background:#fff4cf;box-shadow:0 0 0 2px #e5c96e}
+    .phrase.correct{background:var(--good-bg);color:var(--good);text-decoration:none}
+    .phrase.incorrect{background:var(--bad-bg);color:var(--bad);text-decoration:none}
+    .replacement-row{display:grid;grid-template-columns:1fr 220px;gap:12px;align-items:center;margin-top:12px}
+    .transformation{
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:17px;
+    }
+    .transformation .keyword{
+      display:inline-flex;
+      background:var(--navy);
+      color:white;
+      border-radius:9px;
+      padding:6px 10px;
+      font-weight:900;
+      letter-spacing:.08em;
+      margin:8px 0;
+    }
+    .transform-line{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;margin-top:8px}
+    .transform-line input{min-width:0}
+    .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .sentence-option{
+      min-height:70px;
+      text-align:left;
+      border:1.5px solid var(--line);
+      background:white;
+      border-radius:14px;
+      padding:14px;
+      line-height:1.45;
+      cursor:pointer;
+    }
+    .sentence-option.selected{border-color:var(--navy);background:#eef2f7}
+    .sentence-option.correct{border-color:var(--good);background:var(--good-bg);color:var(--good)}
+    .sentence-option.incorrect{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+    .integration{
+      font-size:1.08rem;
+      line-height:2.05;
+      background:#fcfcfa;
+      padding:20px;
+      border:1px solid var(--line);
+      border-radius:18px;
+    }
+    .integration select{width:auto;max-width:100%;min-height:44px;margin:3px 2px;font-weight:700}
+    .technology-choice{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+    .technology-btn{
+      min-height:70px;border:1.5px solid var(--line);border-radius:15px;background:white;color:var(--navy);font-weight:900;cursor:pointer
+    }
+    .technology-btn.selected{background:var(--navy);color:white;border-color:var(--navy)}
+    textarea{min-height:180px;resize:vertical;line-height:1.5}
+    .criteria{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+    .criterion{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fafafa}
+    .criterion.met{background:var(--good-bg);border-color:#bce0ce;color:var(--good)}
+    .model-box{
+      margin-top:16px;
+      background:#f7f3e8;
+      border:1px solid #e6d6a9;
+      border-radius:15px;
+      padding:16px;
+      line-height:1.6;
+    }
+    .result-wrap{text-align:center;padding:10px 0}
+    .score-ring{
+      width:190px;height:190px;border-radius:50%;margin:22px auto;
+      display:grid;place-items:center;
+      background:conic-gradient(var(--gold) var(--score-angle),#e7e9ee 0);
+      position:relative;
+    }
+    .score-ring::after{content:"";position:absolute;width:145px;height:145px;border-radius:50%;background:white}
+    .score-value{position:relative;z-index:1;color:var(--navy);font-size:2.5rem;font-weight:900}
+    .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+    .result-card{background:var(--info);border-radius:16px;padding:17px;border:1px solid #d7e2ed}
+    .result-card strong{display:block;color:var(--navy);font-size:1.45rem}
+    .footer{
+      background:rgba(248,247,242,.98);
+      border-top:1px solid #d9dee7;
+      padding:10px clamp(14px,3vw,28px);
+      padding-bottom:max(10px,env(safe-area-inset-bottom));
+      z-index:8;
+      box-shadow:0 -8px 22px rgba(27,42,71,.07);
+    }
+    .action-row,.nav-row{width:min(1040px,100%);margin:0 auto;display:grid;gap:10px}
+    .action-row{grid-template-columns:1fr;margin-bottom:9px}
+    .nav-row{grid-template-columns:minmax(100px,1fr) auto minmax(100px,1fr);align-items:center}
+    .check-btn,.nav-btn{
+      min-height:50px;border:0;border-radius:14px;font-weight:900;cursor:pointer
+    }
+    .check-btn{background:var(--gold);color:#1d2638}
+    .check-btn:disabled{opacity:.45;cursor:not-allowed}
+    .nav-btn{background:var(--navy);color:white}
+    .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .slide-counter{font-weight:900;color:var(--navy);padding:0 8px;text-align:center;white-space:nowrap}
+    .tiny{font-size:.88rem;color:var(--muted);line-height:1.45}
+    .answer-key{margin-top:14px;font-weight:800;color:var(--navy)}
+    .hidden{display:none!important}
+
+    @media (max-width:760px){
+      .topbar{grid-template-columns:1fr}
+      .progress-wrap{min-width:0}
+      .mission-grid,.technology-choice,.results-grid,.criteria{grid-template-columns:1fr}
+      .options,.pair{grid-template-columns:1fr}
+      .replacement-row{grid-template-columns:1fr}
+      .transform-line{grid-template-columns:1fr}
+      .slide{min-height:auto}
+      .stage{padding:14px}
+      .slide{padding:20px}
+      .brand-title{white-space:normal}
+    }
+    @media (orientation:landscape) and (max-height:700px){
+      .topbar{padding-top:9px;padding-bottom:9px}
+      .stage{padding-top:12px;padding-bottom:12px}
+      .slide{min-height:auto}
+      .footer{padding-top:7px}
+      .check-btn,.nav-btn{min-height:46px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *{scroll-behavior:auto!important;transition:none!important}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="eyebrow">TeachCraft · C1 Revision</div>
+      <div class="brand-title">Vocabulary Reboot: Technology, Materials & Innovation</div>
+    </div>
+    <div class="progress-wrap" aria-label="Lesson progress">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-text" id="progressText">1 / 16</div>
+    </div>
+  </header>
+
+  <main class="stage" id="stage" tabindex="-1">
+    <section class="slide" id="slide" aria-live="polite"></section>
+  </main>
+
+  <footer class="footer">
+    <div class="action-row">
+      <button class="check-btn" id="checkBtn">Check Answer</button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn">Previous</button>
+      <div class="slide-counter" id="slideCounter">Slide 1 of 16</div>
+      <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  const slides = [
+    {
+      id:"intro", type:"info", title:"C1 Vocabulary Reboot",
+      label:"Title & mission",
+      subtitle:"Technology, Materials & Innovation",
+      body:`
+        <div class="mission-grid">
+          <div class="mission-card"><strong>Precision</strong>Choose the word that fits the meaning, register and collocation.</div>
+          <div class="mission-card"><strong>Production language</strong>Distinguish materials, components, devices and processes.</div>
+          <div class="mission-card"><strong>Idiomatic control</strong>Use technology-related idioms naturally in context.</div>
+        </div>
+        <div class="model-box" style="margin-top:24px"><strong>Mission:</strong> Complete eight revision tasks, examine every model answer, then defend one technology in the boardroom challenge.</div>`
+    },
+    {
+      id:"precision1", type:"mcq", label:"Task 1 · Precision Battle", title:"Precision Battle · Round 1",
+      instruction:"Choose the only word that fits precisely.",
+      questions:[
+        {
+          stem:"The interface was extensively ______ to improve accessibility, although its underlying architecture remained unchanged.",
+          options:["stimulated","remodelled","revolutionised","predicted"], answer:1,
+          explain:"“Remodelled” means redesigned or altered in form while the basic structure can remain. “Revolutionised” would imply a much more fundamental transformation."
+        },
+        {
+          stem:"The invention of the microprocessor ______ the electronics industry by making compact personal computers possible.",
+          options:["remodelled","stimulated","revolutionised","purified"], answer:2,
+          explain:"“Revolutionised” is precise because the invention caused a radical, industry-wide change. “Stimulated” would mean encouraged growth, not fundamentally reshaped the field."
+        },
+        {
+          stem:"The government hopes the tax incentives will ______ investment in renewable technologies.",
+          options:["stimulate","transform","remodel","automate"], answer:0,
+          explain:"“Stimulate investment” is a standard collocation meaning encourage or increase it. The other verbs describe changing a thing, not encouraging investment."
+        },
+        {
+          stem:"Within five years, the derelict warehouse had been ______ into a fully automated production facility.",
+          options:["stimulated","transformed","forecast","conducted"], answer:1,
+          explain:"“Transformed into” is the natural pattern for a complete change of function and appearance."
+        }
+      ]
+    },
+    {
+      id:"precision2", type:"mcq", label:"Task 1 · Precision Battle", title:"Precision Battle · Round 2",
+      instruction:"Choose the only word that fits precisely.",
+      questions:[
+        {
+          stem:"The entire argument rests on the questionable ______ that consumers will willingly pay more for sustainable packaging.",
+          options:["forecast","prophecy","assumption","prediction"], answer:2,
+          explain:"An “assumption” is something accepted as true without proof. A forecast or prediction concerns what is expected to happen in the future."
+        },
+        {
+          stem:"According to the latest demand ______, sales are likely to fall by approximately eight per cent.",
+          options:["assumption","forecast","prophecy","principle"], answer:1,
+          explain:"“Demand forecast” is the established business collocation for an evidence-based estimate of future demand."
+        },
+        {
+          stem:"Surgical instruments must be thoroughly ______ before they can be used again.",
+          options:["filtered","purified","discarded","sterilised"], answer:3,
+          explain:"“Sterilised” means made free from microorganisms. Filtering removes particles; purifying is broader and less exact here."
+        },
+        {
+          stem:"Despite the computerised monitoring system, the final inspection is still performed ______.",
+          options:["manually","mechanically","automatically","structurally"], answer:0,
+          explain:"“Manually” means by a person rather than automatically by a system."
+        }
+      ]
+    },
+    {
+      id:"materials1", type:"select", label:"Task 2 · Material, Component or Device?", title:"Name It Precisely · Round 1",
+      instruction:"Select the most precise noun.",
+      bank:["apparatus","component","device","instrument","machinery","material","substance","utensil"],
+      questions:[
+        {stem:"Carbon fibre is a lightweight but exceptionally strong ______ used in aircraft construction.",answer:"material",explain:"A material is what objects are made from."},
+        {stem:"The gas is a highly volatile ______ and must be stored in sealed containers.",answer:"substance",explain:"A substance is a particular kind of matter with identifiable properties."},
+        {stem:"A faulty electronic ______ caused the entire control system to shut down.",answer:"component",explain:"A component is one constituent part of a larger system."},
+        {stem:"The laboratory purchased a portable ______ capable of detecting microscopic cracks.",answer:"device",explain:"A device is a piece of equipment designed for a specific practical purpose."}
+      ]
+    },
+    {
+      id:"materials2", type:"select", label:"Task 2 · Material, Component or Device?", title:"Name It Precisely · Round 2",
+      instruction:"Select the most precise noun.",
+      bank:["apparatus","component","device","instrument","machinery","material","substance","utensil"],
+      questions:[
+        {stem:"A microscope is a scientific ______ used to examine objects that cannot be seen clearly with the naked eye.",answer:"instrument",explain:"An instrument is a precise tool used for scientific observation or measurement."},
+        {stem:"The experimental ______ consisted of several tubes, sensors and measuring units.",answer:"apparatus",explain:"Apparatus is a set or system of equipment used for a particular technical purpose."},
+        {stem:"Heavy industrial ______ must be inspected regularly to prevent mechanical failure.",answer:"machinery",explain:"Machinery is an uncountable collective noun for machines used in industry."},
+        {stem:"A spatula is a basic kitchen ______ rather than a piece of electrical equipment.",answer:"utensil",explain:"A utensil is a hand-held tool used for a practical household task, especially cooking."}
+      ]
+    },
+    {
+      id:"compound", type:"compound", label:"Task 3 · Compound Noun Lock", title:"Compound Noun Lock",
+      instruction:"Reveal one clue at a time and type the compound noun.",
+      questions:[
+        {stem:"The first or main screen of a website",answer:"home page"},
+        {stem:"A service that locates information online",answer:"search engine"},
+        {stem:"A small removable data-storage device",answer:"memory stick"},
+        {stem:"The main permanent storage device inside a computer",answer:"hard drive"},
+        {stem:"A secret sequence used to gain access",answer:"password"},
+        {stem:"A machine that produces printed documents using toner",answer:"laser printer"},
+        {stem:"The location where deleted computer files are temporarily stored",answer:"recycle bin"},
+        {stem:"The part of a system used to change its settings",answer:"control panel"}
+      ]
+    },
+    {
+      id:"manufacturing1", type:"drag", label:"Task 4 · The Manufacturing Upgrade", title:"The Manufacturing Upgrade · Part 1",
+      instruction:"Tap a word, then tap a blank. You can also drag with a mouse.",
+      bank:["apparatus","assembly line","automated","components","fraction","process","property","revolutionised","sequence","workstations","prediction"],
+      text:`Introducing the moving (1) {{0}} was far more than an incremental improvement: it (2) {{1}} manufacturing.<br><br>Instead of requiring individual workers to construct an entire product, separate (3) {{2}} arrived in a fixed (4) {{3}} ...`,
+      answers:["assembly line","revolutionised","components","sequence"],
+      explain:"The moving assembly line revolutionised manufacturing because components reached workers in an organised sequence. The distractors do not fit the meaning or grammar."
+    },
+    {
+      id:"manufacturing2", type:"drag", label:"Task 4 · The Manufacturing Upgrade", title:"The Manufacturing Upgrade · Part 2",
+      instruction:"Complete the second half. Three words in the full bank are distractors.",
+      bank:["apparatus","assembly line","automated","components","fraction","process","property","revolutionised","sequence","workstations","prediction"],
+      text:`... at specialised (5) {{0}}.<br><br>The resulting (6) {{1}} reduced production time to a (7) {{2}} of its previous level and eventually paved the way for highly (8) {{3}} factories.`,
+      answers:["workstations","process","fraction","automated"],
+      explain:"Workstations are specialised places where tasks are completed; the process reduced time to a fraction and enabled automated factories."
+    },
+    {
+      id:"surgery", type:"surgery", label:"Task 5 · Vocabulary Surgery", title:"Vocabulary Surgery",
+      instruction:"Click the incorrect expression in each sentence, then replace it precisely.",
+      replacements:["filtered","stimulate","memory stick","control panel","recycle bin","forecast"],
+      questions:[
+        {
+          parts:["The water was ","sterilised"," to remove sand and other visible particles."], target:1, answer:"filtered",
+          explain:"Sterilising destroys microorganisms. Filtering removes solid particles such as sand."
+        },
+        {
+          parts:["The modest tax reduction is expected to ","revolutionise"," investment slightly."], target:1, answer:"stimulate",
+          explain:"Revolutionise implies radical change and clashes with “modest” and “slightly”. Stimulate means encourage an increase."
+        },
+        {
+          parts:["The presentation has been saved on the computer’s ","hard stick","."], target:1, answer:"memory stick",
+          explain:"“Hard stick” is not a standard compound noun. A removable storage device is a memory stick."
+        },
+        {
+          parts:["Open the ","control screen"," if you want to change the system settings."], target:1, answer:"control panel",
+          explain:"Control panel is the conventional compound noun for the settings interface."
+        },
+        {
+          parts:["Remember to empty the ","recycle basket"," after deleting the confidential files."], target:1, answer:"recycle bin",
+          explain:"Recycle bin is the established computing term; basket is not idiomatic here."
+        },
+        {
+          parts:["This demand ","assumption"," was calculated using sales figures from the previous five years."], target:1, answer:"forecast",
+          explain:"A forecast is an evidence-based estimate of future demand. An assumption is accepted without being demonstrated."
+        }
+      ]
+    },
+    {
+      id:"idioms1", type:"transform", label:"Task 6 · Idiomatic Transformations", title:"Idiomatic Transformations · Part 1",
+      instruction:"Complete each sentence using the key word. Use a maximum of six words.",
+      questions:[
+        {
+          source:"There is no point creating another solution when an effective one already exists.",
+          keyword:"WHEEL", before:"Why ", after:" by creating another solution?", answer:"reinvent the wheel",
+          alternatives:["reinvent the wheel"], explain:"“Reinvent the wheel” means waste effort creating something that already exists."
+        },
+        {
+          source:"The laboratory leads current research into nanomaterials.",
+          keyword:"CUTTING", before:"The laboratory is ", after:" nanomaterials research.", answer:"at the cutting edge of",
+          alternatives:["at the cutting edge of"], explain:"The fixed phrase is “at the cutting edge of” a field."
+        },
+        {
+          source:"We clearly misunderstood each other about the deadline.",
+          keyword:"WIRES", before:"We must have ", after:" about the deadline.", answer:"got our wires crossed",
+          alternatives:["got our wires crossed"], explain:"“Get your wires crossed” means misunderstand one another."
+        }
+      ]
+    },
+    {
+      id:"idioms2", type:"transform", label:"Task 6 · Idiomatic Transformations", title:"Idiomatic Transformations · Part 2",
+      instruction:"Complete each sentence using the key word. Use a maximum of six words.",
+      questions:[
+        {
+          source:"The prototype is considerably more advanced than all competing models.",
+          keyword:"YEARS", before:"The prototype is ", after:".", answer:"years ahead of its competitors",
+          alternatives:["years ahead of its competitors","years ahead of its rivals"], explain:"“Years ahead of” means significantly more advanced than."
+        },
+        {
+          source:"Don’t overreact merely because one component has failed.",
+          keyword:"BUTTON", before:"Don’t ", after:" merely because one component has failed.", answer:"hit the panic button",
+          alternatives:["hit the panic button"], explain:"The fixed idiom is “hit the panic button”, meaning react with sudden alarm."
+        },
+        {
+          source:"Configuring the search engine is actually fairly straightforward.",
+          keyword:"SCIENCE", before:"Configuring the search engine ", after:".", answer:"isn't rocket science",
+          alternatives:["isn't rocket science","is not rocket science"], explain:"The idiom takes no article: “It isn’t rocket science.”"
+        }
+      ]
+    },
+    {
+      id:"survives", type:"pairs", label:"Task 7 · Which Sentence Survives?", title:"Which Sentence Survives?",
+      instruction:"Click the fully correct sentence. A wrong choice will reveal the precise problem.",
+      questions:[
+        {options:["The company remains at cutting edge of battery technology.","The company remains at the cutting edge of battery technology."],answer:1,explain:"The idiom requires the definite article: “at the cutting edge of”."},
+        {options:["This prototype is years ahead of its competitors.","This prototype is years ahead from its competitors."],answer:0,explain:"The fixed preposition is “ahead of”, not “ahead from”."},
+        {options:["There is no point reinventing the wheel.","There is no point inventing the wheel once again."],answer:0,explain:"“Reinvent the wheel” is the established idiom. The alternative is understandable but not idiomatic."},
+        {options:["The manager immediately hit the panic button.","The manager immediately pushed the panic button."],answer:0,explain:"The idiom uses “hit”, not “push”."},
+        {options:["We seem to have got our wires crossed.","We seem to have mixed our cables."],answer:0,explain:"“Get your wires crossed” is the idiom for misunderstanding."},
+        {options:["It isn’t rocket science.","It isn’t a rocket science."],answer:0,explain:"“Rocket science” is uncountable in this idiom, so no article is used."}
+      ]
+    },
+    {
+      id:"integration1", type:"dropdown", label:"Task 8 · Final Integration", title:"The Launch Crisis · Part 1",
+      instruction:"Choose the most precise option in each dropdown.",
+      paragraphs:[
+        {before:"Following a positive demand ", options:["forecast","prophecy","substance"], answer:"forecast", after:", the company decided to "},
+        {before:"", options:["remodel","stimulate","sterilise"], answer:"remodel", after:" its main factory."},
+        {before:"A new ", options:["assembly line","home page","control panel"], answer:"assembly line", after:" was installed to move individual "},
+        {before:"", options:["components","utensils","substances"], answer:"components", after:" through the factory in a fixed "},
+        {before:"", options:["sequence","prediction","property"], answer:"sequence", after:"."}
+      ],
+      explain:"A demand forecast justifies the decision to remodel the factory; an assembly line moves components in a sequence."
+    },
+    {
+      id:"integration2", type:"dropdown", label:"Task 8 · Final Integration", title:"The Launch Crisis · Part 2",
+      instruction:"Complete the crisis report with precise vocabulary and idioms.",
+      paragraphs:[
+        {before:"Most of the new ", options:["machinery","material","apparatuses"], answer:"machinery", after:" was fully automated."},
+        {before:"During the first production run, however, the engineers ", options:["crossed their wires","got their wires crossed","mixed their wires"], answer:"got their wires crossed", after:" over the settings in the "},
+        {before:"", options:["control panel","search engine","recycle bin"], answer:"control panel", after:"."},
+        {before:"The production manager nearly ", options:["hit the panic button","reinvented the wheel","reached the cutting edge"], answer:"hit the panic button", after:", although restoring the original settings from the hard drive "},
+        {before:"", options:["wasn't rocket science","wasn't a rocket science","wasn't scientific rocket"], answer:"wasn't rocket science", after:"."}
+      ],
+      explain:"Machinery is uncountable; the engineers got their wires crossed; the manager nearly hit the panic button; restoring settings wasn’t rocket science."
+    },
+    {
+      id:"boardroom", type:"open", label:"Final Challenge · The Boardroom Defence", title:"Defend the Technology",
+      instruction:"Choose one technology. You have 60 seconds to argue whether it should be retained, redesigned or replaced.",
+      technologies:["memory sticks","laser printers","assembly lines"],
+      model:"Although memory sticks are hardly at the cutting edge of data storage, abandoning removable storage altogether might be premature. A redesigned, encrypted device could transform the way employees transfer files between secure workstations. Developing an entirely new system would probably mean reinventing the wheel."
+    },
+    {id:"results", type:"results", label:"Results", title:"Mission Complete"}
+  ];
+
+  const state = {
+    index:0,
+    checked:{},
+    answers:{},
+    scores:{},
+    revealed:{compound:1},
+    selectedWord:{}
+  };
+
+  const els = {
+    slide:document.getElementById("slide"),
+    stage:document.getElementById("stage"),
+    progressBar:document.getElementById("progressBar"),
+    progressText:document.getElementById("progressText"),
+    slideCounter:document.getElementById("slideCounter"),
+    checkBtn:document.getElementById("checkBtn"),
+    prevBtn:document.getElementById("prevBtn"),
+    nextBtn:document.getElementById("nextBtn")
+  };
+
+  const normalise = value => String(value || "")
+    .toLowerCase()
+    .replace(/[’]/g,"'")
+    .replace(/[.,!?]/g,"")
+    .replace(/\s+/g," ")
+    .trim();
+
+  function slideState(id){
+    if(!state.answers[id]) state.answers[id] = {};
+    return state.answers[id];
+  }
+
+  function totalPossible(){
+    return slides.reduce((sum,s)=>{
+      if(s.type==="drag") return sum + s.answers.length;
+      if(s.type==="dropdown") return sum + s.paragraphs.length;
+      if(["mcq","select","compound","surgery","transform","pairs"].includes(s.type)) return sum + s.questions.length;
+      if(s.type==="open") return sum + 4;
+      return sum;
+    },0);
+  }
+
+  function scoreTotal(){
+    return Object.values(state.scores).reduce((a,b)=>a+b,0);
+  }
+
+  function headerHTML(s){
+    return `<div class="slide-head"><div><div class="task-label">${s.label}</div><h2>${s.title}</h2>${s.subtitle?`<p class="subtitle">${s.subtitle}</p>`:""}</div></div>${s.instruction?`<div class="instruction">${s.instruction}</div>`:""}`;
+  }
+
+  function render(preserveScroll=false){
+    const s = slides[state.index];
+    const pct = (state.index/(slides.length-1))*100;
+    els.progressBar.style.width = `${pct}%`;
+    els.progressText.textContent = `${state.index+1} / ${slides.length}`;
+    els.slideCounter.textContent = `Slide ${state.index+1} of ${slides.length}`;
+    els.prevBtn.disabled = state.index===0;
+    els.nextBtn.textContent = state.index===slides.length-1 ? "Restart" : "Next";
+    const task = !["info","results"].includes(s.type);
+    els.checkBtn.classList.toggle("hidden",!task);
+    els.checkBtn.disabled = task && !!state.checked[s.id];
+    els.checkBtn.textContent = state.checked[s.id] ? "Answer Checked" : "Check Answer";
+    els.nextBtn.disabled = task && !state.checked[s.id];
+
+    let content = headerHTML(s);
+    const a = slideState(s.id);
+
+    if(s.type==="info"){
+      content = `<div class="task-label">${s.label}</div><h1>${s.title}</h1><p class="subtitle">${s.subtitle}</p>${s.body}`;
+    }
+
+    if(s.type==="mcq"){
+      content += `<div class="question-list">` + s.questions.map((q,i)=>{
+        const selected = a[i];
+        const checked = state.checked[s.id];
+        return `<div class="question-card">
+          <div class="question-number">Question ${i+1}</div>
+          <p class="stem">${q.stem}</p>
+          <div class="options">${q.options.map((opt,j)=>{
+            let cls="option";
+            if(selected===j) cls+=" selected";
+            if(checked && j===q.answer) cls+=" reveal";
+            if(checked && selected===j && j!==q.answer) cls+=" incorrect";
+            if(checked && selected===j && j===q.answer) cls+=" correct";
+            return `<button class="${cls}" data-action="mcq" data-q="${i}" data-v="${j}" ${checked?"disabled":""}>${String.fromCharCode(97+j)}) ${opt}</button>`;
+          }).join("")}</div>
+          ${feedbackHTML(checked, selected, q.answer, q.explain, q.options[q.answer])}
+        </div>`;
+      }).join("") + `</div>`;
+    }
+
+    if(s.type==="select"){
+      content += `<div class="word-bank">${s.bank.map(w=>`<span class="word-chip" style="cursor:default">${w}</span>`).join("")}</div>`;
+      content += `<div class="question-list">` + s.questions.map((q,i)=>{
+        const val=a[i]||"";
+        const checked=state.checked[s.id];
+        const correct=normalise(val)===normalise(q.answer);
+        return `<div class="question-card">
+          <div class="question-number">Item ${i+1}</div>
+          <p class="stem">${q.stem}</p>
+          <select data-action="select" data-q="${i}" ${checked?"disabled":""}>
+            <option value="">Choose a noun…</option>
+            ${s.bank.map(w=>`<option value="${w}" ${val===w?"selected":""}>${w}</option>`).join("")}
+          </select>
+          ${checked?`<div class="feedback show ${correct?"good":"bad"}"><strong>${correct?"Correct.":"Model answer: "+q.answer+". "}</strong>${q.explain}</div>`:""}
+        </div>`;
+      }).join("") + `</div>`;
+    }
+
+    if(s.type==="compound"){
+      const visible = state.checked[s.id] ? s.questions.length : Math.min(state.revealed.compound || 1,s.questions.length);
+      content += `<div class="clue-controls"><button class="secondary-btn" data-action="reveal-clue" ${visible>=s.questions.length||state.checked[s.id]?"disabled":""}>Reveal next clue</button></div>`;
+      content += `<div class="question-list">` + s.questions.slice(0,visible).map((q,i)=>{
+        const val=a[i]||"";
+        const checked=state.checked[s.id];
+        const correct=normalise(val)===normalise(q.answer);
+        return `<div class="question-card">
+          <div class="question-number">Lock ${i+1}</div>
+          <p class="stem">${q.stem}</p>
+          <input type="text" data-action="compound-input" data-q="${i}" value="${escapeAttr(val)}" placeholder="Type the compound noun" ${checked?"disabled":""}/>
+          ${checked?`<div class="feedback show ${correct?"good":"bad"}"><strong>${correct?"Unlocked.":"Correct answer: "+q.answer+"."}</strong></div>`:""}
+        </div>`;
+      }).join("") + `</div>`;
+      if(state.checked[s.id]) content += `<div class="answer-key">Complete key: ${s.questions.map(q=>q.answer).join(" · ")}</div>`;
+    }
+
+    if(s.type==="drag"){
+      const checked=state.checked[s.id];
+      const selectedWord=state.selectedWord[s.id]||"";
+      content += `<div class="word-bank">${s.bank.map(w=>{
+        const used = Object.values(a).includes(w);
+        return `<button class="word-chip ${selectedWord===w?"active":""} ${used?"used":""}" data-action="word" data-word="${escapeAttr(w)}" draggable="${checked?"false":"true"}" ${checked?"disabled":""}>${w}</button>`;
+      }).join("")}</div>`;
+      const body=s.text.replace(/\{\{(\d+)\}\}/g,(m,n)=>{
+        const i=Number(n), val=a[i]||"";
+        let cls="drop-slot"+(val?" filled":"");
+        if(checked) cls += normalise(val)===normalise(s.answers[i])?" correct":" incorrect";
+        return `<button class="${cls}" data-action="slot" data-q="${i}" ${checked?"disabled":""}>${val||`blank ${i+1}`}</button>`;
+      });
+      content += `<div class="manufacturing-text">${body}</div>`;
+      if(checked){
+        content += `<div class="feedback show neutral"><strong>Model answer:</strong> ${s.answers.join(" · ")}<br>${s.explain}</div>`;
+      }
+    }
+
+    if(s.type==="surgery"){
+      content += `<div class="question-list">`+s.questions.map((q,i)=>{
+        const selected=a[`part${i}`];
+        const repl=a[`repl${i}`]||"";
+        const checked=state.checked[s.id];
+        const targetOK=Number(selected)===q.target;
+        const replOK=normalise(repl)===normalise(q.answer);
+        return `<div class="question-card">
+          <div class="question-number">Sentence ${i+1}</div>
+          <p class="surgery-sentence">${q.parts.map((part,j)=>{
+            let cls="phrase";
+            if(Number(selected)===j) cls+=" selected";
+            if(checked && j===q.target) cls+=" correct";
+            if(checked && Number(selected)===j && j!==q.target) cls+=" incorrect";
+            return `<button class="${cls}" data-action="phrase" data-q="${i}" data-v="${j}" ${checked?"disabled":""}>${part}</button>`;
+          }).join("")}</p>
+          <div class="replacement-row"><span class="tiny">Precise replacement</span>
+            <select data-action="replacement" data-q="${i}" ${checked?"disabled":""}>
+              <option value="">Choose…</option>
+              ${s.replacements.map(w=>`<option value="${w}" ${repl===w?"selected":""}>${w}</option>`).join("")}
+            </select>
+          </div>
+          ${checked?`<div class="feedback show ${targetOK&&replOK?"good":"bad"}"><strong>${targetOK&&replOK?"Precise correction.":`Model correction: ${q.parts[q.target]} → ${q.answer}.`}</strong> ${q.explain}</div>`:""}
+        </div>`;
+      }).join("")+`</div>`;
+    }
+
+    if(s.type==="transform"){
+      content += `<div class="question-list">`+s.questions.map((q,i)=>{
+        const val=a[i]||"";
+        const checked=state.checked[s.id];
+        const correct=q.alternatives.some(x=>normalise(x)===normalise(val)) && normalise(val).split(" ").length<=6;
+        return `<div class="transformation">
+          <div class="question-number">Transformation ${i+1}</div>
+          <p class="stem">${q.source}</p>
+          <span class="keyword">${q.keyword}</span>
+          <div class="transform-line"><span>${q.before}</span><input type="text" data-action="transform-input" data-q="${i}" value="${escapeAttr(val)}" placeholder="maximum six words" ${checked?"disabled":""}/><span>${q.after}</span></div>
+          ${checked?`<div class="feedback show ${correct?"good":"bad"}"><strong>${correct?"Correct.":"Model answer: "+q.answer+"."}</strong> ${q.explain}</div>`:""}
+        </div>`;
+      }).join("")+`</div>`;
+    }
+
+    if(s.type==="pairs"){
+      content += `<div class="question-list">`+s.questions.map((q,i)=>{
+        const selected=a[i];
+        const checked=state.checked[s.id];
+        return `<div class="question-card">
+          <div class="question-number">Pair ${i+1}</div>
+          <div class="pair">${q.options.map((opt,j)=>{
+            let cls="sentence-option";
+            if(selected===j) cls+=" selected";
+            if(checked && j===q.answer) cls+=" correct";
+            if(checked && selected===j && j!==q.answer) cls+=" incorrect";
+            return `<button class="${cls}" data-action="pair" data-q="${i}" data-v="${j}" ${checked?"disabled":""}>${String.fromCharCode(97+j)}) ${opt}</button>`;
+          }).join("")}</div>
+          ${checked?`<div class="feedback show ${selected===q.answer?"good":"bad"}"><strong>${selected===q.answer?"Correct.":"Correct sentence: "+q.options[q.answer]}</strong> ${q.explain}</div>`:""}
+        </div>`;
+      }).join("")+`</div>`;
+    }
+
+    if(s.type==="dropdown"){
+      let counter=0;
+      content += `<div class="integration">`;
+      s.paragraphs.forEach((p,i)=>{
+        const val=a[i]||"";
+        const checked=state.checked[s.id];
+        const correct=normalise(val)===normalise(p.answer);
+        content += `${p.before}<select data-action="dropdown" data-q="${i}" class="${checked?(correct?"correct":"incorrect"):""}" ${checked?"disabled":""}>
+          <option value="">choose…</option>${p.options.map(o=>`<option value="${escapeAttr(o)}" ${val===o?"selected":""}>${o}</option>`).join("")}
+        </select>${p.after} `;
+        counter++;
+        if(i===1 || i===4) content += `<br><br>`;
+      });
+      content += `</div>`;
+      if(state.checked[s.id]){
+        content += `<div class="feedback show neutral"><strong>Model answers:</strong> ${s.paragraphs.map(p=>p.answer).join(" · ")}<br>${s.explain}</div>`;
+      }
+    }
+
+    if(s.type==="open"){
+      const checked=state.checked[s.id];
+      const tech=a.tech||"";
+      const text=a.text||"";
+      const criteria=openCriteria(text);
+      content += `<div class="technology-choice">${s.technologies.map(t=>`<button class="technology-btn ${tech===t?"selected":""}" data-action="tech" data-tech="${escapeAttr(t)}" ${checked?"disabled":""}>${t}</button>`).join("")}</div>
+      <textarea data-action="open-text" placeholder="Write or dictate your 60-second defence here…" ${checked?"disabled":""}>${escapeHTML(text)}</textarea>
+      <div class="criteria">
+        <div class="criterion ${checked&&criteria.verb?"met":""}">One precise verb: stimulate, transform, remodel or revolutionise</div>
+        <div class="criterion ${checked&&criteria.production?"met":""}">One production noun</div>
+        <div class="criterion ${checked&&criteria.compound?"met":""}">One compound noun</div>
+        <div class="criterion ${checked&&criteria.idiom?"met":""}">One idiom</div>
+      </div>`;
+      if(checked){
+        content += `<div class="feedback show neutral"><strong>Your answer was checked against the four required language features.</strong> ${Object.values(criteria).filter(Boolean).length}/4 features detected. A different well-argued position is fully acceptable.</div>
+        <div class="model-box"><strong>Model answer</strong><br>${s.model}</div>`;
+      }
+    }
+
+    if(s.type==="results"){
+      const total=totalPossible(), score=scoreTotal(), pctScore=Math.round((score/total)*100);
+      const message=pctScore>=85?"Excellent precision. Your lexical choices are controlled and idiomatic.":pctScore>=65?"Strong revision. Review the explanations attached to missed items.":"Useful diagnostic. Revisit the model answers before repeating the lesson.";
+      content += `<div class="result-wrap">
+        <div class="score-ring" style="--score-angle:${pctScore*3.6}deg"><div class="score-value">${pctScore}%</div></div>
+        <p class="subtitle">${message}</p>
+        <div class="results-grid">
+          <div class="result-card"><strong>${score}/${total}</strong>points</div>
+          <div class="result-card"><strong>${Object.keys(state.checked).length}</strong>checked task screens</div>
+          <div class="result-card"><strong>${slides.length-2}</strong>active revision screens</div>
+        </div>
+        <div class="model-box"><strong>Best next move:</strong> repeat the lesson and aim to explain each choice before pressing Check.</div>
+      </div>`;
+    }
+
+    const previousScroll=els.stage.scrollTop;
+    els.slide.innerHTML=content;
+    els.stage.scrollTop=preserveScroll ? previousScroll : 0;
+  }
+
+  function feedbackHTML(checked,selected,answer,explain,correctWord){
+    if(!checked) return "";
+    const correct=selected===answer;
+    return `<div class="feedback show ${correct?"good":"bad"}"><strong>${correct?"Correct.":`Correct answer: ${correctWord}.`}</strong> ${explain}</div>`;
+  }
+
+  function escapeAttr(v){
+    return String(v??"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  function escapeHTML(v){
+    return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function openCriteria(text){
+    const n=normalise(text);
+    return {
+      verb:/\b(stimulate|transform|remodel|revolutionise)\b/.test(n),
+      production:/\b(component|components|machinery|apparatus|workstation|workstations|assembly line|process|production|factory|factories|device|instrument)\b/.test(n),
+      compound:/\b(home page|search engine|memory stick|memory sticks|hard drive|laser printer|laser printers|recycle bin|control panel|assembly line|assembly lines)\b/.test(n),
+      idiom:/\b(at the cutting edge of|reinvent(?:ing)? the wheel|got? (?:our|their|my|your|his|her) wires crossed|years ahead of|hit the panic button|isn't rocket science|is not rocket science)\b/.test(n)
+    };
+  }
+
+  function checkCurrent(){
+    const s=slides[state.index];
+    if(["info","results"].includes(s.type)) return;
+    const a=slideState(s.id);
+    let score=0;
+
+    if(s.type==="mcq") s.questions.forEach((q,i)=>{if(a[i]===q.answer) score++;});
+    if(s.type==="select") s.questions.forEach((q,i)=>{if(normalise(a[i])===normalise(q.answer)) score++;});
+    if(s.type==="compound") s.questions.forEach((q,i)=>{if(normalise(a[i])===normalise(q.answer)) score++;});
+    if(s.type==="drag") s.answers.forEach((ans,i)=>{if(normalise(a[i])===normalise(ans)) score++;});
+    if(s.type==="surgery") s.questions.forEach((q,i)=>{if(Number(a[`part${i}`])===q.target && normalise(a[`repl${i}`])===normalise(q.answer)) score++;});
+    if(s.type==="transform") s.questions.forEach((q,i)=>{if(q.alternatives.some(x=>normalise(x)===normalise(a[i])) && normalise(a[i]).split(" ").length<=6) score++;});
+    if(s.type==="pairs") s.questions.forEach((q,i)=>{if(a[i]===q.answer) score++;});
+    if(s.type==="dropdown") s.paragraphs.forEach((p,i)=>{if(normalise(a[i])===normalise(p.answer)) score++;});
+    if(s.type==="open") score=Object.values(openCriteria(a.text||"")).filter(Boolean).length;
+
+    state.scores[s.id]=score;
+    state.checked[s.id]=true;
+    if(s.type==="compound") state.revealed.compound=s.questions.length;
+    render(true);
+  }
+
+  els.slide.addEventListener("click",e=>{
+    const btn=e.target.closest("[data-action]");
+    if(!btn) return;
+    const s=slides[state.index], a=slideState(s.id), action=btn.dataset.action;
+    if(state.checked[s.id] && !["reveal-clue"].includes(action)) return;
+
+    if(action==="mcq"){a[Number(btn.dataset.q)]=Number(btn.dataset.v);render(true);}
+    if(action==="reveal-clue"){state.revealed.compound=Math.min((state.revealed.compound||1)+1,s.questions.length);render(true);}
+    if(action==="word"){state.selectedWord[s.id]=btn.dataset.word;render(true);}
+    if(action==="slot"){
+      const i=Number(btn.dataset.q), word=state.selectedWord[s.id];
+      if(word){
+        Object.keys(a).forEach(k=>{if(a[k]===word) delete a[k];});
+        a[i]=word; state.selectedWord[s.id]="";
+      }else if(a[i]){
+        delete a[i];
+      }
+      render(true);
+    }
+    if(action==="phrase"){a[`part${btn.dataset.q}`]=Number(btn.dataset.v);render(true);}
+    if(action==="pair"){a[Number(btn.dataset.q)]=Number(btn.dataset.v);render(true);}
+    if(action==="tech"){a.tech=btn.dataset.tech;render(true);}
+  });
+
+  els.slide.addEventListener("change",e=>{
+    const el=e.target, s=slides[state.index], a=slideState(s.id);
+    const action=el.dataset.action;
+    if(action==="select"||action==="dropdown") a[Number(el.dataset.q)]=el.value;
+    if(action==="replacement") a[`repl${el.dataset.q}`]=el.value;
+  });
+  els.slide.addEventListener("input",e=>{
+    const el=e.target, s=slides[state.index], a=slideState(s.id), action=el.dataset.action;
+    if(action==="compound-input"||action==="transform-input") a[Number(el.dataset.q)]=el.value;
+    if(action==="open-text") a.text=el.value;
+  });
+
+  els.slide.addEventListener("dragstart",e=>{
+    const chip=e.target.closest('[data-action="word"]');
+    if(chip) e.dataTransfer.setData("text/plain",chip.dataset.word);
+  });
+  els.slide.addEventListener("dragover",e=>{
+    if(e.target.closest('[data-action="slot"]')) e.preventDefault();
+  });
+  els.slide.addEventListener("drop",e=>{
+    const slot=e.target.closest('[data-action="slot"]');
+    if(!slot) return;
+    e.preventDefault();
+    const s=slides[state.index],a=slideState(s.id),word=e.dataTransfer.getData("text/plain"),i=Number(slot.dataset.q);
+    if(word){
+      Object.keys(a).forEach(k=>{if(a[k]===word) delete a[k];});
+      a[i]=word; state.selectedWord[s.id]=""; render(true);
+    }
+  });
+
+  els.checkBtn.addEventListener("click",checkCurrent);
+  els.prevBtn.addEventListener("click",()=>{
+    if(state.index>0){state.index--;render();}
+  });
+  els.nextBtn.addEventListener("click",()=>{
+    if(state.index===slides.length-1){
+      state.index=0;
+      state.checked={}; state.answers={}; state.scores={}; state.revealed={compound:1}; state.selectedWord={};
+      render(); return;
+    }
+    const s=slides[state.index];
+    if(!["info","results"].includes(s.type) && !state.checked[s.id]) return;
+    state.index++; render();
+  });
+
+  document.addEventListener("keydown",e=>{
+    if(e.key==="ArrowLeft" && !els.prevBtn.disabled) els.prevBtn.click();
+    if(e.key==="ArrowRight" && !els.nextBtn.disabled && document.activeElement.tagName!=="TEXTAREA" && document.activeElement.tagName!=="INPUT") els.nextBtn.click();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
