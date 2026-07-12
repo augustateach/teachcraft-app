@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#14233f">
+  <title>Travel Language Practice | TeachCraft</title>
+  <style>
+    :root{--cream:#f7f1e7;--paper:#fffdf8;--navy:#14233f;--navy2:#263858;--gold:#c6963c;--goldp:#f3e4bd;--sage:#567563;--sagep:#e2ebe4;--rosep:#f6e8df;--line:#ded5c6}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{background:var(--cream);color:var(--navy);font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}
+    .cover{min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,360px);gap:clamp(28px,6vw,90px);align-items:center;padding:clamp(28px,6vw,84px);position:relative;overflow:hidden;background:radial-gradient(circle at 88% 8%,rgba(198,150,60,.18),transparent 28%),linear-gradient(135deg,#fbf7ef,#f4ecdf)}
+    .cover:before{content:"";position:absolute;inset:0;opacity:.35;pointer-events:none;background-image:repeating-radial-gradient(ellipse at 85% 65%,transparent 0 37px,rgba(20,35,63,.12) 38px 39px,transparent 40px 74px);transform:rotate(-8deg) scale(1.35)}
+    .cover-copy{position:relative;z-index:1;max-width:760px}.brand{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:var(--navy);color:white;font:700 19px Georgia,serif;letter-spacing:.04em;margin-bottom:42px;box-shadow:8px 8px 0 var(--goldp)}
+    .kicker,.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:800;color:var(--sage)}h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:-.04em}h1{font-size:clamp(48px,7vw,92px);line-height:.98;margin:18px 0 26px}h1 em{color:var(--gold);font-weight:500}.intro{max-width:670px;font-size:clamp(17px,2vw,21px);line-height:1.65;color:#4a5569}
+    .stats{display:flex;margin:36px 0;border-block:1px solid var(--line);width:min(100%,540px)}.stats div{display:grid;grid-template-columns:auto auto;align-items:baseline;gap:9px;padding:16px 28px 16px 0;margin-right:28px}.stats b{font:25px Georgia,serif}.stats span{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:#697386}
+    .start{border:0;border-radius:16px;padding:18px 22px;color:white;background:var(--navy);font-weight:800;cursor:pointer;min-width:245px;box-shadow:0 12px 28px rgba(20,35,63,.18)}.start span{float:right;font-size:20px}.micro{font-size:12px;color:#7c8491;margin-left:12px}
+    .ticket{position:relative;z-index:1;background:var(--navy);color:white;padding:38px 30px;border-radius:24px;min-height:350px;transform:rotate(4deg);box-shadow:0 32px 70px rgba(20,35,63,.25);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}.ticket:before,.ticket:after{content:"";position:absolute;width:32px;height:32px;border-radius:50%;background:var(--cream);top:62%}.ticket:before{left:-16px}.ticket:after{right:-16px}.ticket-label{color:var(--goldp);font-size:11px;letter-spacing:.2em;border-bottom:1px dashed rgba(255,255,255,.35);padding-bottom:24px}.ticket>b{font:700 32px Georgia,serif;letter-spacing:.04em}.route{display:flex;align-items:center;justify-content:space-between;font-size:20px}.route i{color:var(--gold);font-style:normal}.barcode{font:22px monospace;letter-spacing:2px;opacity:.65}
+    #lesson{display:none;min-height:100svh;padding-bottom:104px}.topbar{height:78px;padding:0 clamp(18px,4vw,60px);display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line);background:rgba(247,241,231,.94);backdrop-filter:blur(12px);position:sticky;top:0;z-index:20}.mini{width:40px;height:40px;border:0;border-radius:12px;display:grid;place-items:center;background:var(--navy);color:white;font:700 16px Georgia,serif;cursor:pointer}.title-group{display:flex;flex-direction:column;gap:2px;flex:1}.title-group span{font:700 18px Georgia,serif}.title-group small{color:#78808c;font-size:11px}.reset{border:0;background:transparent;color:var(--sage);font-size:12px;font-weight:800;cursor:pointer;padding:12px}.progress{height:4px;background:#e6ddcf;position:sticky;top:78px;z-index:20}.progress span{display:block;height:100%;background:var(--gold);transition:width .35s ease}
+    .slide{width:min(1040px,calc(100% - 36px));margin:0 auto;padding:clamp(34px,6vw,68px) 0 28px;animation:arrive .3s ease both}@keyframes arrive{from{opacity:0;transform:translateY(8px)}}.heading{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:18px}.eyebrow{margin:0 0 10px}.heading h2{font-size:clamp(34px,5vw,56px);line-height:1;margin:0}.slide-no{display:flex;align-items:baseline;gap:6px;color:#a69c8d}.slide-no b{font:34px Georgia,serif;color:var(--gold)}.slide-no span{font-size:13px}.instruction{display:flex;gap:10px;align-items:center;color:#596477;margin:0 0 28px;font-size:15px}.instruction span{color:var(--gold)}.questions{display:grid;gap:14px}
+    .card{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:20px 22px;box-shadow:0 4px 16px rgba(20,35,63,.035)}.qline{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}.qline p{margin:3px 0 15px;line-height:1.55;font-size:16px;color:#24334e}.number{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--goldp);color:#72551f;font:700 16px Georgia,serif}.answers{margin-left:46px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px}.answers.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto}.answers.three{grid-template-columns:repeat(3,minmax(0,1fr)) auto}.answers label{display:flex;flex-direction:column;gap:5px;min-width:0}.answers label span{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#8b8174;font-weight:800}.answers input{width:100%;border:1px solid #d9d0c2;background:white;color:var(--navy);border-radius:11px;padding:11px 13px;outline:0;min-height:44px}.answers input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(198,150,60,.14)}.check{min-height:44px;border:0;border-radius:11px;background:var(--navy);color:white;padding:0 18px;font-size:13px;font-weight:800;cursor:pointer}.feedback{margin:14px 0 0 46px;padding:13px 15px;border-radius:12px;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;animation:reveal .22s ease both}@keyframes reveal{from{opacity:0;transform:translateY(-4px)}}.feedback.correct{background:var(--sagep);color:#2f5b43}.feedback.review{background:var(--rosep);color:#7d433d}.ficon{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.65);font-weight:900}.feedback strong{font-size:13px}.feedback p{margin:3px 0 0;font-size:14px;line-height:1.45}.feedback small{display:block;margin-top:6px;line-height:1.45}
+    .nav{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(760px,calc(100% - 24px));min-height:68px;padding:10px;border-radius:22px;background:rgba(20,35,63,.97);box-shadow:0 18px 45px rgba(20,35,63,.25);display:grid;grid-template-columns:135px 1fr 135px;align-items:center;z-index:30;backdrop-filter:blur(12px)}.nav button{height:48px;border:0;border-radius:14px;background:transparent;color:white;font-size:13px;font-weight:800;cursor:pointer}.nav button:disabled{opacity:.3}.nav .next{background:var(--gold);color:#211b12}.dots{display:flex;justify-content:center;gap:8px}.dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25)}.dots i.active{width:22px;border-radius:10px;background:var(--gold)}
+    @media(max-width:760px){.cover{grid-template-columns:1fr;padding:28px 22px 50px}.ticket{display:none}.brand{margin-bottom:28px}.stats{justify-content:space-between}.stats div{padding-right:10px;margin-right:8px;grid-template-columns:1fr;gap:0}.topbar{height:70px}.progress{top:70px}.title-group span{font-size:15px}.slide{width:min(100% - 24px,1040px);padding-top:34px}.slide-no{display:none}.card{padding:17px 15px}.qline{grid-template-columns:30px 1fr;gap:9px}.answers,.answers.two,.answers.three{margin-left:39px;grid-template-columns:1fr}.feedback{margin-left:39px}.nav{bottom:max(8px,env(safe-area-inset-bottom));min-height:62px;grid-template-columns:92px 1fr 92px;border-radius:18px}.nav button{height:44px}}
+    @media(max-width:430px){.reset{font-size:0;width:40px}.reset:after{content:"↺";font-size:21px}.nav button span{display:none}.nav{grid-template-columns:58px 1fr 58px}.dots{gap:6px}.dots i{width:6px;height:6px}.dots i.active{width:16px}h1{font-size:46px}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <main id="cover" class="cover">
+    <section class="cover-copy"><div class="brand">TC</div><p class="kicker">TeachCraft · Vocabulary practice</p><h1>Travel language<br><em>worth packing.</em></h1><p class="intro">A clickable revision of tourist destinations and travel advertisements. Answer first; the key appears after every check, even when your answer misses the mark.</p><div class="stats"><div><b>3</b><span>tasks</span></div><div><b>24</b><span>questions</span></div><div><b>≈15</b><span>minutes</span></div></div><button class="start" onclick="startLesson()">Start the journey <span>→</span></button><p class="micro">You can edit and check again.</p></section>
+    <aside class="ticket" aria-hidden="true"><span class="ticket-label">BOARDING PASS</span><b>VOCABULARY</b><div class="route"><span>SUR</span><i>✦</i><span>WORLD</span></div><div class="barcode">|||| || | |||| | | ||| ||</div></aside>
+  </main>
+  <main id="lesson">
+    <header class="topbar"><button class="mini" onclick="showCover()" aria-label="Back to cover">TC</button><div class="title-group"><span>Travel language practice</span><small id="answered">0 of 24 answered</small></div><button class="reset" onclick="resetLesson()">Start over</button></header>
+    <div class="progress"><span id="progressBar"></span></div>
+    <section id="slide" class="slide"></section>
+    <nav class="nav" aria-label="Slide navigation"><button id="prev" onclick="move(-1)">← <span>Previous</span></button><div id="dots" class="dots"></div><button id="next" class="next" onclick="move(1)"><span>Next</span> →</button></nav>
+  </main>
+  <script>
+    const slides=[
+      {e:"Exercise 27.1 · Part 1",t:"Destination language",i:"Complete each expression with language from the Suriname text.",q:[
+        ["1","Malaysia ______ some of the loveliest beaches in Asia.",["boasts"]],
+        ["2","The tourism ______ is very important to the economies of many developing countries.",["sector"]],
+        ["3","Tourism should not damage the flora and ______ of beautiful areas.",["fauna"]],
+        ["4","Most tourists like to feel free to ______ off the ______ track.",["get","beaten"]]
+      ]},
+      {e:"Exercise 27.1 · Part 2",t:"Away from the crowds",i:"Complete the collocations. Spelling matters; capitalisation does not.",q:[
+        ["5","Most people don’t like places where there will be ______ of other tourists.",["hordes"]],
+        ["6","People who live in big cities often like to ______ back to ______ when they go away.",["get","nature"]],
+        ["7","If you’re ______ something out of the ______, why not try a snowboarding holiday?",["seeking","ordinary"]]
+      ]},
+      {e:"Exercise 27.1 · Part 3",t:"Wild landscapes",i:"Finish the expressions exactly as they appeared in the model text.",q:[
+        ["8","When I travel, I always try to ______ the crowds and find somewhere quiet.",["escape"]],
+        ["9","There are vast ______ of unspoilt land, with ______ rainforests and a ______ of wildlife.",["tracts","virgin","wealth"]],
+        ["10","The country has fabulous national ______ and nature ______.",["parks","reserves"]]
+      ]},
+      {e:"Exercise 27.2 · Part 1",t:"Build the advertising word",i:"Use the word in brackets to make the form that fits the sentence.",q:[
+        ["11","This company is excellent and their prices are ______. (RIVAL)",["unrivalled"],["unrivalled|unrivaled"]],
+        ["12","The ______ beauty of the coastline is unforgettable. (SCENE)",["scenic"]],
+        ["13","There are some absolutely ______ beaches in the north. (STUN)",["stunning"]],
+        ["14","SunTravel Vacations is ______ when it comes to value-for-money holidays. (BEAT)",["unbeatable"]]
+      ]},
+      {e:"Exercise 27.2 · Part 2",t:"Build the travel phrase",i:"Transform the cue in brackets. The answer may be a derived word or a verb.",q:[
+        ["15","The mountains were so ______. Some were over 5,000 metres high. (AWE)",["awe-inspiring"],["awe-inspiring|awe inspiring"]],
+        ["16","We rented a ______ villa. It was nice to be so near the beach. (WATER)",["waterfront"]],
+        ["17","I just want somewhere quiet and relaxing to ______ for a week. (WIND)",["unwind"]],
+        ["18","Everyone needs to ______ their batteries now and again. (CHARGE)",["recharge"]]
+      ]},
+      {e:"Exercise 27.3 · Part 1",t:"Choose the precise meaning",i:"Type a short answer. A model key appears as soon as you check.",q:[
+        ["19","Order these from most to least physically demanding: ramble, trek, hike.",["trek → hike → ramble"],["trek hike ramble|trek, hike, ramble|trek → hike → ramble"],"A trek is usually long and difficult; a hike is demanding; a ramble is a long, pleasant walk."],
+        ["20","What verb might you find in a travel advertisement meaning ‘enjoy’ or ‘taste’?",["savour"],["savour|savor"]],
+        ["21","What adjective describes a traveller who knows exactly what they want in terms of quality and style?",["discerning"]]
+      ]},
+      {e:"Exercise 27.3 · Part 2",t:"Decode the advertisement",i:"Answer in your own words, then compare with the model key.",q:[
+        ["22","Where would you find ‘the bush’?",["In wild, uncultivated areas covered in grass, bushes or trees, especially in Africa or Australia."],["africa|australia|wild areas|wild countryside|uncultivated areas"]],
+        ["23","How do you say 4×4, and what does it mean?",["‘Four by four’: a vehicle with driving power on all four wheels."],["four by four|4 by 4"]],
+        ["24","If somewhere is described as a ‘paradise’, is that positive or negative?",["Positive."],["positive|positive."]]
+      ]}
+    ];
+    let index=0;const responses={};
+    const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    const norm=s=>s.trim().toLowerCase().replace(/[’']/g,"'").replace(/\s+/g," ");
+    function startLesson(){document.getElementById("cover").style.display="none";document.getElementById("lesson").style.display="block";render()}
+    function showCover(){document.getElementById("lesson").style.display="none";document.getElementById("cover").style.display="grid"}
+    function resetLesson(){Object.keys(responses).forEach(k=>delete responses[k]);index=0;showCover();updateCount()}
+    function updateCount(){const n=Object.values(responses).filter(a=>a.some(v=>v.trim())).length;document.getElementById("answered").textContent=`${n} of 24 answered`}
+    function field(q,fi){const vals=responses[q[0]]||[];return `<label><span>${q[2].length>1?`Blank ${fi+1}`:"Your answer"}</span><input id="q${q[0]}-${fi}" value="${esc(vals[fi]||"")}" oninput="save('${q[0]}',${fi},this.value)" onkeydown="if(event.key==='Enter')check('${q[0]}')" placeholder="Type here…" autocomplete="off" spellcheck="false"></label>`}
+    function render(){const s=slides[index];document.getElementById("progressBar").style.width=`${(index+1)/slides.length*100}%`;document.getElementById("slide").innerHTML=`<div class="heading"><div><p class="eyebrow">${s.e}</p><h2>${s.t}</h2></div><div class="slide-no"><b>${String(index+1).padStart(2,"0")}</b><span>/ ${String(slides.length).padStart(2,"0")}</span></div></div><p class="instruction"><span>✦</span>${s.i}</p><div class="questions">${s.q.map(q=>`<article class="card" id="card-${q[0]}"><div class="qline"><span class="number">${q[0]}</span><p>${q[1]}</p></div><div class="answers ${q[2].length===2?"two":q[2].length===3?"three":""}">${q[2].map((_,fi)=>field(q,fi)).join("")}<button class="check" onclick="check('${q[0]}')">Check</button></div><div id="feedback-${q[0]}"></div></article>`).join("")}</div>`;document.getElementById("prev").disabled=index===0;document.getElementById("next").innerHTML=index===slides.length-1?"<span>Finish</span> ✓":"<span>Next</span> →";document.getElementById("dots").innerHTML=slides.map((_,i)=>`<i class="${i===index?"active":""}"></i>`).join("");updateCount();window.scrollTo({top:0,behavior:"smooth"})}
+    function save(id,fi,val){responses[id]=responses[id]||[];responses[id][fi]=val;const f=document.getElementById(`feedback-${id}`);if(f)f.innerHTML="";updateCount()}
+    function getQuestion(id){for(const s of slides){const q=s.q.find(x=>x[0]===id);if(q)return q}}
+    function check(id){const q=getQuestion(id),vals=responses[id]||q[2].map(()=>"");const accepted=q[3]||q[2];let correct=q[2].every((_,fi)=>{const user=norm(vals[fi]||"");const opts=(accepted[fi]||q[2][fi]).split("|").map(norm);return (id==="22"||id==="23")?opts.some(o=>user.includes(o)):opts.includes(user)});const attempted=vals.some(v=>(v||"").trim());document.getElementById(`feedback-${id}`).innerHTML=`<div class="feedback ${correct?"correct":"review"}" role="status"><div class="ficon">${correct?"✓":"→"}</div><div><strong>${correct?"Exactly right":attempted?"Compare with the key":"No answer entered — here’s the key"}</strong><p><b>Key:</b> ${q[2].join(" · ")}</p>${q[4]?`<small>${q[4]}</small>`:""}</div></div>`}
+    function move(d){if(index===slides.length-1&&d===1){showCover();return}index=Math.max(0,Math.min(slides.length-1,index+d));render()}
+    document.addEventListener("keydown",e=>{if(document.activeElement.tagName==="INPUT")return;if(e.key==="ArrowRight"&&document.getElementById("lesson").style.display==="block")move(1);if(e.key==="ArrowLeft"&&document.getElementById("lesson").style.display==="block")move(-1)});
+  </script>
+</body>
+</html>
