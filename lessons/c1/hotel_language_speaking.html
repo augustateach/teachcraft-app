@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Language Challenge | TeachCraft</title>
+<style>
+:root{
+  --navy:#18324a;
+  --cream:#fbf7ef;
+  --gold:#caa85e;
+  --sage:#dff0d6;
+  --mint:#d7f3e5;
+  --lilac:#e8def3;
+  --ink:#24313d;
+  --soft:#6d7882;
+  --white:#ffffff;
+  --danger:#a83d4a;
+  --success:#2f7a55;
+  --shadow:0 12px 30px rgba(24,50,74,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 28px;
+  background:var(--navy);
+  color:#fff;
+}
+.brand{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.brand-mark{
+  width:38px;height:38px;border:2px solid var(--gold);
+  display:grid;place-items:center;border-radius:10px;
+  font-family:Georgia,serif;font-weight:700;color:var(--gold);
+}
+.brand h1{
+  font-size:18px;margin:0;font-family:Georgia,serif;letter-spacing:.3px;
+}
+.counter{font-size:14px;color:#dce5ec}
+main{
+  display:grid;
+  place-items:center;
+  padding:28px;
+}
+.slide{
+  display:none;
+  width:min(1120px,96vw);
+  min-height:650px;
+  background:var(--white);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:42px;
+  position:relative;
+}
+.slide.active{display:block}
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:1.7px;
+  font-size:12px;
+  font-weight:700;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+h2{
+  font-family:Georgia,serif;
+  color:var(--navy);
+  font-size:clamp(32px,4vw,54px);
+  line-height:1.05;
+  margin:0 0 18px;
+}
+h3{color:var(--navy);margin:0 0 10px;font-size:22px}
+.lead{
+  max-width:760px;
+  font-size:20px;
+  line-height:1.55;
+  color:#41505c;
+}
+.small{font-size:14px;color:var(--soft)}
+.note{
+  background:var(--mint);
+  border-left:5px solid #7dc89c;
+  padding:16px 18px;
+  border-radius:12px;
+}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{
+  border:1px solid #e7e2d9;
+  border-radius:18px;
+  padding:20px;
+  background:#fff;
+}
+.card.soft{background:#fcfaf5}
+.card.sage{background:var(--sage)}
+.card.lilac{background:var(--lilac)}
+.phrase{
+  display:inline-block;
+  padding:9px 12px;
+  border-radius:999px;
+  background:var(--sage);
+  margin:5px 6px 5px 0;
+  font-size:15px;
+}
+.task{
+  border:1px solid #ded7cb;
+  padding:20px;
+  border-radius:18px;
+  margin-top:18px;
+}
+.options{
+  display:grid;
+  gap:10px;
+  margin-top:14px;
+}
+.option{
+  text-align:left;
+  border:1px solid #d9d4cb;
+  background:#fff;
+  padding:13px 15px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:16px;
+}
+.option:hover{border-color:var(--gold)}
+.option.selected{outline:3px solid rgba(202,168,94,.35);border-color:var(--gold)}
+.option.correct{background:#eaf6ef;border-color:#5ea87b}
+.option.wrong{background:#fdebed;border-color:#ce7882}
+textarea{
+  width:100%;
+  min-height:115px;
+  border:1px solid #d8d2c8;
+  border-radius:14px;
+  padding:14px;
+  font:inherit;
+  resize:vertical;
+}
+button{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  font-weight:700;
+  cursor:pointer;
+}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-secondary{background:#eee8dc;color:var(--navy)}
+.btn-gold{background:var(--gold);color:#1d2c36}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.feedback{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:12px;
+  display:none;
+}
+.feedback.show{display:block}
+.feedback.ok{background:#eaf6ef;color:#245c3f}
+.feedback.no{background:#fdebed;color:#84333d}
+.room{
+  min-height:220px;
+  border-radius:18px;
+  padding:18px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:flex-end;
+  color:white;
+}
+.room.luxe{
+  background:
+   linear-gradient(rgba(17,35,52,.08),rgba(17,35,52,.62)),
+   linear-gradient(135deg,#a78362,#58422f 45%,#20384a);
+}
+.room.basic{
+  background:
+   linear-gradient(rgba(17,35,52,.10),rgba(17,35,52,.62)),
+   linear-gradient(135deg,#9f967e,#6a6252 55%,#35312b);
+}
+.room-label{
+  background:rgba(17,35,52,.72);
+  padding:10px 12px;
+  border-radius:10px;
+  max-width:85%;
+}
+.checklist label{display:block;margin:10px 0}
+input[type="checkbox"]{transform:scale(1.15);margin-right:8px}
+footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 28px;
+  background:#f1ebdf;
+  border-top:1px solid #e1d9cd;
+}
+.progress{
+  flex:1;
+  max-width:420px;
+  height:8px;
+  background:#ddd4c6;
+  border-radius:999px;
+  overflow:hidden;
+  margin:0 20px;
+}
+.progress span{display:block;height:100%;background:var(--gold);width:0}
+.hidden{display:none}
+.support-box{
+  display:none;
+  margin-top:12px;
+  padding:14px;
+  background:var(--lilac);
+  border-radius:12px;
+}
+.support-box.show{display:block}
+@media (max-width:800px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .slide{padding:26px;min-height:auto}
+  main{padding:14px}
+  header{padding:14px 16px}
+  footer{padding:12px 14px}
+  .progress{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">
+    <div class="brand-mark">TC</div>
+    <div>
+      <h1>TeachCraft</h1>
+      <div class="small" style="color:#cbd7df">C1+ Speaking Reboot</div>
+    </div>
+  </div>
+  <div class="counter" id="counter">1 / 9</div>
+</header>
+
+<main>
+<section class="slide active">
+  <div class="eyebrow">Hotel Language Challenge</div>
+  <h2>Speak with precision,<br>not with panic.</h2>
+  <p class="lead">A short guided revision of high-level phrases for comparing hotels, expressing preferences and reacting to problems.</p>
+  <div class="grid-3" style="margin-top:32px">
+    <div class="card sage"><h3>1. Retrieve</h3><p>Recognise the right phrase.</p></div>
+    <div class="card lilac"><h3>2. Build</h3><p>Use it in a supported answer.</p></div>
+    <div class="card soft"><h3>3. Speak</h3><p>Finish with a one-minute response.</p></div>
+  </div>
+  <div class="note" style="margin-top:28px"><strong>You will never see more than one main task at a time.</strong> Use the support buttons whenever you need them.</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Phrase toolkit</div>
+  <h2>Your language map</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Speculate</h3>
+      <span class="phrase">At first glance, …</span>
+      <span class="phrase">Judging from …</span>
+      <span class="phrase">It looks as though …</span>
+      <span class="phrase">…, which suggests that …</span>
+    </div>
+    <div class="card">
+      <h3>Compare</h3>
+      <span class="phrase">whereas</span>
+      <span class="phrase">is nowhere near as … as</span>
+      <span class="phrase">is every bit as … as</span>
+      <span class="phrase">unlike</span>
+    </div>
+    <div class="card">
+      <h3>Express preferences</h3>
+      <span class="phrase">I’d rather … than …</span>
+      <span class="phrase">Much as I enjoy …</span>
+      <span class="phrase">I have a soft spot for …</span>
+      <span class="phrase">As long as …</span>
+    </div>
+    <div class="card">
+      <h3>Structure an answer</h3>
+      <span class="phrase">No less important is …</span>
+      <span class="phrase">Another thing worth mentioning is …</span>
+      <span class="phrase">Not only should …, but it should also …</span>
+    </div>
+  </div>
+  <p class="small" style="margin-top:18px">You do not need to memorise everything now. The phrases will return in context.</p>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Round 1 · Recognise</div>
+  <h2>Choose the precise phrase</h2>
+  <div class="task" data-answer="1">
+    <p><strong>_____ I enjoy boutique hotels, I would not pay twice the usual price for one night.</strong></p>
+    <div class="options">
+      <button class="option">As long as</button>
+      <button class="option">Much as</button>
+      <button class="option">Whereas</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary check-choice">Check</button>
+      <button class="btn-secondary support-toggle">Need a clue?</button>
+    </div>
+    <div class="support-box">You need a phrase meaning <em>although I enjoy…</em></div>
+    <div class="feedback"></div>
+  </div>
+  <div class="task" data-answer="0">
+    <p><strong>The room was _____ as luxurious as the photographs suggested.</strong></p>
+    <div class="options">
+      <button class="option">nowhere near</button>
+      <button class="option">unlike</button>
+      <button class="option">no less</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary check-choice">Check</button>
+      <button class="btn-secondary support-toggle">Need a clue?</button>
+    </div>
+    <div class="support-box">The meaning is: much less luxurious than expected.</div>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Round 2 · Upgrade</div>
+  <h2>Make the answer sound C1+</h2>
+  <div class="card soft">
+    <p><strong>Basic answer:</strong> I prefer expensive hotels because they are cleaner and more comfortable.</p>
+  </div>
+  <div class="note" style="margin-top:16px">
+    Use both:
+    <span class="phrase">I’d rather … than …</span>
+    <span class="phrase">not only … but also …</span>
+  </div>
+  <textarea placeholder="Type or say your upgraded answer..."></textarea>
+  <div class="btn-row">
+    <button class="btn-gold model-toggle">Show a model</button>
+  </div>
+  <div class="support-box model">
+    I’d rather stay in a high-end hotel than risk ending up somewhere poorly maintained, as it is likely to be not only more comfortable but also considerably cleaner.
+  </div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Round 3 · Compare</div>
+  <h2>Two rooms, four moves</h2>
+  <div class="grid-2">
+    <div class="room luxe"><div class="room-label"><strong>Room A</strong><br>stylish · welcoming · high-end</div></div>
+    <div class="room basic"><div class="room-label"><strong>Room B</strong><br>run-down · cramped · poorly maintained</div></div>
+  </div>
+  <div class="task">
+    <p><strong>Why might people choose these hotels, and how might they feel in the rooms?</strong></p>
+    <div class="grid-2">
+      <div class="checklist card sage">
+        <label><input type="checkbox"> At first glance, …</label>
+        <label><input type="checkbox"> …, which suggests that …</label>
+      </div>
+      <div class="checklist card lilac">
+        <label><input type="checkbox"> whereas / unlike</label>
+        <label><input type="checkbox"> nowhere near as … as</label>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary support-toggle">Show speaking frame</button>
+    </div>
+    <div class="support-box">
+      At first glance, Room A appears …, whereas Room B … . The first room seems …, which suggests that … . Room B is nowhere near as … as Room A, so guests might …
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Round 4 · React</div>
+  <h2>What would you do?</h2>
+  <div class="grid-3">
+    <div class="card sage"><h3>Problem 1</h3><p>The room is cockroach-ridden.</p></div>
+    <div class="card lilac"><h3>Problem 2</h3><p>The toilet will not flush.</p></div>
+    <div class="card soft"><h3>Problem 3</h3><p>The photographs were misleading.</p></div>
+  </div>
+  <div class="note" style="margin-top:20px">
+    Choose one problem and use:
+    <span class="phrase">Suppose I discovered that …</span>
+    <span class="phrase">The first thing I’d do is …</span>
+    <span class="phrase">What I would do next is …</span>
+  </div>
+  <textarea placeholder="Plan 3–4 sentences here..."></textarea>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Round 5 · Repair</div>
+  <h2>Spot the flaw</h2>
+  <div class="task" data-answer="1">
+    <p><strong>Which sentence is fully correct?</strong></p>
+    <div class="options">
+      <button class="option">At the first glance, the room appears elegant.</button>
+      <button class="option">Much as I enjoy luxury hotels, I rarely stay in them.</button>
+      <button class="option">I’d rather to stay somewhere central.</button>
+    </div>
+    <div class="btn-row"><button class="btn-primary check-choice">Check</button></div>
+    <div class="feedback"></div>
+  </div>
+  <div class="task">
+    <p><strong>Repair this sentence:</strong></p>
+    <div class="card lilac">The second hotel is not nearly comfortable as the first one.</div>
+    <textarea placeholder="Write the corrected version..."></textarea>
+    <div class="btn-row"><button class="btn-gold model-toggle">Show answer</button></div>
+    <div class="support-box model">The second hotel is not nearly <strong>as comfortable as</strong> the first one.</div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Final challenge</div>
+  <h2>Your one-minute answer</h2>
+  <p class="lead"><strong>What constitutes a genuinely memorable hotel experience?</strong></p>
+  <div class="grid-2" style="margin-top:22px">
+    <div class="card sage">
+      <h3>Use at least three</h3>
+      <label><input type="checkbox"> Much as I …</label><br>
+      <label><input type="checkbox"> No less important is …</label><br>
+      <label><input type="checkbox"> is every bit as … as</label><br>
+      <label><input type="checkbox"> I have a soft spot for …</label>
+    </div>
+    <div class="card lilac">
+      <h3>Answer shape</h3>
+      <p>1. Clear opinion</p>
+      <p>2. Two developed reasons</p>
+      <p>3. One personal example</p>
+      <p>4. Brief conclusion</p>
+    </div>
+  </div>
+  <div class="note" style="margin-top:20px"><strong>Planning time:</strong> 45 seconds · <strong>Speaking time:</strong> 60 seconds</div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">Done</div>
+  <h2>Your compact C1+ toolkit</h2>
+  <div class="grid-2">
+    <div class="card sage">
+      <h3>For comparisons</h3>
+      <p>At first glance …<br>…, which suggests that …<br>is nowhere near as … as</p>
+    </div>
+    <div class="card lilac">
+      <h3>For opinions</h3>
+      <p>Much as I …<br>I’d rather … than …<br>No less important is …</p>
+    </div>
+  </div>
+  <div class="note" style="margin-top:24px">Strong speaking is not about using every phrase. It is about choosing a few that genuinely improve the answer.</div>
+</section>
+</main>
+
+<footer>
+  <button class="btn-secondary" id="prev">← Previous</button>
+  <div class="progress"><span id="bar"></span></div>
+  <button class="btn-primary" id="next">Next →</button>
+</footer>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let current=0;
+const counter=document.getElementById('counter');
+const bar=document.getElementById('bar');
+const prev=document.getElementById('prev');
+const next=document.getElementById('next');
+
+function showSlide(i){
+  current=Math.max(0,Math.min(i,slides.length-1));
+  slides.forEach((s,idx)=>s.classList.toggle('active',idx===current));
+  counter.textContent=`${current+1} / ${slides.length}`;
+  bar.style.width=`${((current+1)/slides.length)*100}%`;
+  prev.disabled=current===0;
+  next.textContent=current===slides.length-1?'Restart ↺':'Next →';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+prev.addEventListener('click',()=>showSlide(current-1));
+next.addEventListener('click',()=> current===slides.length-1 ? showSlide(0) : showSlide(current+1));
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight') next.click();
+  if(e.key==='ArrowLeft') prev.click();
+});
+
+document.querySelectorAll('.options').forEach(group=>{
+  group.querySelectorAll('.option').forEach((btn,idx)=>{
+    btn.addEventListener('click',()=>{
+      group.querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      group.dataset.selected=idx;
+    });
+  });
+});
+
+document.querySelectorAll('.check-choice').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const task=btn.closest('.task');
+    const group=task.querySelector('.options');
+    const feedback=task.querySelector('.feedback');
+    const correct=Number(task.dataset.answer);
+    const selected=Number(group.dataset.selected);
+    if(Number.isNaN(selected)){
+      feedback.className='feedback show no';
+      feedback.textContent='Choose one option first.';
+      return;
+    }
+    group.querySelectorAll('.option').forEach((b,idx)=>{
+      b.classList.remove('correct','wrong');
+      if(idx===correct)b.classList.add('correct');
+      else if(idx===selected)b.classList.add('wrong');
+    });
+    const ok=selected===correct;
+    feedback.className=`feedback show ${ok?'ok':'no'}`;
+    feedback.textContent=ok?'Correct. The phrase fits both the grammar and the meaning.':'Not quite. Look at the meaning and the structure once more.';
+  });
+});
+
+document.querySelectorAll('.support-toggle').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const box=btn.parentElement.nextElementSibling;
+    box.classList.toggle('show');
+  });
+});
+document.querySelectorAll('.model-toggle').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const model=btn.parentElement.nextElementSibling;
+    model.classList.toggle('show');
+  });
+});
+
+showSlide(0);
+</script>
+</body>
+</html>
