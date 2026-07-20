@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>C1 Revision Lab: Word Formation & Key Word Transformations</title>
+<style>
+  :root{
+    --navy:#192b4a;
+    --cream:#fbf8ef;
+    --gold:#c79b3b;
+    --green:#22c55e;
+    --green-dark:#15803d;
+    --lilac:#ddd6fe;
+    --ink:#1f2937;
+    --muted:#64748b;
+    --red:#b91c1c;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f3eef8;
+    color:var(--ink);
+  }
+  .app{
+    max-width:980px;
+    margin:24px auto;
+    padding:0 16px;
+  }
+  header{
+    background:var(--navy);
+    color:white;
+    border-radius:20px 20px 0 0;
+    padding:20px 26px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .brand{
+    font-family:Georgia, serif;
+    font-size:1.4rem;
+    font-weight:700;
+  }
+  .brand small{
+    font-family:Arial, sans-serif;
+    font-size:.68rem;
+    font-weight:400;
+    opacity:.85;
+  }
+  .level{
+    font-size:.75rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  main{
+    background:var(--cream);
+    min-height:650px;
+    border-radius:0 0 20px 20px;
+    padding:30px;
+    box-shadow:0 12px 35px rgba(32,20,55,.12);
+  }
+  h1,h2{
+    font-family:Georgia, serif;
+    color:var(--navy);
+  }
+  h1{font-size:2rem;margin:.2rem 0 .6rem}
+  h2{font-size:1.45rem;margin-top:0}
+  .subtitle{
+    color:var(--muted);
+    margin-bottom:22px;
+    line-height:1.5;
+  }
+  .slide{display:none}
+  .slide.active{display:block}
+  .card{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:18px;
+    margin:15px 0;
+  }
+  .task{
+    margin:18px 0;
+    padding-bottom:16px;
+    border-bottom:1px solid #e5e7eb;
+  }
+  .task:last-child{border-bottom:none}
+  .task p{line-height:1.55}
+  input[type=text], select{
+    min-width:180px;
+    max-width:100%;
+    padding:9px 10px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    font-size:1rem;
+    background:white;
+  }
+  input[type=text]:focus, select:focus{
+    outline:2px solid var(--gold);
+    border-color:transparent;
+  }
+  .keyword{
+    display:inline-block;
+    padding:4px 8px;
+    margin:0 5px;
+    border-radius:7px;
+    background:var(--lilac);
+    color:#4c1d95;
+    font-weight:700;
+    font-size:.88rem;
+  }
+  .root{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:7px;
+    background:#dcfce7;
+    color:var(--green-dark);
+    font-weight:700;
+    font-size:.86rem;
+  }
+  .feedback{
+    margin-top:8px;
+    font-size:.92rem;
+    min-height:1.2em;
+  }
+  .correct{color:var(--green-dark);font-weight:700}
+  .wrong{color:var(--red);font-weight:700}
+  .hint{
+    background:#fff7db;
+    border-left:4px solid var(--gold);
+    padding:10px 13px;
+    border-radius:6px;
+    margin:12px 0;
+    line-height:1.45;
+  }
+  .pattern-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:12px;
+    margin:16px 0;
+  }
+  .pattern{
+    background:#eefdf2;
+    border:1px solid #bbf7d0;
+    border-radius:12px;
+    padding:14px;
+  }
+  .pattern strong{color:var(--green-dark)}
+  .controls{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-top:26px;
+    flex-wrap:wrap;
+  }
+  button{
+    border:none;
+    border-radius:10px;
+    padding:11px 16px;
+    font-size:.95rem;
+    cursor:pointer;
+    font-weight:700;
+  }
+  .primary{background:var(--navy);color:white}
+  .check{background:var(--green);color:white}
+  .secondary{background:#e2e8f0;color:#1e293b}
+  .counter{color:var(--muted);font-size:.9rem}
+  .scorebox{
+    background:#ecfdf5;
+    border:1px solid #86efac;
+    border-radius:14px;
+    padding:18px;
+    margin-top:18px;
+  }
+  .mini-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+  }
+  .mini-table th,.mini-table td{
+    text-align:left;
+    padding:10px;
+    border-bottom:1px solid #e5e7eb;
+  }
+  .mini-table th{color:var(--navy)}
+  @media(max-width:600px){
+    main{padding:20px}
+    h1{font-size:1.65rem}
+    header{align-items:flex-start;flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">TeachCraft<small> by Augusta</small></div>
+  <div class="level">Advanced English | C1</div>
+</header>
+
+<main>
+  <section class="slide active" data-slide="1">
+    <h1>C1 Revision Lab</h1>
+    <p class="subtitle">A compact review of the language that caused hesitation in class: precise word formation, transformation patterns, and music vocabulary used in the listening task.</p>
+
+    <div class="card">
+      <h2>1. Fast retrieval: music vocabulary</h2>
+      <p>Choose the best word. These items are not the main grammar focus, but they are useful for understanding the listening context.</p>
+
+      <div class="task" data-answer="sample">
+        <p>1. A short piece taken from an existing recording and used in a new track is a <select>
+          <option value="">choose</option><option>sample</option><option>speaker</option><option>beat</option>
+        </select>.</p><div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="turntables">
+        <p>2. A DJ traditionally uses <select>
+          <option value="">choose</option><option>headphones</option><option>turntables</option><option>recording studio</option>
+        </select> to play and mix music.</p><div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="synthesiser">
+        <p>3. An electronic instrument that can create many different sounds is a <select>
+          <option value="">choose</option><option>synthesiser</option><option>track</option><option>speaker</option>
+        </select>.</p><div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="beat">
+        <p>4. The regular rhythmic pattern in a song is the <select>
+          <option value="">choose</option><option>sample</option><option>beat</option><option>studio</option>
+        </select>.</p><div class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="2">
+    <h2>2. Word formation: choose the exact form</h2>
+    <div class="hint"><strong>Watch the grammar around the gap.</strong> Decide whether the sentence needs a noun, adjective or adverb before thinking about spelling.</div>
+    <div class="card">
+      <div class="task" data-answer="assessment">
+        <p>1. The initial <input type="text" aria-label="answer 1"> of the strategy was based on incomplete data. <span class="root">ASSESS</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="one-dimensional|one dimensional">
+        <p>2. The report was criticised for presenting a rather <input type="text" aria-label="answer 2"> view of educational inequality. <span class="root">DIMENSION</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="adaptability">
+        <p>3. One major strength of the programme was its <input type="text" aria-label="answer 3"> to the needs of individual schools. <span class="root">ADAPT</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="legitimacy">
+        <p>4. Critics questioned the <input type="text" aria-label="answer 4"> of the decision-making process. <span class="root">LEGITIMATE</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="systematic">
+        <p>5. A genuinely <input type="text" aria-label="answer 5"> review would examine evidence from several sources. <span class="root">SYSTEM</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="introductory">
+        <p>6. The <input type="text" aria-label="answer 6"> briefing failed to explain the new procedure clearly. <span class="root">INTRODUCE</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="misinformation">
+        <p>7. The lack of official guidance allowed <input type="text" aria-label="answer 7"> to spread rapidly. <span class="root">INFORM</span></p>
+        <div class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="3">
+    <h2>3. Key word transformations: rebuild the pattern</h2>
+    <div class="pattern-grid">
+      <div class="pattern"><strong>tolerate + noun/-ing</strong><br>→ put up with + noun/-ing</div>
+      <div class="pattern"><strong>fall steeply</strong><br>→ be a steep fall / decline</div>
+      <div class="pattern"><strong>have to</strong><br>→ it is/was necessary for someone to</div>
+      <div class="pattern"><strong>depend on</strong><br>→ be subject to</div>
+    </div>
+
+    <div class="card">
+      <div class="task" data-answer="doesn't put up with|does not put up with">
+        <p>1. My teacher doesn’t tolerate students arriving late.</p>
+        <p>My teacher <input type="text"> students arriving late. <span class="keyword">UP</span></p>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="task" data-answer="has been a steep fall|has been a steep decline">
+        <p>2. The number of applicants has fallen steeply this year.</p>
+        <p>There <input type="text"> in the number of applicants this year. <span class="keyword">STEEP</span></p>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="task" data-answer="was necessary for me">
+        <p>3. I knew I had to arrive before the doors closed.</p>
+        <p>I knew it <input type="text"> to arrive before the doors closed. <span class="keyword">NECESSARY</span></p>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="task" data-answer="is subject to">
+        <p>4. The schedule may change depending on staff availability.</p>
+        <p>The schedule <input type="text"> staff availability. <span class="keyword">SUBJECT</span></p>
+        <div class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="4">
+    <h2>4. Mixed challenge</h2>
+    <p class="subtitle">Now the patterns are mixed. No labels, no prompts about word class.</p>
+    <div class="card">
+      <div class="task" data-answer="adaptability">
+        <p>1. The scheme’s long-term success will depend on its <input type="text"> in changing circumstances. <span class="root">ADAPT</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="doesn't put up with|does not put up with">
+        <p>2. The editor refuses to tolerate factual inaccuracies.</p>
+        <p>The editor <input type="text"> factual inaccuracies. <span class="keyword">UP</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="misinformation">
+        <p>3. Social media can accelerate the spread of <input type="text"> during a crisis. <span class="root">INFORM</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="was a steep decline|was a steep fall">
+        <p>4. Ticket sales declined steeply after the first week.</p>
+        <p>There <input type="text"> in ticket sales after the first week. <span class="keyword">STEEP</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="is subject to">
+        <p>5. Access depends on prior approval.</p>
+        <p>Access <input type="text"> prior approval. <span class="keyword">SUBJECT</span></p>
+        <div class="feedback"></div>
+      </div>
+      <div class="task" data-answer="legitimacy">
+        <p>6. Several experts challenged the <input type="text"> of the research methods. <span class="root">LEGITIMATE</span></p>
+        <div class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-slide="5">
+    <h2>5. Final check: explain the choice</h2>
+    <div class="card">
+      <p>Complete the table orally or in writing. The aim is to make the pattern retrievable, not merely recognisable.</p>
+      <table class="mini-table">
+        <thead><tr><th>Item</th><th>Why is this form needed?</th><th>Your own example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>adaptability</strong></td><td>noun after a possessive determiner</td><td>________________________</td></tr>
+          <tr><td><strong>systematic</strong></td><td>adjective before a noun</td><td>________________________</td></tr>
+          <tr><td><strong>put up with</strong></td><td>phrasal verb meaning “tolerate”</td><td>________________________</td></tr>
+          <tr><td><strong>be subject to</strong></td><td>formal equivalent of “depend on / be affected by”</td><td>________________________</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scorebox" id="scorebox">
+      Use <strong>Check answers</strong> on each slide. Your score will appear here after you have attempted the interactive tasks.
+    </div>
+  </section>
+
+  <div class="controls">
+    <button class="secondary" id="prev">← Previous</button>
+    <span class="counter" id="counter">1 / 5</span>
+    <button class="check" id="check">Check answers</button>
+    <button class="primary" id="next">Next →</button>
+  </div>
+</main>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let current=0;
+let totalCorrect=0;
+let totalChecked=0;
+
+function norm(s){
+  return s.trim().toLowerCase().replace(/[’]/g,"'").replace(/\s+/g,' ');
+}
+function showSlide(i){
+  slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));
+  current=i;
+  document.getElementById('counter').textContent=`${i+1} / ${slides.length}`;
+  document.getElementById('prev').disabled=i===0;
+  document.getElementById('next').disabled=i===slides.length-1;
+  document.getElementById('check').style.display=i===slides.length-1?'none':'inline-block';
+}
+function checkCurrent(){
+  const tasks=[...slides[current].querySelectorAll('.task')];
+  if(!tasks.length) return;
+  let correct=0;
+  tasks.forEach(task=>{
+    const field=task.querySelector('input,select');
+    const given=norm(field.value);
+    const answers=task.dataset.answer.split('|').map(norm);
+    const feedback=task.querySelector('.feedback');
+    if(answers.includes(given)){
+      correct++;
+      feedback.textContent='Correct.';
+      feedback.className='feedback correct';
+      field.style.borderColor='#22c55e';
+    }else{
+      feedback.textContent=`Try again. Accepted answer: ${task.dataset.answer.split('|')[0]}`;
+      feedback.className='feedback wrong';
+      field.style.borderColor='#b91c1c';
+    }
+  });
+  totalCorrect += correct;
+  totalChecked += tasks.length;
+  document.getElementById('scorebox').innerHTML =
+    `Current accumulated score: <strong>${totalCorrect} / ${totalChecked}</strong>. Rechecking a slide adds another attempt, so use the score as practice feedback rather than a formal grade.`;
+}
+document.getElementById('prev').onclick=()=>showSlide(Math.max(0,current-1));
+document.getElementById('next').onclick=()=>showSlide(Math.min(slides.length-1,current+1));
+document.getElementById('check').onclick=checkCurrent;
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight') document.getElementById('next').click();
+  if(e.key==='ArrowLeft') document.getElementById('prev').click();
+});
+showSlide(0);
+</script>
+</body>
+</html>
