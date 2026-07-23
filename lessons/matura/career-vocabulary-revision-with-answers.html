@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeachCraft | Careers Vocabulary Revision</title>
+  <style>
+    :root{
+      --navy:#172033; --navy2:#24304a; --cream:#fbf7ef; --paper:#fffdf8;
+      --gold:#c9a646; --ink:#1d2330; --muted:#687083; --line:#e6dfd2;
+      --green:#2e8b57; --red:#b94b48; --shadow:0 18px 45px rgba(23,32,51,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:linear-gradient(135deg,#f8f1e4 0%,#fffdf8 52%,#f1e7d2 100%);
+      color:var(--ink);
+    }
+    .deck{
+      width:min(1180px,94vw); min-height:92vh; margin:4vh auto;
+      background:var(--paper); border:1px solid rgba(201,166,70,.32);
+      border-radius:28px; box-shadow:var(--shadow); overflow:hidden; position:relative;
+    }
+    .topbar{
+      height:62px; display:flex; align-items:center; justify-content:space-between;
+      padding:0 28px; background:rgba(255,253,248,.92);
+      border-bottom:1px solid var(--line); backdrop-filter:blur(12px);
+    }
+    .brand{
+      letter-spacing:.16em; text-transform:uppercase; font-size:12px;
+      color:var(--navy); font-weight:700;
+    }
+    .counter{font-size:13px;color:var(--muted)}
+    .slide{
+      display:none; padding:52px 64px 90px; min-height:calc(92vh - 62px);
+      animation:fade .28s ease;
+    }
+    .slide.active{display:block}
+    @keyframes fade{from{opacity:.25;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .kicker{
+      display:inline-flex; align-items:center; gap:9px; color:var(--gold);
+      font-weight:800; text-transform:uppercase; letter-spacing:.14em;
+      font-size:12px; margin-bottom:18px;
+    }
+    .kicker:before{content:"";width:30px;height:2px;background:var(--gold);display:inline-block}
+    h1,h2,h3{margin:0;color:var(--navy);line-height:1.08}
+    h1{
+      font-family:Georgia,"Times New Roman",serif; font-size:clamp(44px,6vw,78px);
+      font-weight:500; letter-spacing:-.035em; max-width:850px;
+    }
+    h2{
+      font-family:Georgia,"Times New Roman",serif; font-size:clamp(34px,4.4vw,58px);
+      font-weight:500; letter-spacing:-.025em; max-width:900px; margin-bottom:18px;
+    }
+    h3{font-size:23px;margin-bottom:10px}
+    p{font-size:20px;line-height:1.55;color:var(--navy2);max-width:860px}
+    .subtitle{font-size:23px;color:var(--muted);margin-top:22px;max-width:780px}
+    .note{font-size:16px;color:var(--muted);margin-top:14px}
+    .grid{display:grid;gap:18px;margin-top:30px}
+    .grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{
+      border:1px solid var(--line); background:#fffdfa; border-radius:20px;
+      padding:22px; box-shadow:0 10px 26px rgba(23,32,51,.05);
+    }
+    .mini{font-size:15px;color:var(--muted);line-height:1.45}
+    .pillrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .pill{
+      padding:10px 15px; border-radius:999px; border:1px solid rgba(201,166,70,.45);
+      background:#fff8dc; color:#503f08; font-weight:700; font-size:16px;
+    }
+    .prompt{
+      margin-top:28px; padding:24px 26px; border-left:5px solid var(--gold);
+      background:#fffaf0; border-radius:18px; font-size:22px; line-height:1.55;
+      color:var(--navy);
+    }
+    .options{
+      display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px; margin-top:22px; max-width:850px;
+    }
+    button.option{
+      border:1px solid var(--line); background:#fff; border-radius:16px;
+      padding:18px 20px; text-align:left; font-size:18px; color:var(--navy);
+      cursor:pointer; transition:.16s ease;
+    }
+    button.option:hover{border-color:var(--gold);transform:translateY(-1px)}
+    button.option.correct{border-color:var(--green);background:#eef8f2;color:#145532}
+    button.option.wrong{border-color:var(--red);background:#fff0ef;color:#7d2826}
+    .exercise{margin-top:26px;max-width:980px}
+    .item{
+      font-size:20px; line-height:1.75; margin:18px 0; padding:20px;
+      border:1px solid var(--line); border-radius:18px; background:#fff;
+    }
+    input.gap{
+      width:min(250px,70vw); border:0; border-bottom:2px solid var(--gold);
+      background:#fff8dc; padding:7px 10px; font-size:19px; color:var(--navy);
+      outline:none; border-radius:8px 8px 0 0;
+    }
+    input.gap.ok{border-bottom-color:var(--green);background:#effaf3}
+    input.gap.bad{border-bottom-color:var(--red);background:#fff0ef}
+    .wordbank{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px}
+    .wordbank span{
+      padding:9px 13px; border-radius:12px; border:1px solid var(--line);
+      background:#fff; color:var(--navy); font-weight:700;
+    }
+    .feedback{min-height:28px;margin-top:16px;font-weight:700;color:var(--navy)}
+    .feedback.good{color:var(--green)} .feedback.bad{color:var(--red)}
+    .actions{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+    .btn{
+      border:0; border-radius:999px; padding:12px 20px; background:var(--navy);
+      color:white; font-weight:800; font-size:15px; cursor:pointer;
+    }
+    .btn.secondary{background:#fff;border:1px solid var(--line);color:var(--navy)}
+    .nav{
+      position:absolute; left:0; right:0; bottom:0; height:72px;
+      border-top:1px solid var(--line); background:rgba(255,253,248,.94);
+      display:flex; align-items:center; justify-content:space-between; padding:0 26px;
+    }
+    .nav button{
+      border:1px solid var(--line); background:white; color:var(--navy);
+      border-radius:999px; padding:12px 19px; font-weight:800; cursor:pointer;
+    }
+    .nav button.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+    .progressbar{height:4px;background:#efe4ce;position:absolute;left:0;right:0;bottom:72px}
+    .progress{height:100%;width:0;background:var(--gold)}
+    .table{
+      width:100%; border-collapse:separate; border-spacing:0; overflow:hidden;
+      border:1px solid var(--line); border-radius:18px; margin-top:26px; background:white;
+    }
+    .table th,.table td{
+      padding:17px 18px; border-bottom:1px solid var(--line);
+      font-size:18px; text-align:left; vertical-align:top;
+    }
+    .table th{background:#fff8dc;color:var(--navy);font-weight:800}
+    .table tr:last-child td{border-bottom:0}
+    .quietbox{
+      margin-top:28px; padding:28px; border-radius:24px;
+      background:linear-gradient(135deg,#172033,#29395d); color:white;
+    }
+    .quietbox h3{color:white}.quietbox p{color:#e6edf8}
+
+    .answerbox{
+      display:none;
+      margin-top:14px;
+      padding:16px 18px;
+      border-radius:16px;
+      border:1px solid rgba(201,166,70,.45);
+      background:#fff8dc;
+      color:var(--navy);
+      font-size:17px;
+      line-height:1.55;
+    }
+    .answerbox.visible{display:block}
+    .answerbox strong{color:var(--navy)}
+    .answerbox ul{margin:8px 0 0 22px;padding:0}
+
+    @media(max-width:780px){
+      .deck{width:100vw;min-height:100vh;margin:0;border-radius:0}
+      .slide{padding:34px 22px 96px;min-height:calc(100vh - 62px)}
+      .grid.two,.grid.three,.options{grid-template-columns:1fr}
+      h1{font-size:42px} h2{font-size:34px} p,.item{font-size:18px}
+      .topbar{padding:0 18px}
+      .nav{height:76px;padding:0 16px}.progressbar{bottom:76px}
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <div class="topbar">
+      <div class="brand">TeachCraft · Careers Vocabulary</div>
+      <div class="counter"><span id="current">1</span> / <span id="total">16</span></div>
+    </div>
+
+    <section class="slide active">
+      <div class="kicker">revision route</div>
+      <h1>From recognition to recall</h1>
+      <p class="subtitle">First, you will recognise the career vocabulary. Then you will rebuild it from memory and use it in context.</p>
+      <div class="quietbox">
+        <h3>Target language</h3>
+        <p>career advancement · employability · transferable skills · traineeship · hands-on training · entrepreneurs · business owners · gain knowledge · undergo training · career prospects</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">warm-up</div>
+      <h2>What do you already remember?</h2>
+      <div class="prompt">Choose the best synonym: <strong>participate</strong></div>
+      <div class="options" data-quiz="mcq" data-answer="take part">
+        <button class="option">take part</button><button class="option">look for</button><button class="option">boost</button><button class="option">fare</button>
+      </div>
+      <div class="feedback"></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">recall map</div>
+      <h2>Core career collocations</h2>
+      <div class="grid three">
+        <div class="card"><h3>Career</h3><p class="mini"><strong>career advancement</strong><br>career prospects<br>work placement</p></div>
+        <div class="card"><h3>Skills</h3><p class="mini"><strong>transferable skills</strong><br>universal skills<br>soft skills<br>hands-on experience</p></div>
+        <div class="card"><h3>Work status</h3><p class="mini"><strong>employee</strong><br>employer<br>entrepreneur<br>self-employed</p></div>
+      </div>
+      <p class="note">Learn expressions as chunks, not as isolated words.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">choice</div>
+      <h2>Choose the stronger phrase</h2>
+      <div class="prompt">Soft skills can improve your ______ because they are useful in many different jobs.</div>
+      <div class="options" data-quiz="mcq" data-answer="employability">
+        <button class="option">employability</button><button class="option">employee</button><button class="option">employment</button><button class="option">employer</button>
+      </div>
+      <div class="feedback"></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">word family</div>
+      <h2>One base word, several useful forms</h2>
+      <table class="table">
+        <tr><th>verb</th><th>noun</th><th>adjective / useful form</th></tr>
+        <tr><td>train</td><td>trainee · trainer · training</td><td>trained</td></tr>
+        <tr><td>advance</td><td>advancement</td><td>advanced</td></tr>
+        <tr><td>know</td><td>knowledge</td><td>knowledgeable</td></tr>
+        <tr><td>participate</td><td>participant · participation</td><td>participating</td></tr>
+        <tr><td>employ</td><td>employee · employer · employment · employability</td><td>employable</td></tr>
+      </table>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">controlled practice</div>
+      <h2>Pick the correct form</h2>
+      <div class="exercise" data-quiz="gaps">
+        <div class="item">Career <input class="gap" data-answer="advancement"> is important to many young <input class="gap" data-answer="employees">.</div>
+        <div class="actions"><button class="btn check">Check</button><button class="btn secondary reset">Reset</button></div>
+        <div class="feedback"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">controlled practice</div>
+      <h2>Build the word family</h2>
+      <div class="exercise" data-quiz="gaps">
+        <div class="item">Having soft skills makes you more <input class="gap" data-answer="employable">.</div>
+        <div class="item">Active <input class="gap" data-answer="participation"> in training courses really counts.</div>
+        <div class="item">Helen has <input class="gap" data-answer="advanced"> <input class="gap" data-answer="knowledge"> of economics.</div>
+        <div class="actions"><button class="btn check">Check</button><button class="btn secondary reset">Reset</button></div>
+        <div class="feedback"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">synonym check</div>
+      <h2>Formal or less formal?</h2>
+      <div class="prompt">Which pair has the same meaning?</div>
+      <div class="options" data-quiz="mcq" data-answer="look for = search for">
+        <button class="option">look for = search for</button><button class="option">fare = foster</button><button class="option">undergo = boost</button><button class="option">take part = increase</button>
+      </div>
+      <div class="feedback"></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">collocation bank</div>
+      <h2>Useful chunks for speaking</h2>
+      <div class="grid two">
+        <div class="card"><h3>Development</h3><p class="mini">make progress<br>boost employability<br>foster teamwork<br>gain knowledge<br>undergo training</p></div>
+        <div class="card"><h3>Work life</h3><p class="mini">work overtime<br>get a pay rise<br>apply for a part-time job<br>write a covering letter<br>go to a job centre</p></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">sentence completion</div>
+      <h2>Complete the questions</h2>
+      <div class="wordbank"><span>hands-on</span><span>gain</span><span>searching</span><span>undergo</span><span>fosters</span><span>boost</span></div>
+      <div class="exercise" data-quiz="gaps">
+        <div class="item">What is more important: <input class="gap" data-answer="hands-on"> training or theoretical knowledge?</div>
+        <div class="item">Can you name three ways to <input class="gap" data-answer="gain"> knowledge outside school?</div>
+        <div class="item">How would you go about <input class="gap" data-answer="searching"> for a summer job?</div>
+        <div class="actions"><button class="btn check">Check</button><button class="btn secondary reset">Reset</button></div>
+        <div class="feedback"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">sentence completion</div>
+      <h2>Complete the questions</h2>
+      <div class="wordbank"><span>undergo</span><span>fosters</span><span>boost</span><span>employability</span></div>
+      <div class="exercise" data-quiz="gaps">
+        <div class="item">If you could <input class="gap" data-answer="undergo"> a traineeship, where would you like to do it?</div>
+        <div class="item">Is it true that a friendly atmosphere <input class="gap" data-answer="fosters"> good teamwork?</div>
+        <div class="item">Does knowing other cultures <input class="gap" data-answer="boost"> your <input class="gap" data-answer="employability">?</div>
+        <div class="actions"><button class="btn check">Check</button><button class="btn secondary reset">Reset</button></div>
+        <div class="feedback"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">micro-test</div>
+      <h2>Choose the exact phrase</h2>
+      <div class="prompt">A person who starts and runs a business is an ______.</div>
+      <div class="options" data-quiz="mcq" data-answer="entrepreneur">
+        <button class="option">entrepreneur</button><button class="option">employer</button><button class="option">employee</button><button class="option">undergraduate</button>
+      </div>
+      <div class="feedback"></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">micro-test</div>
+      <h2>Choose the best collocation</h2>
+      <div class="prompt">After three years in the company, Marta finally got a ______.</div>
+      <div class="options" data-quiz="mcq" data-answer="pay rise">
+        <button class="option">pay rise</button><button class="option">pay grow</button><button class="option">salary lift</button><button class="option">money increase</button>
+      </div>
+      <div class="feedback"></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">micro-test</div>
+      <h2>Complete the expressions</h2>
+      <div class="exercise" data-quiz="gaps">
+        <div class="item">I do not want a full-time job yet. I’m looking for a <input class="gap" data-answer="part-time"> job.</div>
+        <div class="item">He works for himself, so he is <input class="gap" data-answer="self-employed">.</div>
+        <div class="item">She stayed late at the office because she had to work <input class="gap" data-answer="overtime">.</div>
+        <div class="actions"><button class="btn check">Check</button><button class="btn secondary reset">Reset</button></div>
+        <div class="feedback"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">final test</div>
+      <h2>Complete the text</h2>
+      <div class="wordbank"><span>living</span><span>entrepreneurial</span><span>employee</span><span>earnings</span><span>advancement</span><span>transferable</span></div>
+      <div class="exercise" data-quiz="gaps">
+        <div class="item">There are countless ways of making a <input class="gap" data-answer="living">, but for many young people with <input class="gap" data-answer="entrepreneurial"> ambitions, the easiest thing to do right out of college is to become an <input class="gap" data-answer="employee"> at a corporation. Their <input class="gap" data-answer="earnings"> are more or less guaranteed and there is a possibility of career <input class="gap" data-answer="advancement">. Later, if their <input class="gap" data-answer="transferable"> skills are good enough, they may quickly find other employment.</div>
+        <div class="actions"><button class="btn check">Check</button><button class="btn secondary reset">Reset</button></div>
+        <div class="feedback"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">speaking exit ticket</div>
+      <h2>Use the language actively</h2>
+      <div class="prompt">Answer in 3–4 sentences:<br><strong>Do you think school should focus more on employability and hands-on training?</strong></div>
+      <div class="pillrow"><span class="pill">career prospects</span><span class="pill">transferable skills</span><span class="pill">gain knowledge</span><span class="pill">boost employability</span><span class="pill">undergo training</span></div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">teacher key</div>
+      <h2>Quick answer key</h2>
+      <div class="grid two">
+        <div class="card"><h3>Main checks</h3><p class="mini">participate = take part<br>employability<br>look for = search for<br>entrepreneur<br>pay rise</p></div>
+        <div class="card"><h3>Gap tasks</h3><p class="mini">advancement, employees<br>employable, participation, advanced knowledge<br>hands-on, gain, searching<br>undergo, fosters, boost employability<br>part-time, self-employed, overtime</p></div>
+      </div>
+      <p class="note">Final text: living · entrepreneurial · employee · earnings · advancement · transferable.</p>
+    </section>
+
+    <div class="progressbar"><div class="progress" id="progress"></div></div>
+    <nav class="nav">
+      <button id="prev">← Back</button>
+      <button class="primary" id="next">Next →</button>
+    </nav>
+  </main>
+
+  <script>
+    const slides=[...document.querySelectorAll('.slide')];
+    const current=document.getElementById('current');
+    const total=document.getElementById('total');
+    const progress=document.getElementById('progress');
+    const prev=document.getElementById('prev');
+    const next=document.getElementById('next');
+    let index=0;
+    total.textContent=slides.length;
+
+    function show(i){
+      index=Math.max(0,Math.min(i,slides.length-1));
+      slides.forEach((s,n)=>s.classList.toggle('active',n===index));
+      current.textContent=index+1;
+      progress.style.width=((index+1)/slides.length*100)+'%';
+      prev.disabled=index===0;
+      next.textContent=index===slides.length-1?'Start again ↺':'Next →';
+    }
+
+    prev.addEventListener('click',()=>show(index-1));
+    next.addEventListener('click',()=> index===slides.length-1 ? show(0) : show(index+1));
+    document.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight') next.click();
+      if(e.key==='ArrowLeft') prev.click();
+    });
+
+    function makeAnswerBox(container){
+      let box=container.querySelector('.answerbox');
+      if(!box){
+        box=document.createElement('div');
+        box.className='answerbox';
+        container.appendChild(box);
+      }
+      return box;
+    }
+
+    function showAnswerBox(container, html){
+      const box=makeAnswerBox(container);
+      box.innerHTML=html;
+      box.classList.add('visible');
+    }
+
+    document.querySelectorAll('[data-quiz="mcq"]').forEach(box=>{
+      const answer=box.dataset.answer.trim();
+      const answerNorm=answer.toLowerCase();
+      const slide=box.closest('.slide');
+      const feedback=slide.querySelector('.feedback');
+
+      const actions=document.createElement('div');
+      actions.className='actions';
+      const reveal=document.createElement('button');
+      reveal.className='btn secondary';
+      reveal.type='button';
+      reveal.textContent='✓ Show answer';
+      actions.appendChild(reveal);
+      feedback.before(actions);
+
+      box.querySelectorAll('.option').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          box.querySelectorAll('.option').forEach(b=>b.classList.remove('correct','wrong'));
+          const chosen=btn.textContent.trim().toLowerCase();
+          btn.classList.add(chosen===answerNorm?'correct':'wrong');
+          if(chosen!==answerNorm){
+            box.querySelectorAll('.option').forEach(b=>{
+              if(b.textContent.trim().toLowerCase()===answerNorm) b.classList.add('correct');
+            });
+          }
+          feedback.textContent=chosen===answerNorm
+            ? 'Correct. Keep the whole phrase in your head.'
+            : 'Not quite. The suggested answer is shown below.';
+          feedback.className='feedback '+(chosen===answerNorm?'good':'bad');
+          showAnswerBox(slide, `<strong>Suggested answer:</strong> ${answer}`);
+        });
+      });
+
+      reveal.addEventListener('click',()=>{
+        box.querySelectorAll('.option').forEach(b=>{
+          b.classList.toggle('correct', b.textContent.trim().toLowerCase()===answerNorm);
+          b.classList.remove('wrong');
+        });
+        feedback.textContent='Suggested answer shown.';
+        feedback.className='feedback good';
+        showAnswerBox(slide, `<strong>Suggested answer:</strong> ${answer}`);
+      });
+    });
+
+    function norm(x){
+      return x.trim().toLowerCase().replace(/[.?!,]/g,'').replace(/\s+/g,' ');
+    }
+
+    function answerListForGaps(ex){
+      const gaps=[...ex.querySelectorAll('.gap')];
+      return gaps.map((g,i)=>{
+        const first=g.dataset.answer.split('|')[0];
+        return `<li><strong>${i+1}.</strong> ${first}</li>`;
+      }).join('');
+    }
+
+    document.querySelectorAll('[data-quiz="gaps"]').forEach(ex=>{
+      const feedback=ex.querySelector('.feedback');
+
+      ex.querySelector('.check').addEventListener('click',()=>{
+        const gaps=[...ex.querySelectorAll('.gap')];
+        let ok=0;
+
+        gaps.forEach(g=>{
+          const acceptable=g.dataset.answer.split('|').map(norm);
+          const good=acceptable.includes(norm(g.value));
+          g.classList.toggle('ok',good);
+          g.classList.toggle('bad',!good);
+          if(good) ok++;
+        });
+
+        feedback.textContent=`${ok} / ${gaps.length} correct. Suggested answers are shown below.`;
+        feedback.className='feedback '+(ok===gaps.length?'good':'bad');
+
+        showAnswerBox(ex, `<strong>Suggested answers:</strong><ul>${answerListForGaps(ex)}</ul>`);
+      });
+
+      ex.querySelector('.reset').addEventListener('click',()=>{
+        ex.querySelectorAll('.gap').forEach(g=>{
+          g.value='';
+          g.classList.remove('ok','bad');
+        });
+        feedback.textContent='';
+        feedback.className='feedback';
+        const box=ex.querySelector('.answerbox');
+        if(box){box.classList.remove('visible');box.innerHTML='';}
+      });
+    });
+
+    // Speaking slide: model answer support.
+    const speakingSlide=[...document.querySelectorAll('.slide')].find(s =>
+      s.textContent.includes('Do you think school should focus more on employability')
+    );
+    if(speakingSlide){
+      const actions=document.createElement('div');
+      actions.className='actions';
+      const btn=document.createElement('button');
+      btn.className='btn secondary';
+      btn.type='button';
+      btn.textContent='✓ Show suggested answer';
+      actions.appendChild(btn);
+      speakingSlide.appendChild(actions);
+
+      btn.addEventListener('click',()=>{
+        showAnswerBox(
+          speakingSlide,
+          `<strong>Suggested answer:</strong><br>
+          I think school should focus more on employability because students need transferable skills, not only theoretical knowledge.
+          Hands-on training can help them gain practical experience and understand how real workplaces function.
+          It can also boost their career prospects, especially if they want to undergo a traineeship or look for a part-time job.`
+        );
+      });
+    }
+
+    show(0);
+  </script>
+</body>
+</html>
