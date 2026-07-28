@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science and Gems — CMP U1</title>
+<style>
+:root{
+  --navy:#17324d;
+  --cream:#fbf7ee;
+  --gold:#c6a15b;
+  --green:#dcefcf;
+  --green-dark:#3d6f3a;
+  --purple:#e7ddf4;
+  --blue:#dcebf7;
+  --pink:#f7dfe7;
+  --ink:#1f2933;
+  --muted:#66717d;
+  --white:#ffffff;
+  --correct:#2f7d32;
+  --wrong:#a83030;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, Arial, sans-serif;
+  background:linear-gradient(135deg,#f6f1e7,#eef5ec);
+  color:var(--ink);
+}
+.app{
+  max-width:1180px;
+  margin:auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding:18px;
+}
+header{
+  background:var(--navy);
+  color:white;
+  border-radius:18px;
+  padding:20px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+header h1{
+  margin:0;
+  font-family:Georgia,serif;
+  font-size:clamp(1.35rem,3vw,2.15rem);
+  font-weight:700;
+}
+header .sub{
+  color:#dbe8f3;
+  font-size:.93rem;
+  margin-top:5px;
+}
+.badge{
+  background:var(--gold);
+  color:#16202a;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.progress-wrap{
+  margin:16px 2px 10px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.progress{
+  flex:1;
+  height:10px;
+  background:#dfe4e8;
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress > div{
+  height:100%;
+  background:var(--gold);
+  width:0%;
+  transition:.25s;
+}
+.counter{font-size:.9rem;color:var(--muted);font-weight:700}
+main{flex:1;display:flex}
+.slide{
+  display:none;
+  width:100%;
+  background:var(--cream);
+  border:1px solid #e5ddce;
+  border-radius:20px;
+  padding:clamp(20px,4vw,38px);
+  box-shadow:0 12px 30px rgba(23,50,77,.10);
+}
+.slide.active{display:block}
+.kicker{
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--green-dark);
+  font-weight:800;
+  font-size:.78rem;
+}
+h2{
+  font-family:Georgia,serif;
+  color:var(--navy);
+  margin:.35rem 0 .6rem;
+  font-size:clamp(1.5rem,3vw,2.35rem);
+}
+.instruction{color:var(--muted);margin-bottom:22px;line-height:1.5}
+.card{
+  background:white;
+  border:1px solid #e6e0d7;
+  border-radius:14px;
+  padding:16px;
+  margin:12px 0;
+}
+.q{
+  margin:14px 0;
+  padding:14px;
+  border-radius:12px;
+  background:white;
+  border-left:6px solid var(--blue);
+}
+.q.correct{border-left-color:var(--correct);background:#f1faef}
+.q.wrong{border-left-color:var(--wrong);background:#fff1f1}
+.q p{margin:0 0 10px;line-height:1.45}
+.options{display:flex;flex-wrap:wrap;gap:10px}
+.option{
+  border:1px solid #bbc5ce;
+  background:#fff;
+  border-radius:999px;
+  padding:9px 14px;
+  cursor:pointer;
+  font-size:.98rem;
+}
+.option:hover{border-color:var(--navy)}
+.option.selected{background:var(--navy);color:white;border-color:var(--navy)}
+.option.answer{outline:3px solid rgba(47,125,50,.28)}
+input[type=text], select, textarea{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #b9c2cb;
+  border-radius:10px;
+  font-size:1rem;
+  background:white;
+}
+textarea{min-height:95px;resize:vertical}
+.wordbank{
+  display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px
+}
+.wordbank span{
+  padding:7px 10px;border-radius:8px;background:var(--purple);font-weight:700
+}
+.feedback{
+  margin-top:12px;
+  padding:11px 13px;
+  border-radius:10px;
+  display:none;
+  line-height:1.45;
+}
+.feedback.show{display:block}
+.feedback.good{background:#eaf6e7;color:#265f28}
+.feedback.bad{background:#fae7e7;color:#7d2626}
+.note{
+  background:var(--green);
+  padding:14px;
+  border-radius:12px;
+  margin:14px 0;
+  line-height:1.45;
+}
+.small{font-size:.92rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;background:white}
+th,td{border:1px solid #d6d9dc;padding:12px;text-align:left;vertical-align:top}
+th{background:var(--green)}
+.controls{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:16px;
+  position:sticky;
+  bottom:0;
+  padding-top:12px;
+  background:linear-gradient(transparent,var(--cream) 30%);
+}
+button{
+  border:0;
+  border-radius:10px;
+  padding:11px 16px;
+  font-size:.98rem;
+  font-weight:700;
+  cursor:pointer;
+}
+button.primary{background:var(--navy);color:white}
+button.secondary{background:#e6ebef;color:var(--navy)}
+button.check{background:var(--gold);color:#18212a}
+button:disabled{opacity:.45;cursor:not-allowed}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.scorebox{
+  background:var(--navy);color:white;border-radius:18px;padding:24px;text-align:center
+}
+.score{font-size:3.5rem;font-weight:800;color:#f5cf84}
+details{background:white;border:1px solid #ddd;border-radius:10px;padding:12px;margin:10px 0}
+summary{font-weight:700;cursor:pointer}
+@media(max-width:760px){
+  header{align-items:flex-start;flex-direction:column}
+  .two-col{grid-template-columns:1fr}
+  .controls{position:static}
+  button{flex:1}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div>
+    <h1>Science and Gems</h1>
+    <div class="sub">CMP U1 · Precision first</div>
+  </div>
+  <div class="badge">C1 Review</div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress"><div id="bar"></div></div>
+  <div class="counter" id="counter"></div>
+</div>
+
+<main>
+
+<section class="slide active">
+  <div class="kicker">Start here</div>
+  <h2>Precision first</h2>
+  <p class="instruction">This review checks whether you can choose vocabulary that is not merely grammatical, but exact and natural in a scientific context.</p>
+  <div class="note"><strong>Think like this:</strong> What exactly happened? What process is described? Is there a specialist verb or noun that carries the meaning more precisely?</div>
+  <div class="card">
+    <strong>Target language</strong>
+    <p>sterilise · corrode · freeze · displace · conductor · element · phenomenon · explosive · expand · molten · apparatus · purity · hardness</p>
+  </div>
+</section>
+
+<section class="slide" data-quiz="mc">
+  <div class="kicker">Round 1</div>
+  <h2>Choose the more precise word</h2>
+  <p class="instruction">Select the option that best fits the technical or scientific context.</p>
+
+  <div class="q" data-answer="sterilised">
+    <p>1. Before the surgical instruments can be reused, they must be cleaned / sterilised.</p>
+    <div class="options"><button class="option">cleaned</button><button class="option">sterilised</button></div>
+  </div>
+  <div class="q" data-answer="conductor">
+    <p>2. Copper is an excellent conductor / monitor of electricity.</p>
+    <div class="options"><button class="option">conductor</button><button class="option">monitor</button></div>
+  </div>
+  <div class="q" data-answer="corrode">
+    <p>3. Iron objects left outdoors may gradually damage / corrode.</p>
+    <div class="options"><button class="option">damage</button><button class="option">corrode</button></div>
+  </div>
+  <div class="q" data-answer="freezes">
+    <p>4. When water reaches 0°C under normal conditions, it becomes solid / freezes.</p>
+    <div class="options"><button class="option">becomes solid</button><button class="option">freezes</button></div>
+  </div>
+  <div class="feedback"></div>
+</section>
+
+<section class="slide" data-quiz="mc">
+  <div class="kicker">Round 1 continued</div>
+  <h2>Choose the more precise word</h2>
+  <div class="q" data-answer="displaced">
+    <p>5. Archimedes realised that his body had displaced / replaced an equal volume of water.</p>
+    <div class="options"><button class="option">displaced</button><button class="option">replaced</button></div>
+  </div>
+  <div class="q" data-answer="elements">
+    <p>6. Hydrogen and oxygen are chemical components / elements.</p>
+    <div class="options"><button class="option">components</button><button class="option">elements</button></div>
+  </div>
+  <div class="q" data-answer="phenomenon">
+    <p>7. The Mpemba effect is an unusual assumption / phenomenon.</p>
+    <div class="options"><button class="option">assumption</button><button class="option">phenomenon</button></div>
+  </div>
+  <div class="q" data-answer="explosive">
+    <p>8. Dynamite is a type of bomb / explosive.</p>
+    <div class="options"><button class="option">bomb</button><button class="option">explosive</button></div>
+  </div>
+  <div class="feedback"></div>
+</section>
+
+<section class="slide" data-quiz="mc">
+  <div class="kicker">Round 1 continued</div>
+  <h2>Choose the more precise word</h2>
+  <div class="q" data-answer="expands">
+    <p>9. Unlike most substances, water expands / extends when it freezes.</p>
+    <div class="options"><button class="option">expands</button><button class="option">extends</button></div>
+  </div>
+  <div class="q" data-answer="molten">
+    <p>10. During an eruption, extremely hot liquefied / molten rock may reach the surface.</p>
+    <div class="options"><button class="option">liquefied</button><button class="option">molten</button></div>
+  </div>
+  <div class="q" data-answer="purified">
+    <p>11. The contaminated water was passed through filters and then discarded / purified.</p>
+    <div class="options"><button class="option">discarded</button><button class="option">purified</button></div>
+  </div>
+  <div class="q" data-answer="automated">
+    <p>12. The laboratory introduced a fully manual / automated system controlled by software.</p>
+    <div class="options"><button class="option">manual</button><button class="option">automated</button></div>
+  </div>
+  <div class="feedback"></div>
+</section>
+
+<section class="slide" data-quiz="odd">
+  <div class="kicker">Round 2</div>
+  <h2>Odd one out</h2>
+  <p class="instruction">Choose the item that does not belong. Think about meaning and category.</p>
+  <div class="q" data-answer="stimulate"><p>1. remodel · revolutionise · stimulate · transform</p>
+    <div class="options"><button class="option">remodel</button><button class="option">revolutionise</button><button class="option">stimulate</button><button class="option">transform</button></div></div>
+  <div class="q" data-answer="substance"><p>2. apparatus · machinery · substance · utensils</p>
+    <div class="options"><button class="option">apparatus</button><button class="option">machinery</button><button class="option">substance</button><button class="option">utensils</button></div></div>
+  <div class="q" data-answer="manual"><p>3. automated · computerised · manual · mechanical</p>
+    <div class="options"><button class="option">automated</button><button class="option">computerised</button><button class="option">manual</button><button class="option">mechanical</button></div></div>
+  <div class="feedback"></div>
+</section>
+
+<section class="slide" data-quiz="odd">
+  <div class="kicker">Round 2 continued</div>
+  <h2>Odd one out</h2>
+  <div class="q" data-answer="assumption"><p>4. assumption · forecast · prediction · prophecy</p>
+    <div class="options"><button class="option">assumption</button><button class="option">forecast</button><button class="option">prediction</button><button class="option">prophecy</button></div></div>
+  <div class="q" data-answer="discard"><p>5. discard · filter · purify · sterilise</p>
+    <div class="options"><button class="option">discard</button><button class="option">filter</button><button class="option">purify</button><button class="option">sterilise</button></div></div>
+  <div class="q" data-answer="rectangle"><p>6. cube · cylinder · rectangle · sphere</p>
+    <div class="options"><button class="option">cube</button><button class="option">cylinder</button><button class="option">rectangle</button><button class="option">sphere</button></div></div>
+  <div class="feedback"></div>
+  <details><summary>Language frame</summary><p><strong>_____ is the odd one out because the other three refer to / describe …</strong></p></details>
+</section>
+
+<section class="slide" data-quiz="inputs">
+  <div class="kicker">Round 3</div>
+  <h2>Precision detective</h2>
+  <p class="instruction">Replace the vague phrase with one precise word from the box.</p>
+  <div class="wordbank"><span>sterilised</span><span>corroded</span><span>forecast</span><span>apparatus</span><span>gemstone</span></div>
+  <div class="q" data-answer="sterilised"><p>1. The laboratory <strong>cleaned its equipment to remove all microorganisms</strong>.</p><input type="text" placeholder="Precise word"></div>
+  <div class="q" data-answer="corroded"><p>2. The metal <strong>became damaged after years of exposure to salt water</strong>.</p><input type="text" placeholder="Precise word"></div>
+  <div class="q" data-answer="forecast"><p>3. A weather <strong>prediction based on meteorological data</strong> was issued.</p><input type="text" placeholder="Precise word"></div>
+  <div class="q" data-answer="apparatus"><p>4. The experiment required highly specialised scientific <strong>equipment</strong>.</p><input type="text" placeholder="Precise word"></div>
+  <div class="q" data-answer="gemstone"><p>5. Diamond is the hardest natural <strong>stone used in jewellery</strong>.</p><input type="text" placeholder="Precise word"></div>
+  <div class="feedback"></div>
+</section>
+
+<section class="slide" data-quiz="inputs">
+  <div class="kicker">Round 3 continued</div>
+  <h2>Science and gems vocabulary</h2>
+  <div class="wordbank"><span>hardness</span><span>purity</span><span>devices</span><span>utensils</span><span>molten</span></div>
+  <div class="q" data-answer="hardness"><p>6. Diamond is useful because of its resistance to scratching: its ______.</p><input type="text"></div>
+  <div class="q" data-answer="purity"><p>7. The value of a diamond partly depends on how free it is from other substances: its ______.</p><input type="text"></div>
+  <div class="q" data-answer="devices"><p>8. Electronic ______ are used to measure temperature and pressure.</p><input type="text"></div>
+  <div class="q" data-answer="utensils"><p>9. The cook placed all the kitchen ______ beside the stove.</p><input type="text"></div>
+  <div class="q" data-answer="molten"><p>10. Lava is ______ rock.</p><input type="text"></div>
+  <div class="feedback"></div>
+</section>
+
+<section class="slide" data-quiz="inputs">
+  <div class="kicker">Round 4</div>
+  <h2>Diamonds are forever</h2>
+  <p class="instruction">Complete the text with the most precise nouns.</p>
+  <div class="wordbank"><span>hardness</span><span>gemstone</span><span>material</span><span>property</span><span>purity</span><span>industry</span><span>instruments</span><span>devices</span></div>
+  <div class="card" style="line-height:2">
+    The (1) <input style="width:150px" type="text" data-inline data-answer="hardness"> of diamond has been known since antiquity; its name derives from the ancient Greek word for “unbreakable”. Not only is it the hardest (2) <input style="width:150px" type="text" data-inline data-answer="gemstone"> amongst precious stones, but it is also the hardest known natural (3) <input style="width:150px" type="text" data-inline data-answer="material"> on Earth.
+    This unique (4) <input style="width:150px" type="text" data-inline data-answer="property"> depends on the (5) <input style="width:150px" type="text" data-inline data-answer="purity"> of the diamond. Diamonds also have many uses in science and (6) <input style="width:150px" type="text" data-inline data-answer="industry">. They can be used as cutting (7) <input style="width:150px" type="text" data-inline data-answer="instruments"> or in electronic (8) <input style="width:150px" type="text" data-inline data-answer="devices">.
+  </div>
+  <div class="feedback"></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Round 5</div>
+  <h2>Make it more precise</h2>
+  <p class="instruction">Rewrite each sentence. Replace the vague wording with one strong scientific or technical item.</p>
+  <div class="q"><p>1. The scientist cleaned the equipment very thoroughly.</p><textarea placeholder="Your precise version"></textarea><details><summary>Suggested answer</summary><p>The scientist sterilised the equipment.</p></details></div>
+  <div class="q"><p>2. The metal got worse because of the chemicals in the environment.</p><textarea placeholder="Your precise version"></textarea><details><summary>Suggested answer</summary><p>The metal corroded because it was exposed to a chemically unstable environment.</p></details></div>
+  <div class="q"><p>3. The liquid became hard because the temperature dropped.</p><textarea placeholder="Your precise version"></textarea><details><summary>Suggested answer</summary><p>The liquid froze as the temperature dropped.</p></details></div>
+  <div class="q"><p>4. The hot rock from the volcano moved down the slope.</p><textarea placeholder="Your precise version"></textarea><details><summary>Suggested answer</summary><p>Molten rock flowed down the slope.</p></details></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Final challenge</div>
+  <h2>Explain the difference</h2>
+  <p class="instruction">Give a short explanation. Focus on the extra meaning carried by the more precise word.</p>
+  <div class="q"><p><strong>clean vs sterilise</strong></p><textarea placeholder="What does sterilise add?"></textarea></div>
+  <div class="q"><p><strong>damage vs corrode</strong></p><textarea placeholder="What process does corrode name?"></textarea></div>
+  <div class="q"><p><strong>become solid vs freeze</strong></p><textarea placeholder="Why is freeze more precise?"></textarea></div>
+  <div class="q"><p><strong>replace vs displace</strong></p><textarea placeholder="What is physically moved?"></textarea></div>
+  <details><summary>Teacher notes / model points</summary>
+    <p><strong>Sterilise</strong> means removing or destroying microorganisms, not merely making something clean.</p>
+    <p><strong>Corrode</strong> names gradual chemical damage, especially to metal.</p>
+    <p><strong>Freeze</strong> names the change of state from liquid to solid due to low temperature.</p>
+    <p><strong>Displace</strong> means forcing a substance, such as water, out of the space it occupied.</p>
+  </details>
+</section>
+
+<section class="slide">
+  <div class="kicker">Results</div>
+  <h2>Your review is complete</h2>
+  <div class="scorebox">
+    <div class="small" style="color:#dbe8f3">Checked answers</div>
+    <div class="score" id="score">0 / 0</div>
+    <p id="scoreText">Complete the checked tasks to see your score.</p>
+  </div>
+  <div class="note"><strong>Exit ticket:</strong> Choose three vague words from the lesson and replace each with a more precise scientific alternative.</div>
+  <button class="check" onclick="resetAll()">Restart review</button>
+</section>
+
+</main>
+
+<div class="controls">
+  <button class="secondary" id="prev">← Previous</button>
+  <button class="check" id="check">Check answers</button>
+  <button class="primary" id="next">Next →</button>
+</div>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let current=0;
+let totalCorrect=0,totalChecked=0;
+
+function showSlide(i){
+  current=Math.max(0,Math.min(i,slides.length-1));
+  slides.forEach((s,idx)=>s.classList.toggle('active',idx===current));
+  document.getElementById('counter').textContent=`${current+1} / ${slides.length}`;
+  document.getElementById('bar').style.width=`${((current+1)/slides.length)*100}%`;
+  document.getElementById('prev').disabled=current===0;
+  document.getElementById('next').disabled=current===slides.length-1;
+  document.getElementById('check').style.visibility=hasCheckable(slides[current])?'visible':'hidden';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function hasCheckable(slide){
+  return slide.dataset.quiz || slide.querySelector('[data-inline]');
+}
+document.querySelectorAll('.options').forEach(group=>{
+  group.querySelectorAll('.option').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      group.querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+});
+function norm(s){return s.trim().toLowerCase().replace(/[.,]/g,'')}
+
+function checkCurrent(){
+  const slide=slides[current];
+  let correct=0,checked=0;
+
+  if(slide.dataset.quiz==='mc' || slide.dataset.quiz==='odd'){
+    slide.querySelectorAll('.q[data-answer]').forEach(q=>{
+      const selected=q.querySelector('.option.selected');
+      checked++;
+      q.classList.remove('correct','wrong');
+      q.querySelectorAll('.option').forEach(b=>b.classList.remove('answer'));
+      const ans=q.dataset.answer;
+      const answerBtn=[...q.querySelectorAll('.option')].find(b=>norm(b.textContent)===norm(ans));
+      if(answerBtn) answerBtn.classList.add('answer');
+      if(selected && norm(selected.textContent)===norm(ans)){q.classList.add('correct');correct++}
+      else q.classList.add('wrong');
+    });
+  } else if(slide.dataset.quiz==='inputs'){
+    slide.querySelectorAll('.q[data-answer]').forEach(q=>{
+      checked++;
+      const inp=q.querySelector('input');
+      q.classList.remove('correct','wrong');
+      if(inp && norm(inp.value)===norm(q.dataset.answer)){q.classList.add('correct');correct++}
+      else q.classList.add('wrong');
+    });
+    slide.querySelectorAll('input[data-inline]').forEach(inp=>{
+      checked++;
+      if(norm(inp.value)===norm(inp.dataset.answer)){inp.style.borderColor='#2f7d32';correct++}
+      else inp.style.borderColor='#a83030';
+    });
+  } else if(slide.querySelector('[data-inline]')){
+    slide.querySelectorAll('input[data-inline]').forEach(inp=>{
+      checked++;
+      if(norm(inp.value)===norm(inp.dataset.answer)){inp.style.borderColor='#2f7d32';correct++}
+      else inp.style.borderColor='#a83030';
+    });
+  }
+
+  if(checked){
+    slide.dataset.checked=checked;
+    slide.dataset.correct=correct;
+    const fb=slide.querySelector('.feedback');
+    if(fb){
+      fb.className='feedback show '+(correct===checked?'good':'bad');
+      fb.textContent=correct===checked
+        ? `Excellent: ${correct}/${checked}.`
+        : `You have ${correct}/${checked}. Green outlines show correct answers; review the red items.`;
+    }
+    calculateScore();
+  }
+}
+function calculateScore(){
+  let c=0,t=0;
+  slides.forEach(s=>{
+    c+=Number(s.dataset.correct||0);
+    t+=Number(s.dataset.checked||0);
+  });
+  document.getElementById('score').textContent=`${c} / ${t}`;
+  document.getElementById('scoreText').textContent=t
+    ? (c/t>=.85?'Strong precision. Your choices are mostly exact and context-sensitive.'
+      :c/t>=.65?'A solid base. Review the distinctions between general and technical vocabulary.'
+      :'The main issue is lexical precision rather than grammar. Revisit the model contrasts.')
+    :'Complete the checked tasks to see your score.';
+}
+function resetAll(){
+  document.querySelectorAll('input,textarea').forEach(x=>x.value='');
+  document.querySelectorAll('.option').forEach(x=>x.classList.remove('selected','answer'));
+  document.querySelectorAll('.q').forEach(x=>x.classList.remove('correct','wrong'));
+  document.querySelectorAll('.feedback').forEach(x=>{x.className='feedback';x.textContent=''});
+  slides.forEach(s=>{delete s.dataset.checked;delete s.dataset.correct});
+  showSlide(0); calculateScore();
+}
+document.getElementById('prev').onclick=()=>showSlide(current-1);
+document.getElementById('next').onclick=()=>showSlide(current+1);
+document.getElementById('check').onclick=checkCurrent;
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')showSlide(current+1);
+  if(e.key==='ArrowLeft')showSlide(current-1);
+});
+showSlide(0);
+</script>
+</body>
+</html>
