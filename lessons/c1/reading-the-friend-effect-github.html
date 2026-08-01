@@ -78,7 +78,6 @@ button{cursor:pointer}
   border-radius:8px;padding:9px 10px;line-height:1.25;
 }
 .nav-item:hover,.nav-item.active{background:var(--navy);color:white}
-.nav-item.teacher-only{display:none}
 .sidebar-note{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.45}
 
 .main{min-width:0}
@@ -135,19 +134,36 @@ textarea{min-height:90px;resize:vertical}
   border-radius:9px;background:#fff;
 }
 .option:hover{background:#faf7ef}
+
+.option.correct-option{
+  border-color:var(--ok);
+  background:#eef8f2;
+}
+.option.correct-option::after{
+  content:"✓ Correct answer";
+  margin-left:auto;
+  color:var(--ok);
+  font-weight:800;
+  font-size:12px;
+}
+.option.wrong-option{
+  border-color:var(--bad);
+  background:#fff0f0;
+}
+.option.wrong-option::after{
+  content:"✕ Your answer";
+  margin-left:auto;
+  color:var(--bad);
+  font-weight:800;
+  font-size:12px;
+}
+
 .question{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:13px;background:#fff}
 .question strong{color:var(--navy)}
 .evidence{margin-top:10px;background:var(--yellow);padding:10px;border-radius:8px}
 .check-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .result{margin-top:12px;font-weight:800}
-.teacher-panel{
-  display:none;background:var(--purple);border-left:4px solid #775aa6;
-  border-radius:9px;padding:14px;margin:16px 0;
-}
-.teacher-mode .teacher-panel{display:block}
-.teacher-mode .teacher-only{display:block}
-.teacher-mode .teacher-only.nav-item{display:block}
-.answer-key{
+.teacher-mode .answer-key{
   border-collapse:collapse;width:100%;font-size:14px;background:white;border-radius:10px;overflow:hidden;
 }
 .answer-key th,.answer-key td{border:1px solid var(--line);padding:10px;vertical-align:top;text-align:left}
@@ -179,7 +195,6 @@ textarea{min-height:90px;resize:vertical}
   background:var(--navy);color:white;
 }
 .bottom-nav button:disabled{opacity:.35;cursor:not-allowed}
-.mode-note{font-size:12px;color:#e5e8ef}
 .hidden{display:none!important}
 details{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:white;margin:10px 0}
 summary{font-weight:800;color:var(--navy);cursor:pointer}
@@ -203,8 +218,7 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
   body{background:white}
   .layout{display:block;margin:0;padding:0}
   .hero,.slide{display:block!important;box-shadow:none;border:0;page-break-after:always}
-  .teacher-panel{display:block}
-}
+  }
 </style>
 </head>
 <body>
@@ -218,8 +232,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
       </div>
     </div>
     <div class="controls">
-      <button class="btn active" id="studentModeBtn">Student mode</button>
-      <button class="btn" id="teacherModeBtn">Teacher mode</button>
       <button class="btn" onclick="window.print()">Print / PDF</button>
     </div>
   </div>
@@ -257,7 +269,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
         <h3>How important is spending time face-to-face with friends to you, compared with staying in touch online — and why?</h3>
         <textarea data-save="warmup" placeholder="Notes or useful language..."></textarea>
       </div>
-      <div class="teacher-panel"><strong>Teacher note:</strong> Elicit two or three ideas before pair work. Do not pre-teach the reading vocabulary at this point.</div>
     </section>
 
     <section class="slide" data-title="2. Word Formation">
@@ -270,9 +281,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
       <div id="wf"></div>
       <div class="check-row"><button class="btn-light" onclick="checkTextSet('wf')">Check answers</button><button class="btn-light" onclick="resetSet('wf')">Reset</button></div>
       <div class="result" id="wf-result"></div>
-      <div class="teacher-panel">
-        <strong>Teaching link:</strong> Monitor the vocabulary of connection, isolation, reliability and authenticity; it will return in the reading and transfer stages.
-      </div>
     </section>
 
     <section class="slide" data-title="3. Key Word Transformations">
@@ -296,7 +304,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
         <textarea data-save="prediction1" placeholder="Prediction 1"></textarea>
         <textarea data-save="prediction2" placeholder="Prediction 2"></textarea>
       </div>
-      <div class="teacher-panel"><strong>Teacher note:</strong> Accept any reasonable prediction. Do not confirm or reject ideas yet.</div>
     </section>
 
     <section class="slide" data-title="5. First reading — gist">
@@ -310,7 +317,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
       </div>
       <div class="check-row"><button class="btn-light" onclick="checkRadio('gist','a')">Check</button></div>
       <div class="result" id="gist-result"></div>
-      <div class="teacher-panel"><strong>Conditions:</strong> Limit the first reading to 3–4 minutes. No dictionaries or re-reading. The goal is fluency and gist.</div>
     </section>
 
     <section class="slide" data-title="6. Reading Part 5 — Questions 1–3">
@@ -342,7 +348,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
       <div class="card"><strong>Rule:</strong> If you cannot underline evidence for an option, it is not a defensible answer.</div>
       <h3>Reflection on one item</h3>
       <textarea data-save="strategyreflection" placeholder="Which distractor looked plausible, and what detail ruled it out?"></textarea>
-      <div class="teacher-panel">Ask “Why is option X wrong?” for at least two questions. The elimination process is part of the lesson objective, not merely answer checking.</div>
     </section>
 
     <section class="slide" data-title="9. Language mining">
@@ -350,7 +355,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
       <h2>Language Mining</h2>
       <div class="instructions">Find each expression in the article, infer its meaning from context, then rewrite it in your own words.</div>
       <div id="languageMining"></div>
-      <div class="teacher-panel">The aim is productive reuse. Do not turn this into a dictionary-definition exercise.</div>
     </section>
 
     <section class="slide" data-title="10. Communicative transfer">
@@ -361,7 +365,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
         <p>Gilbert argues that social media has made society “plastic” and left people feeling inadequate. Do you agree? What could someone realistically do this week to build one more genuine, face-to-face connection?</p>
       </div>
       <textarea data-save="transfer" placeholder="Arguments, examples and target expressions..."></textarea>
-      <div class="teacher-panel">Monitor for purposeful reuse of the mined language. Ask students to underline the expressions they actually used.</div>
     </section>
 
     <section class="slide" data-title="11. Speaking Part 2-style task">
@@ -377,7 +380,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
         <p><strong>2.</strong> How might these different ways of connecting affect a person’s long-term happiness?</p>
       </div>
       <div class="callout green"><strong>Partner follow-up:</strong> Do you think it is becoming harder for people to make genuine friends nowadays? Why / why not?</div>
-      <div class="teacher-panel">Candidate speaking time: about one minute. Partner follow-up: about 30 seconds.</div>
     </section>
 
     <section class="slide" data-title="12. Reading reflection">
@@ -407,7 +409,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
           <p>The article is not reproduced in this file. Add a licensed image/PDF link or provide the original page separately.</p>
         </div>
       </div>
-      <div class="teacher-panel">Students need the original article to complete the gist and Part 5 tasks. The lesson intentionally preserves the source rather than reproducing copyrighted text.</div>
     </section>
 
     <section class="slide" data-title="14. Homework — Part 1">
@@ -432,67 +433,6 @@ summary{font-weight:800;color:var(--navy);cursor:pointer}
       <div id="hw2"></div>
       <div class="check-row"><button class="btn-light" onclick="checkTextSet('hw2')">Check answers</button></div>
       <div class="result" id="hw2-result"></div>
-    </section>
-
-    <section class="slide teacher-only" data-title="Teacher: lesson overview">
-      <div class="kicker">Teacher Pack</div>
-      <h2>Lesson Overview and Procedure</h2>
-      <div class="callout purple"><strong>Teacher-facing objective:</strong> Learners will correctly answer at least 5 of 6 evidence-based multiple-choice questions and identify the line or detail justifying each answer.</div>
-      <h3>Materials</h3>
-      <ul>
-        <li>The original article page.</li>
-        <li>This interactive lesson.</li>
-        <li>Optional real photographs matching the three image briefs.</li>
-      </ul>
-      <h3>Live lesson timing</h3>
-      <table class="answer-key">
-        <tr><th>Stage</th><th>Time</th></tr>
-        <tr><td>Speaking warm-up</td><td>5 min</td></tr>
-        <tr><td>Word Formation</td><td>6 min</td></tr>
-        <tr><td>Key Word Transformations</td><td>8 min</td></tr>
-        <tr><td>Reading A–G</td><td>30 min</td></tr>
-        <tr><td>Speaking transfer</td><td>8 min</td></tr>
-        <tr><td>Reflection</td><td>3 min</td></tr>
-      </table>
-      <h3>Likely difficulties</h3>
-      <ul>
-        <li>Q2 and Q4 require joining two separate details.</li>
-        <li>Q5 and Q6 express implications spread across a paragraph rather than one literal sentence.</li>
-        <li>Q3 may attract answers based on general health anxiety rather than the explicit risk comparison.</li>
-      </ul>
-    </section>
-
-    <section class="slide teacher-only" data-title="Teacher: complete answer key">
-      <div class="kicker">Teacher Pack</div>
-      <h2>Complete Answer Key</h2>
-      <h3>Word Formation</h3>
-      <table class="answer-key"><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr><tr><td>connection</td><td>isolated</td><td>significantly</td><td>genuine</td><td>compassionate</td><td>reliable</td><td>satisfaction</td><td>replaced</td></tr></table>
-      <h3>Key Word Transformations</h3>
-      <table class="answer-key">
-        <tr><th>Item</th><th>Answer</th><th>Structure</th></tr>
-        <tr><td>1</td><td>has the same effect</td><td>comparative structure</td></tr>
-        <tr><td>2</td><td>Only after this research was published</td><td>inversion after fronted time expression</td></tr>
-        <tr><td>3</td><td>wish I saw</td><td>wish + past simple</td></tr>
-        <tr><td>4</td><td>such busy lives</td><td>such + noun phrase + that</td></tr>
-        <tr><td>5</td><td>In spite of being</td><td>in spite of + gerund</td></tr>
-        <tr><td>6</td><td>makes the body release</td><td>make + object + bare infinitive</td></tr>
-      </table>
-      <h3>Reading Part 5</h3>
-      <table class="answer-key">
-        <tr><th>Q</th><th>Answer</th><th>Evidence / reasoning</th></tr>
-        <tr><td>1</td><td>D</td><td>The Oxford research is “far from the first” to link eating together and happiness, reinforcing the earlier point.</td></tr>
-        <tr><td>2</td><td>C</td><td>Dunbar gives a physiological explanation involving endorphins and pain management.</td></tr>
-        <tr><td>3</td><td>D</td><td>Isolation is described as the “second-biggest risk factor of all”, so the danger is potentially fatal.</td></tr>
-        <tr><td>4</td><td>B</td><td>Voice and touch stimulate the calming system, whereas texts do not stimulate it to the same degree.</td></tr>
-        <tr><td>5</td><td>D</td><td>Idealised online self-presentation leaves others feeling like failures who cannot match the image.</td></tr>
-        <tr><td>6</td><td>B</td><td>The strongest relationships involve people who know our flaws and see the uncurated self.</td></tr>
-      </table>
-      <h3>Homework</h3>
-      <table class="answer-key">
-        <tr><th>Part 1</th><td>1 A, 2 A, 3 A, 4 A, 5 A, 6 A, 7 A, 8 A</td></tr>
-        <tr><th>Part 2</th><td>1 have, 2 than, 3 with, 4 that/which, 5 that, 6 far, 7 to, 8 so</td></tr>
-      </table>
-      <div class="callout green"><strong>Reusable strategy:</strong> Locate the paragraph, underline the exact evidence, then eliminate any option that is not directly supported, even when it sounds generally plausible.</div>
     </section>
   </main>
 </div>
@@ -623,11 +563,16 @@ function checkTextSet(id){
   const inputs=[...document.querySelectorAll(`[data-set="${id}"]`)];
   let score=0;
   inputs.forEach(inp=>{
-    const accepted=inp.dataset.answer.split("|").map(norm);
+    const acceptedRaw=inp.dataset.answer.split("|");
+    const accepted=acceptedRaw.map(norm);
     const ok=accepted.includes(norm(inp.value));
-    inp.classList.toggle("correct",ok); inp.classList.toggle("incorrect",!ok);
+    inp.classList.toggle("correct",ok);
+    inp.classList.toggle("incorrect",!ok);
     const fb=inp.parentElement.querySelector(".feedback") || inp.closest(".question")?.querySelector(".feedback");
-    if(fb){fb.textContent=ok?"Correct":`Check again`;fb.className="feedback "+(ok?"ok":"bad");}
+    if(fb){
+      fb.textContent=ok ? "Correct." : `Correct answer: ${acceptedRaw.join(" / ")}`;
+      fb.className="feedback "+(ok?"ok":"bad");
+    }
     if(ok)score++;
   });
   document.getElementById(id+"-result").textContent=`Score: ${score}/${inputs.length}`;
@@ -640,8 +585,15 @@ function checkRadio(name,answer){
   const chosen=document.querySelector(`input[name="${name}"]:checked`);
   const out=document.getElementById(name+"-result");
   if(!chosen){out.textContent="Choose an answer first.";return}
-  out.textContent=chosen.value===answer?"Correct.":"Not yet. Return to the writer’s overall message.";
-  out.style.color=chosen.value===answer?"var(--ok)":"var(--bad)";
+  const ok=chosen.value===answer;
+  out.textContent=ok ? "Correct." : `Incorrect. Correct answer: ${answer.toUpperCase()}.`;
+  out.style.color=ok?"var(--ok)":"var(--bad)";
+  document.querySelectorAll(`input[name="${name}"]`).forEach(input=>{
+    const label=input.closest(".option");
+    label.classList.remove("correct-option","wrong-option");
+    if(input.value===answer) label.classList.add("correct-option");
+    else if(input.checked) label.classList.add("wrong-option");
+  });
 }
 function checkMCQGroup(id){
   const qs=[...document.querySelectorAll(`#${id} .question`)];
@@ -649,10 +601,21 @@ function checkMCQGroup(id){
   qs.forEach(q=>{
     const chosen=q.querySelector("input:checked");
     const fb=q.querySelector(".feedback");
-    if(!chosen){fb.textContent="No answer selected.";fb.className="feedback bad";return}
-    const ok=chosen.value===q.dataset.answer;
+    const answer=q.dataset.answer;
+    q.querySelectorAll(".option").forEach(label=>{
+      label.classList.remove("correct-option","wrong-option");
+      const input=label.querySelector("input");
+      if(input.value===answer) label.classList.add("correct-option");
+      else if(input.checked) label.classList.add("wrong-option");
+    });
+    if(!chosen){
+      fb.textContent=`No answer selected. Correct answer: ${answer}.`;
+      fb.className="feedback bad";
+      return;
+    }
+    const ok=chosen.value===answer;
     if(ok)score++;
-    fb.textContent=ok?"Correct.":"Check the text again and eliminate unsupported options.";
+    fb.textContent=ok ? "Correct." : `Incorrect. Correct answer: ${answer}.`;
     fb.className="feedback "+(ok?"ok":"bad");
   });
   document.getElementById(id+"-result").textContent=`Score: ${score}/${qs.length}`;
@@ -693,57 +656,45 @@ renderMCQ("hw1",hw1Items,false);
 renderTextSet("hw2",hw2Items);
 renderLanguage();
 
-const app=document.getElementById("app");
 const allSlides=[...document.querySelectorAll(".slide")];
-let teacherMode=false;
-let visibleSlides=[];
 let current=0;
-function refreshSlides(){
-  visibleSlides=allSlides.filter(s=>teacherMode || !s.classList.contains("teacher-only"));
-  if(current>=visibleSlides.length)current=visibleSlides.length-1;
-  buildNav(); showSlide(current);
-}
+
 function buildNav(){
   const nav=document.getElementById("navList");
   nav.innerHTML="";
-  visibleSlides.forEach((s,i)=>{
+  allSlides.forEach((s,i)=>{
     const b=document.createElement("button");
-    b.className="nav-item"+(s.classList.contains("teacher-only")?" teacher-only":"");
+    b.className="nav-item";
     b.textContent=s.dataset.title;
     b.onclick=()=>showSlide(i);
     nav.appendChild(b);
   });
 }
+
 function showSlide(i){
-  visibleSlides.forEach(s=>s.classList.remove("active"));
-  current=Math.max(0,Math.min(i,visibleSlides.length-1));
-  visibleSlides[current].classList.add("active");
+  allSlides.forEach(s=>s.classList.remove("active"));
+  current=Math.max(0,Math.min(i,allSlides.length-1));
+  allSlides[current].classList.add("active");
   [...document.querySelectorAll(".nav-item")].forEach((b,j)=>b.classList.toggle("active",j===current));
   document.getElementById("prevBtn").disabled=current===0;
-  document.getElementById("nextBtn").disabled=current===visibleSlides.length-1;
-  document.getElementById("progress").style.width=((current+1)/visibleSlides.length*100)+"%";
-  visibleSlides[current].scrollIntoView({behavior:"smooth",block:"start"});
+  document.getElementById("nextBtn").disabled=current===allSlides.length-1;
+  document.getElementById("progress").style.width=((current+1)/allSlides.length*100)+"%";
+  allSlides[current].scrollIntoView({behavior:"smooth",block:"start"});
 }
+
 document.getElementById("prevBtn").onclick=()=>showSlide(current-1);
 document.getElementById("nextBtn").onclick=()=>showSlide(current+1);
+
 document.addEventListener("keydown",e=>{
   if(["INPUT","TEXTAREA"].includes(document.activeElement.tagName))return;
   if(e.key==="ArrowRight")showSlide(current+1);
   if(e.key==="ArrowLeft")showSlide(current-1);
 });
-document.getElementById("studentModeBtn").onclick=()=>{
-  teacherMode=false;app.classList.remove("teacher-mode");
-  document.getElementById("studentModeBtn").classList.add("active");
-  document.getElementById("teacherModeBtn").classList.remove("active");
-  refreshSlides();
-};
-document.getElementById("teacherModeBtn").onclick=()=>{
-  teacherMode=true;app.classList.add("teacher-mode");
-  document.getElementById("teacherModeBtn").classList.add("active");
-  document.getElementById("studentModeBtn").classList.remove("active");
-  refreshSlides();
-};
-saveAll(); saveAnswers(); refreshSlides();
+
+saveAll();
+saveAnswers();
+buildNav();
+showSlide(0);
 </script>
 </body>
 </html>
