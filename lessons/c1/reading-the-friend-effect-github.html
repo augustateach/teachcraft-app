@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading — The Friend Effect | TeachCraft Cambridge C1</title>
+<style>
+:root{
+  --navy:#14213d;
+  --navy-2:#22345d;
+  --gold:#c7a44a;
+  --cream:#f7f2e8;
+  --paper:#fffdf8;
+  --ink:#20242d;
+  --muted:#687080;
+  --line:#d9d2c3;
+  --ok:#2e6b4f;
+  --bad:#9b3e3e;
+  --blue:#dfeaf7;
+  --purple:#ece4f7;
+  --green:#e2f0e7;
+  --yellow:#f6edc9;
+  --shadow:0 14px 38px rgba(20,33,61,.13);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#f7f2e8 0%,#eee7d8 100%);
+  color:var(--ink);
+  min-height:100vh;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{
+  position:sticky;top:0;z-index:20;
+  background:rgba(20,33,61,.97);
+  color:white;
+  border-bottom:3px solid var(--gold);
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+}
+.topbar-inner{
+  max-width:1180px;margin:auto;padding:10px 18px;
+  display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{
+  width:38px;height:38px;border:1px solid var(--gold);border-radius:50%;
+  display:grid;place-items:center;color:var(--gold);font-family:Georgia,serif;font-weight:700;
+}
+.brand h1{font-family:Georgia,serif;font-size:18px;margin:0;letter-spacing:.2px}
+.brand small{display:block;color:#d8deeb;margin-top:2px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{
+  border:1px solid rgba(255,255,255,.35);background:transparent;color:white;
+  border-radius:9px;padding:8px 12px;font-weight:700;
+}
+.btn:hover,.btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.btn-light{background:var(--paper);color:var(--navy);border:1px solid var(--line)}
+.btn-light:hover{background:var(--yellow)}
+.progress-wrap{height:4px;background:rgba(255,255,255,.16)}
+.progress{height:100%;width:0;background:var(--gold);transition:width .25s ease}
+
+.layout{
+  max-width:1180px;margin:24px auto;padding:0 18px 90px;
+  display:grid;grid-template-columns:260px minmax(0,1fr);gap:22px;
+}
+.sidebar{
+  position:sticky;top:88px;align-self:start;background:rgba(255,253,248,.92);
+  border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px;
+  max-height:calc(100vh - 112px);overflow:auto;
+}
+.sidebar h2{font-family:Georgia,serif;font-size:16px;margin:0 0 10px;color:var(--navy)}
+.nav-list{display:grid;gap:6px}
+.nav-item{
+  width:100%;text-align:left;border:0;background:transparent;color:var(--ink);
+  border-radius:8px;padding:9px 10px;line-height:1.25;
+}
+.nav-item:hover,.nav-item.active{background:var(--navy);color:white}
+.nav-item.teacher-only{display:none}
+.sidebar-note{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.45}
+
+.main{min-width:0}
+.hero{
+  background:var(--navy);color:white;border-radius:20px;padding:34px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:22px;
+}
+.hero:after{
+  content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;
+  border:1px solid rgba(199,164,74,.4);border-radius:50%;
+  box-shadow:0 0 0 38px rgba(199,164,74,.08),0 0 0 76px rgba(199,164,74,.05);
+}
+.eyebrow{text-transform:uppercase;letter-spacing:1.7px;color:var(--gold);font-weight:800;font-size:12px}
+.hero h2{font-family:Georgia,serif;font-size:42px;line-height:1.06;margin:10px 0 12px;max-width:760px}
+.hero p{max-width:760px;color:#e7ebf3;font-size:17px;line-height:1.6}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.badge{border:1px solid rgba(255,255,255,.27);border-radius:999px;padding:7px 10px;font-size:13px}
+.objective{
+  margin-top:22px;background:rgba(255,255,255,.08);border-left:4px solid var(--gold);
+  padding:14px 16px;border-radius:0 10px 10px 0;max-width:820px;
+}
+
+.slide{
+  display:none;background:var(--paper);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:30px;min-height:570px;
+}
+.slide.active{display:block}
+.slide h2{font-family:Georgia,serif;color:var(--navy);font-size:30px;margin:0 0 6px}
+.slide h3{color:var(--navy);margin-top:26px}
+.kicker{color:var(--gold);font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:12px}
+.instructions{background:var(--blue);border-left:4px solid var(--navy-2);padding:12px 14px;border-radius:8px;margin:16px 0}
+.card{
+  border:1px solid var(--line);background:white;border-radius:13px;padding:16px;margin:14px 0;
+}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+input[type="text"],textarea{
+  width:100%;border:1px solid #bfc4ce;border-radius:8px;padding:10px 11px;background:#fff;
+}
+textarea{min-height:90px;resize:vertical}
+.gap-row{
+  display:grid;grid-template-columns:34px minmax(0,1fr) 150px;gap:10px;align-items:center;
+  padding:9px 0;border-bottom:1px dashed #ddd6c9;
+}
+.gap-row:last-child{border-bottom:0}
+.base{font-weight:800;color:var(--navy);text-align:center}
+.answer-input.correct{border-color:var(--ok);background:#eef8f2}
+.answer-input.incorrect{border-color:var(--bad);background:#fff0f0}
+.feedback{font-size:13px;margin-top:5px;font-weight:700}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+.options{display:grid;gap:8px;margin-top:10px}
+.option{
+  display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);
+  border-radius:9px;background:#fff;
+}
+.option:hover{background:#faf7ef}
+.question{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:13px;background:#fff}
+.question strong{color:var(--navy)}
+.evidence{margin-top:10px;background:var(--yellow);padding:10px;border-radius:8px}
+.check-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.result{margin-top:12px;font-weight:800}
+.teacher-panel{
+  display:none;background:var(--purple);border-left:4px solid #775aa6;
+  border-radius:9px;padding:14px;margin:16px 0;
+}
+.teacher-mode .teacher-panel{display:block}
+.teacher-mode .teacher-only{display:block}
+.teacher-mode .teacher-only.nav-item{display:block}
+.answer-key{
+  border-collapse:collapse;width:100%;font-size:14px;background:white;border-radius:10px;overflow:hidden;
+}
+.answer-key th,.answer-key td{border:1px solid var(--line);padding:10px;vertical-align:top;text-align:left}
+.answer-key th{background:var(--navy);color:white}
+.callout{padding:14px;border-radius:10px;margin:14px 0}
+.callout.green{background:var(--green);border-left:4px solid var(--ok)}
+.callout.yellow{background:var(--yellow);border-left:4px solid var(--gold)}
+.callout.purple{background:var(--purple);border-left:4px solid #775aa6}
+.expression-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:10px}
+.expression-grid > div{padding:10px;border-bottom:1px dashed var(--line)}
+.photo{
+  min-height:210px;border:2px dashed #b4ad9e;border-radius:12px;padding:18px;
+  display:flex;align-items:flex-end;background:linear-gradient(160deg,#f7f2e8,#fff);
+}
+.photo strong{display:block;color:var(--navy);margin-bottom:5px}
+.article-placeholder{
+  min-height:340px;border:2px dashed var(--gold);border-radius:15px;display:grid;place-items:center;
+  text-align:center;padding:30px;background:#fffaf0;
+}
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:18;background:rgba(247,242,232,.96);
+  backdrop-filter:blur(8px);border-top:1px solid var(--line);
+}
+.bottom-nav-inner{
+  max-width:1180px;margin:auto;padding:10px 18px;display:flex;justify-content:space-between;gap:12px;
+}
+.bottom-nav button{
+  min-width:130px;border:0;border-radius:10px;padding:11px 15px;font-weight:800;
+  background:var(--navy);color:white;
+}
+.bottom-nav button:disabled{opacity:.35;cursor:not-allowed}
+.mode-note{font-size:12px;color:#e5e8ef}
+.hidden{display:none!important}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:white;margin:10px 0}
+summary{font-weight:800;color:var(--navy);cursor:pointer}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;max-height:none}
+  .nav-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero h2{font-size:34px}
+}
+@media(max-width:650px){
+  .layout{padding:0 10px 84px;margin-top:12px}
+  .slide,.hero{padding:20px;border-radius:14px}
+  .hero h2{font-size:29px}
+  .grid-2,.grid-3,.expression-grid{grid-template-columns:1fr}
+  .gap-row{grid-template-columns:28px 1fr}
+  .base{grid-column:2;text-align:left;font-size:12px}
+  .bottom-nav button{min-width:108px}
+}
+@media print{
+  .topbar,.sidebar,.bottom-nav,.check-row{display:none!important}
+  body{background:white}
+  .layout{display:block;margin:0;padding:0}
+  .hero,.slide{display:block!important;box-shadow:none;border:0;page-break-after:always}
+  .teacher-panel{display:block}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">TC</div>
+      <div>
+        <h1>TeachCraft Cambridge C1</h1>
+        <small>Reading · The Friend Effect · Cambridge C1</small>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn active" id="studentModeBtn">Student mode</button>
+      <button class="btn" id="teacherModeBtn">Teacher mode</button>
+      <button class="btn" onclick="window.print()">Print / PDF</button>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+</header>
+
+<div class="layout" id="app">
+  <aside class="sidebar">
+    <h2>Lesson map</h2>
+    <div class="nav-list" id="navList"></div>
+    <div class="sidebar-note">
+      Use <strong>Previous</strong> and <strong>Next</strong>, or the left/right arrow keys.
+      Student answers are saved locally in this browser.
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="hero">
+      <div class="eyebrow">Cambridge C1 Advanced · Reading Part 5</div>
+      <h2>Reading — The Friend Effect: Reading Between the Lines</h2>
+      <p>A reading-led lesson on writer purpose, implication and evidence-based inference.</p>
+      <div class="badges">
+        <span class="badge">C1 Advanced</span>
+        <span class="badge">Approx. 60 minutes</span>
+        <span class="badge">Student + Teacher modes</span>
+      </div>
+      <div class="objective"><strong>Learning objective:</strong> By the end of this lesson, you will be able to identify a writer’s purpose and interpret implied meaning in a long C1-level article, using precise textual evidence to justify your answers.</div>
+    </section>
+
+    <section class="slide" data-title="1. Speaking warm-up">
+      <div class="kicker">Activate</div>
+      <h2>Speaking — Warm-up</h2>
+      <div class="instructions">Answer the question with a partner. Give a developed answer rather than a simple yes/no response.</div>
+      <div class="card">
+        <h3>How important is spending time face-to-face with friends to you, compared with staying in touch online — and why?</h3>
+        <textarea data-save="warmup" placeholder="Notes or useful language..."></textarea>
+      </div>
+      <div class="teacher-panel"><strong>Teacher note:</strong> Elicit two or three ideas before pair work. Do not pre-teach the reading vocabulary at this point.</div>
+    </section>
+
+    <section class="slide" data-title="2. Word Formation">
+      <div class="kicker">Notice and practise</div>
+      <h2>Word Formation</h2>
+      <div class="instructions">Use the word in capitals to form a word that fits each gap. Write only the missing word.</div>
+      <div class="card">
+        <p>For decades, doctors focused mainly on diet and exercise when discussing physical health. Today, however, researchers argue that social (1) <strong>__________</strong> deserves just as much attention. Adults who feel chronically (2) <strong>__________</strong> face a (3) <strong>__________</strong> higher risk of serious illness, and the effect can be as damaging as smoking. What seems to matter most is not the quantity of contact but its quality: a short, (4) <strong>__________</strong> conversation can do more for wellbeing than hours spent scrolling through a feed. Psychologists also stress the value of (5) <strong>__________</strong> listening — being fully present for a friend rather than simply waiting to speak. People with a small circle of close, (6) <strong>__________</strong> friends tend to report far greater (7) <strong>__________</strong> with life than those with hundreds of loose online contacts. In short, real closeness cannot be (8) <strong>__________</strong> by convenience.</p>
+      </div>
+      <div id="wf"></div>
+      <div class="check-row"><button class="btn-light" onclick="checkTextSet('wf')">Check answers</button><button class="btn-light" onclick="resetSet('wf')">Reset</button></div>
+      <div class="result" id="wf-result"></div>
+      <div class="teacher-panel">
+        <strong>Teaching link:</strong> Monitor the vocabulary of connection, isolation, reliability and authenticity; it will return in the reading and transfer stages.
+      </div>
+    </section>
+
+    <section class="slide" data-title="3. Key Word Transformations">
+      <div class="kicker">Controlled reformulation</div>
+      <h2>Key Word Transformations</h2>
+      <div class="instructions">Complete each sentence using three to six words, including the key word. Do not change the key word.</div>
+      <div id="kwt"></div>
+      <div class="check-row"><button class="btn-light" onclick="checkTextSet('kwt')">Check answers</button><button class="btn-light" onclick="resetSet('kwt')">Reset</button></div>
+      <div class="result" id="kwt-result"></div>
+    </section>
+
+    <section class="slide" data-title="4. Bridge and prediction">
+      <div class="kicker">Bridge to reading</div>
+      <h2>Before You Read</h2>
+      <div class="callout yellow">You have explored how friendship may affect wellbeing. The article now examines the issue through research and expert opinion.</div>
+      <h3>Headline prediction</h3>
+      <p>Look only at the headline and subheading:</p>
+      <div class="card"><strong>“The friend effect: why the secret of health and happiness is surprisingly simple.”</strong></div>
+      <p>What might the writer mean by a “secret” that is “surprisingly simple”? Note two possibilities.</p>
+      <div class="grid-2">
+        <textarea data-save="prediction1" placeholder="Prediction 1"></textarea>
+        <textarea data-save="prediction2" placeholder="Prediction 2"></textarea>
+      </div>
+      <div class="teacher-panel"><strong>Teacher note:</strong> Accept any reasonable prediction. Do not confirm or reject ideas yet.</div>
+    </section>
+
+    <section class="slide" data-title="5. First reading — gist">
+      <div class="kicker">Global understanding</div>
+      <h2>First Reading</h2>
+      <div class="instructions">Read the whole article once without stopping to check vocabulary. Then choose the best summary.</div>
+      <div class="question" data-q="gist">
+        <label class="option"><input type="radio" name="gist" value="a"> A. Eating in the company of others is one of the most reliable ways to protect our long-term physical and mental health.</label>
+        <label class="option"><input type="radio" name="gist" value="b"> B. Social media has made it almost impossible for people to form deep friendships.</label>
+        <label class="option"><input type="radio" name="gist" value="c"> C. Scientists still do not understand why companionship makes people happier.</label>
+      </div>
+      <div class="check-row"><button class="btn-light" onclick="checkRadio('gist','a')">Check</button></div>
+      <div class="result" id="gist-result"></div>
+      <div class="teacher-panel"><strong>Conditions:</strong> Limit the first reading to 3–4 minutes. No dictionaries or re-reading. The goal is fluency and gist.</div>
+    </section>
+
+    <section class="slide" data-title="6. Reading Part 5 — Questions 1–3">
+      <div class="kicker">Evidence and reasoning</div>
+      <h2>Reading Part 5 — Questions 1–3</h2>
+      <div class="instructions">Choose A, B, C or D. Then write the exact textual evidence that supports your answer.</div>
+      <div id="readingA"></div>
+      <div class="check-row"><button class="btn-light" onclick="checkMCQGroup('readingA')">Check answers</button></div>
+      <div class="result" id="readingA-result"></div>
+    </section>
+
+    <section class="slide" data-title="7. Reading Part 5 — Questions 4–6">
+      <div class="kicker">Evidence and reasoning</div>
+      <h2>Reading Part 5 — Questions 4–6</h2>
+      <div class="instructions">Choose A, B, C or D. Then write the exact textual evidence that supports your answer.</div>
+      <div id="readingB"></div>
+      <div class="check-row"><button class="btn-light" onclick="checkMCQGroup('readingB')">Check answers</button></div>
+      <div class="result" id="readingB-result"></div>
+    </section>
+
+    <section class="slide" data-title="8. Reading strategy">
+      <div class="kicker">Make the process visible</div>
+      <h2>How to Justify an Answer</h2>
+      <div class="grid-3">
+        <div class="callout blue"><strong>1. Locate</strong><br>Find the paragraph named or implied by the question.</div>
+        <div class="callout yellow"><strong>2. Prove</strong><br>Underline the exact words supporting your chosen option.</div>
+        <div class="callout purple"><strong>3. Eliminate</strong><br>Cross out options that are plausible in general but unsupported by this text.</div>
+      </div>
+      <div class="card"><strong>Rule:</strong> If you cannot underline evidence for an option, it is not a defensible answer.</div>
+      <h3>Reflection on one item</h3>
+      <textarea data-save="strategyreflection" placeholder="Which distractor looked plausible, and what detail ruled it out?"></textarea>
+      <div class="teacher-panel">Ask “Why is option X wrong?” for at least two questions. The elimination process is part of the lesson objective, not merely answer checking.</div>
+    </section>
+
+    <section class="slide" data-title="9. Language mining">
+      <div class="kicker">Notice and reuse</div>
+      <h2>Language Mining</h2>
+      <div class="instructions">Find each expression in the article, infer its meaning from context, then rewrite it in your own words.</div>
+      <div id="languageMining"></div>
+      <div class="teacher-panel">The aim is productive reuse. Do not turn this into a dictionary-definition exercise.</div>
+    </section>
+
+    <section class="slide" data-title="10. Communicative transfer">
+      <div class="kicker">Produce</div>
+      <h2>Communicative Transfer</h2>
+      <div class="card">
+        <p><strong>Discuss in pairs, using at least two expressions from the previous section:</strong></p>
+        <p>Gilbert argues that social media has made society “plastic” and left people feeling inadequate. Do you agree? What could someone realistically do this week to build one more genuine, face-to-face connection?</p>
+      </div>
+      <textarea data-save="transfer" placeholder="Arguments, examples and target expressions..."></textarea>
+      <div class="teacher-panel">Monitor for purposeful reuse of the mined language. Ask students to underline the expressions they actually used.</div>
+    </section>
+
+    <section class="slide" data-title="11. Speaking Part 2-style task">
+      <div class="kicker">Speaking transfer</div>
+      <h2>Compare Two Photographs</h2>
+      <div class="grid-3">
+        <div class="photo"><div><strong>Photo 1</strong>A small group of friends laughing around a table and sharing a meal, with no phones in sight.</div></div>
+        <div class="photo"><div><strong>Photo 2</strong>A person sitting alone on a sofa, lit by a phone screen and surrounded by takeaway containers.</div></div>
+        <div class="photo"><div><strong>Photo 3</strong>Two old friends hugging warmly in a doorway after time apart.</div></div>
+      </div>
+      <div class="card">
+        <p><strong>1.</strong> Compare two photographs. What might the people be feeling, and why does face-to-face contact matter here?</p>
+        <p><strong>2.</strong> How might these different ways of connecting affect a person’s long-term happiness?</p>
+      </div>
+      <div class="callout green"><strong>Partner follow-up:</strong> Do you think it is becoming harder for people to make genuine friends nowadays? Why / why not?</div>
+      <div class="teacher-panel">Candidate speaking time: about one minute. Partner follow-up: about 30 seconds.</div>
+    </section>
+
+    <section class="slide" data-title="12. Reading reflection">
+      <div class="kicker">Reflect and retrieve</div>
+      <h2>Reading Reflection</h2>
+      <div class="card">
+        <label><strong>Which reading move helped you most?</strong></label>
+        <textarea data-save="reflection1" placeholder="Predicting, reading for gist, or hunting for evidence — explain why."></textarea>
+      </div>
+      <div class="card">
+        <label><strong>Which interpretation did you revise?</strong></label>
+        <textarea data-save="reflection2" placeholder="What changed your mind?"></textarea>
+      </div>
+      <div class="card">
+        <label><strong>Which expression can you reuse this week?</strong></label>
+        <input type="text" data-save="reflection3" placeholder="One expression">
+      </div>
+    </section>
+
+    <section class="slide" data-title="13. Source article">
+      <div class="kicker">Required source</div>
+      <h2>Original Article</h2>
+      <div class="article-placeholder">
+        <div>
+          <h3>Insert the original article here</h3>
+          <p><em>“The friend effect: why the secret of health and happiness is surprisingly simple”</em><br>by Jenny Stevens</p>
+          <p>The article is not reproduced in this file. Add a licensed image/PDF link or provide the original page separately.</p>
+        </div>
+      </div>
+      <div class="teacher-panel">Students need the original article to complete the gist and Part 5 tasks. The lesson intentionally preserves the source rather than reproducing copyrighted text.</div>
+    </section>
+
+    <section class="slide" data-title="14. Homework — Part 1">
+      <div class="kicker">Retrieve</div>
+      <h2>Homework — Reading and Use of English Part 1</h2>
+      <div class="instructions">Choose the best option A, B, C or D for each gap.</div>
+      <div class="card">
+        <p>Modern technology has made staying in touch effortless, but researchers now (1) <strong>__</strong> out that convenience comes at a price. A recent study found that friendships maintained (2) <strong>__</strong> through text messages tend to feel thinner over time, even when contact is frequent. One explanation is that a quick message rarely (3) <strong>__</strong> across the same warmth as a phone call. Voice and tone (4) <strong>__</strong> information that text alone cannot carry — hesitation, sincerity, humour. Some psychologists now (5) <strong>__</strong> people to schedule at least one voice call a week with a close friend, arguing that this small habit can (6) <strong>__</strong> a genuine difference to wellbeing. Critics (7) <strong>__</strong> that not everyone has time for long calls. Still, most experts agree that when a friendship truly matters, it is worth making the (8) <strong>__</strong> to hear a familiar voice.</p>
+      </div>
+      <div id="hw1"></div>
+      <div class="check-row"><button class="btn-light" onclick="checkMCQGroup('hw1')">Check answers</button></div>
+      <div class="result" id="hw1-result"></div>
+    </section>
+
+    <section class="slide" data-title="15. Homework — Part 2">
+      <div class="kicker">Retrieve</div>
+      <h2>Homework — Reading and Use of English Part 2</h2>
+      <div class="instructions">Write one word in each gap.</div>
+      <div class="card">
+        <p>In recent years, several governments (1) <strong>__________</strong> begun treating loneliness as a public health issue rather (2) <strong>__________</strong> a private misfortune. The UK, for example, appointed a minister (3) <strong>__________</strong> responsibility for tackling social isolation, a move (4) <strong>__________</strong> was widely reported around the world. Public health officials argue (5) <strong>__________</strong> loneliness should be taken as seriously as smoking or poor diet, given how strongly it is linked to illness. Some cities have gone as (6) <strong>__________</strong> as funding community spaces where older residents can meet regularly, free of charge. Critics, however, point out that policy alone cannot force people (7) <strong>__________</strong> leave their homes or make new friends; connection has to be chosen, not imposed. Even (8) <strong>__________</strong>, most experts agree that removing practical barriers to contact is a reasonable place to start.</p>
+      </div>
+      <div id="hw2"></div>
+      <div class="check-row"><button class="btn-light" onclick="checkTextSet('hw2')">Check answers</button></div>
+      <div class="result" id="hw2-result"></div>
+    </section>
+
+    <section class="slide teacher-only" data-title="Teacher: lesson overview">
+      <div class="kicker">Teacher Pack</div>
+      <h2>Lesson Overview and Procedure</h2>
+      <div class="callout purple"><strong>Teacher-facing objective:</strong> Learners will correctly answer at least 5 of 6 evidence-based multiple-choice questions and identify the line or detail justifying each answer.</div>
+      <h3>Materials</h3>
+      <ul>
+        <li>The original article page.</li>
+        <li>This interactive lesson.</li>
+        <li>Optional real photographs matching the three image briefs.</li>
+      </ul>
+      <h3>Live lesson timing</h3>
+      <table class="answer-key">
+        <tr><th>Stage</th><th>Time</th></tr>
+        <tr><td>Speaking warm-up</td><td>5 min</td></tr>
+        <tr><td>Word Formation</td><td>6 min</td></tr>
+        <tr><td>Key Word Transformations</td><td>8 min</td></tr>
+        <tr><td>Reading A–G</td><td>30 min</td></tr>
+        <tr><td>Speaking transfer</td><td>8 min</td></tr>
+        <tr><td>Reflection</td><td>3 min</td></tr>
+      </table>
+      <h3>Likely difficulties</h3>
+      <ul>
+        <li>Q2 and Q4 require joining two separate details.</li>
+        <li>Q5 and Q6 express implications spread across a paragraph rather than one literal sentence.</li>
+        <li>Q3 may attract answers based on general health anxiety rather than the explicit risk comparison.</li>
+      </ul>
+    </section>
+
+    <section class="slide teacher-only" data-title="Teacher: complete answer key">
+      <div class="kicker">Teacher Pack</div>
+      <h2>Complete Answer Key</h2>
+      <h3>Word Formation</h3>
+      <table class="answer-key"><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr><tr><td>connection</td><td>isolated</td><td>significantly</td><td>genuine</td><td>compassionate</td><td>reliable</td><td>satisfaction</td><td>replaced</td></tr></table>
+      <h3>Key Word Transformations</h3>
+      <table class="answer-key">
+        <tr><th>Item</th><th>Answer</th><th>Structure</th></tr>
+        <tr><td>1</td><td>has the same effect</td><td>comparative structure</td></tr>
+        <tr><td>2</td><td>Only after this research was published</td><td>inversion after fronted time expression</td></tr>
+        <tr><td>3</td><td>wish I saw</td><td>wish + past simple</td></tr>
+        <tr><td>4</td><td>such busy lives</td><td>such + noun phrase + that</td></tr>
+        <tr><td>5</td><td>In spite of being</td><td>in spite of + gerund</td></tr>
+        <tr><td>6</td><td>makes the body release</td><td>make + object + bare infinitive</td></tr>
+      </table>
+      <h3>Reading Part 5</h3>
+      <table class="answer-key">
+        <tr><th>Q</th><th>Answer</th><th>Evidence / reasoning</th></tr>
+        <tr><td>1</td><td>D</td><td>The Oxford research is “far from the first” to link eating together and happiness, reinforcing the earlier point.</td></tr>
+        <tr><td>2</td><td>C</td><td>Dunbar gives a physiological explanation involving endorphins and pain management.</td></tr>
+        <tr><td>3</td><td>D</td><td>Isolation is described as the “second-biggest risk factor of all”, so the danger is potentially fatal.</td></tr>
+        <tr><td>4</td><td>B</td><td>Voice and touch stimulate the calming system, whereas texts do not stimulate it to the same degree.</td></tr>
+        <tr><td>5</td><td>D</td><td>Idealised online self-presentation leaves others feeling like failures who cannot match the image.</td></tr>
+        <tr><td>6</td><td>B</td><td>The strongest relationships involve people who know our flaws and see the uncurated self.</td></tr>
+      </table>
+      <h3>Homework</h3>
+      <table class="answer-key">
+        <tr><th>Part 1</th><td>1 A, 2 A, 3 A, 4 A, 5 A, 6 A, 7 A, 8 A</td></tr>
+        <tr><th>Part 2</th><td>1 have, 2 than, 3 with, 4 that/which, 5 that, 6 far, 7 to, 8 so</td></tr>
+      </table>
+      <div class="callout green"><strong>Reusable strategy:</strong> Locate the paragraph, underline the exact evidence, then eliminate any option that is not directly supported, even when it sounds generally plausible.</div>
+    </section>
+  </main>
+</div>
+
+<div class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button id="prevBtn">← Previous</button>
+    <button id="nextBtn">Next →</button>
+  </div>
+</div>
+
+<script>
+const wfItems = [
+  ["CONNECT","connection"],["ISOLATE","isolated"],["SIGNIFICANT","significantly"],["GENUINE","genuine"],
+  ["COMPASSION","compassionate"],["RELY","reliable"],["SATISFY","satisfaction"],["REPLACE","replaced"]
+];
+const kwtItems = [
+  {q:"Loneliness increases the risk of serious illness just as much as smoking does.", key:"EFFECT", tail:"Loneliness has ___ on health as smoking.", answers:["has the same effect"]},
+  {q:"Scientists didn’t fully grasp the dangers of isolation until this research was published.", key:"ONLY", tail:"___ did scientists fully grasp the dangers of isolation.", answers:["only after this research was published"]},
+  {q:"I regret that I don’t see my old friends more often.", key:"WISH", tail:"I ___ my old friends more often.", answers:["wish i saw"]},
+  {q:"People today are so busy that they rarely make time for close friendships.", key:"SUCH", tail:"People today lead ___ that they rarely make time for close friendships.", answers:["such busy lives"]},
+  {q:"Although people are more connected online than ever, many still feel isolated.", key:"SPITE", tail:"___ ever more connected online, many people still feel isolated.", answers:["in spite of being"]},
+  {q:"Sharing a meal with friends triggers the release of endorphins.", key:"MAKES", tail:"Sharing a meal with friends ___ endorphins.", answers:["makes the body release"]}
+];
+const readingItems = [
+  {n:1, stem:"The writer mentions the Oxford University research in order to...", answer:"D", options:{
+    A:"contrast its findings with those of another study.",
+    B:"point out that eating together is becoming more popular.",
+    C:"illustrate the eating habits of different socio-economic groups.",
+    D:"reinforce a point that has already been made in the first paragraph."
+  }},
+  {n:2, stem:"In the third paragraph, what does Professor Dunbar suggest about achieving happiness?", answer:"C", options:{
+    A:"The low priority given to mealtimes nowadays often makes it an unrealistic aim.",
+    B:"Certain ingredients consumed during meals have been found to bring it about.",
+    C:"There is a scientific explanation for its link to having meals with others.",
+    D:"The livelier the meal, the more likely it is to become evident."
+  }},
+  {n:3, stem:"What does Dr Lake suggest about being cut off from other people?", answer:"D", options:{
+    A:"It is widely perceived as a symptom of a mental-health disorder.",
+    B:"It is clear that it impacts mental health far more than physical health.",
+    C:"It is more widespread among those who are already ill.",
+    D:"It is no exaggeration to warn that it can be fatal."
+  }},
+  {n:4, stem:"According to Professor Gilbert, communicating in writing appears to...", answer:"B", options:{
+    A:"benefit the relationship if a friendly tone is adopted.",
+    B:"have less physical effect than meeting in person.",
+    C:"do little to help develop friendship with others.",
+    D:"increase the risk of people becoming aggressive."
+  }},
+  {n:5, stem:"Gilbert says social media is responsible for many people...", answer:"D", options:{
+    A:"failing to make friends, because they have learnt not to trust others.",
+    B:"revealing too much about their true selves, because they become over-confident.",
+    C:"becoming obsessed with acquiring possessions, because they want to show off.",
+    D:"feeling inadequate, because they can’t live up to the image they convey."
+  }},
+  {n:6, stem:"In the final paragraph, the writer suggests that...", answer:"B", options:{
+    A:"friends can help us become better people.",
+    B:"we need friends who know what we are really like.",
+    C:"true friends are only interested in our good qualities.",
+    D:"only people who eat with us can become our close friends."
+  }}
+];
+const hw1Items = [
+  {n:1,answer:"A",options:{A:"point",B:"show",C:"bring",D:"tell"}},
+  {n:2,answer:"A",options:{A:"purely",B:"plainly",C:"fairly",D:"evenly"}},
+  {n:3,answer:"A",options:{A:"gets",B:"comes",C:"goes",D:"sets"}},
+  {n:4,answer:"A",options:{A:"convey",B:"contain",C:"carry",D:"hold"}},
+  {n:5,answer:"A",options:{A:"encourage",B:"suggest",C:"recommend",D:"allow"}},
+  {n:6,answer:"A",options:{A:"make",B:"do",C:"create",D:"form"}},
+  {n:7,answer:"A",options:{A:"argue",B:"discuss",C:"admit",D:"tell"}},
+  {n:8,answer:"A",options:{A:"effort",B:"attempt",C:"try",D:"endeavour"}}
+];
+const hw2Items = [
+  ["","have"],["","than"],["","with"],["","that|which"],["","that"],["","far"],["","to"],["","so"]
+];
+const expressions = [
+  "a matter of life or death",
+  "the second-biggest risk factor of all",
+  "wider social and emotional support networks",
+  "presenting ourselves as our best",
+  "a very plastic society",
+  "social nourishment",
+  "perceived dark sides and flaws"
+];
+
+function norm(s){return (s||"").toLowerCase().trim().replace(/\s+/g," ").replace(/[’]/g,"'");}
+
+function renderTextSet(id, items){
+  const box=document.getElementById(id);
+  box.innerHTML=items.map((it,i)=>`
+    <div class="gap-row">
+      <strong>${i+1}</strong>
+      <div><input class="answer-input" data-set="${id}" data-index="${i}" data-answer="${it[1]}" type="text" aria-label="${id} item ${i+1}"><div class="feedback"></div></div>
+      <div class="base">${it[0]||""}</div>
+    </div>`).join("");
+}
+function renderKWT(){
+  const box=document.getElementById("kwt");
+  box.innerHTML=kwtItems.map((it,i)=>`
+    <div class="question">
+      <div><strong>${i+1}. ${it.q}</strong></div>
+      <div class="callout yellow"><strong>Key word: ${it.key}</strong></div>
+      <div>${it.tail.replace("___",`<input class="answer-input" data-set="kwt" data-index="${i}" data-answer="${it.answers.join("|")}" type="text">`)}</div>
+      <div class="feedback"></div>
+    </div>`).join("");
+}
+function renderMCQ(id, items, evidence=false){
+  const box=document.getElementById(id);
+  box.innerHTML=items.map(it=>`
+    <div class="question" data-answer="${it.answer}" data-number="${it.n}">
+      <strong>${it.n}. ${it.stem||"Choose the best answer."}</strong>
+      <div class="options">
+        ${Object.entries(it.options).map(([k,v])=>`<label class="option"><input type="radio" name="${id}-${it.n}" value="${k}"> <span><strong>${k})</strong> ${v}</span></label>`).join("")}
+      </div>
+      ${evidence?`<div class="evidence"><label><strong>Textual evidence:</strong></label><textarea data-save="${id}-evidence-${it.n}" placeholder="Copy or paraphrase the exact supporting words."></textarea></div>`:""}
+      <div class="feedback"></div>
+    </div>`).join("");
+}
+function renderLanguage(){
+  const box=document.getElementById("languageMining");
+  box.innerHTML=expressions.map((x,i)=>`
+    <div class="card">
+      <strong>${x}</strong>
+      <textarea data-save="expression-${i}" placeholder="Meaning in context + your own paraphrase"></textarea>
+    </div>`).join("");
+}
+function checkTextSet(id){
+  const inputs=[...document.querySelectorAll(`[data-set="${id}"]`)];
+  let score=0;
+  inputs.forEach(inp=>{
+    const accepted=inp.dataset.answer.split("|").map(norm);
+    const ok=accepted.includes(norm(inp.value));
+    inp.classList.toggle("correct",ok); inp.classList.toggle("incorrect",!ok);
+    const fb=inp.parentElement.querySelector(".feedback") || inp.closest(".question")?.querySelector(".feedback");
+    if(fb){fb.textContent=ok?"Correct":`Check again`;fb.className="feedback "+(ok?"ok":"bad");}
+    if(ok)score++;
+  });
+  document.getElementById(id+"-result").textContent=`Score: ${score}/${inputs.length}`;
+}
+function resetSet(id){
+  document.querySelectorAll(`[data-set="${id}"]`).forEach(inp=>{inp.value="";inp.classList.remove("correct","incorrect")});
+  document.getElementById(id+"-result").textContent="";
+}
+function checkRadio(name,answer){
+  const chosen=document.querySelector(`input[name="${name}"]:checked`);
+  const out=document.getElementById(name+"-result");
+  if(!chosen){out.textContent="Choose an answer first.";return}
+  out.textContent=chosen.value===answer?"Correct.":"Not yet. Return to the writer’s overall message.";
+  out.style.color=chosen.value===answer?"var(--ok)":"var(--bad)";
+}
+function checkMCQGroup(id){
+  const qs=[...document.querySelectorAll(`#${id} .question`)];
+  let score=0;
+  qs.forEach(q=>{
+    const chosen=q.querySelector("input:checked");
+    const fb=q.querySelector(".feedback");
+    if(!chosen){fb.textContent="No answer selected.";fb.className="feedback bad";return}
+    const ok=chosen.value===q.dataset.answer;
+    if(ok)score++;
+    fb.textContent=ok?"Correct.":"Check the text again and eliminate unsupported options.";
+    fb.className="feedback "+(ok?"ok":"bad");
+  });
+  document.getElementById(id+"-result").textContent=`Score: ${score}/${qs.length}`;
+}
+function saveAll(){
+  document.querySelectorAll("[data-save]").forEach(el=>{
+    el.addEventListener("input",()=>localStorage.setItem("friend-effect-"+el.dataset.save,el.value));
+    const saved=localStorage.getItem("friend-effect-"+el.dataset.save);
+    if(saved!==null)el.value=saved;
+  });
+}
+function saveAnswers(){
+  document.addEventListener("change",e=>{
+    if(e.target.matches('input[type="radio"]')){
+      localStorage.setItem("friend-effect-radio-"+e.target.name,e.target.value);
+    }
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    const saved=localStorage.getItem("friend-effect-radio-"+r.name);
+    if(saved===r.value)r.checked=true;
+  });
+  document.addEventListener("input",e=>{
+    if(e.target.matches(".answer-input")){
+      const key=`friend-effect-input-${e.target.dataset.set}-${e.target.dataset.index}`;
+      localStorage.setItem(key,e.target.value);
+    }
+  });
+  document.querySelectorAll(".answer-input").forEach(inp=>{
+    const key=`friend-effect-input-${inp.dataset.set}-${inp.dataset.index}`;
+    const saved=localStorage.getItem(key); if(saved!==null)inp.value=saved;
+  });
+}
+renderTextSet("wf",wfItems);
+renderKWT();
+renderMCQ("readingA",readingItems.slice(0,3),true);
+renderMCQ("readingB",readingItems.slice(3),true);
+renderMCQ("hw1",hw1Items,false);
+renderTextSet("hw2",hw2Items);
+renderLanguage();
+
+const app=document.getElementById("app");
+const allSlides=[...document.querySelectorAll(".slide")];
+let teacherMode=false;
+let visibleSlides=[];
+let current=0;
+function refreshSlides(){
+  visibleSlides=allSlides.filter(s=>teacherMode || !s.classList.contains("teacher-only"));
+  if(current>=visibleSlides.length)current=visibleSlides.length-1;
+  buildNav(); showSlide(current);
+}
+function buildNav(){
+  const nav=document.getElementById("navList");
+  nav.innerHTML="";
+  visibleSlides.forEach((s,i)=>{
+    const b=document.createElement("button");
+    b.className="nav-item"+(s.classList.contains("teacher-only")?" teacher-only":"");
+    b.textContent=s.dataset.title;
+    b.onclick=()=>showSlide(i);
+    nav.appendChild(b);
+  });
+}
+function showSlide(i){
+  visibleSlides.forEach(s=>s.classList.remove("active"));
+  current=Math.max(0,Math.min(i,visibleSlides.length-1));
+  visibleSlides[current].classList.add("active");
+  [...document.querySelectorAll(".nav-item")].forEach((b,j)=>b.classList.toggle("active",j===current));
+  document.getElementById("prevBtn").disabled=current===0;
+  document.getElementById("nextBtn").disabled=current===visibleSlides.length-1;
+  document.getElementById("progress").style.width=((current+1)/visibleSlides.length*100)+"%";
+  visibleSlides[current].scrollIntoView({behavior:"smooth",block:"start"});
+}
+document.getElementById("prevBtn").onclick=()=>showSlide(current-1);
+document.getElementById("nextBtn").onclick=()=>showSlide(current+1);
+document.addEventListener("keydown",e=>{
+  if(["INPUT","TEXTAREA"].includes(document.activeElement.tagName))return;
+  if(e.key==="ArrowRight")showSlide(current+1);
+  if(e.key==="ArrowLeft")showSlide(current-1);
+});
+document.getElementById("studentModeBtn").onclick=()=>{
+  teacherMode=false;app.classList.remove("teacher-mode");
+  document.getElementById("studentModeBtn").classList.add("active");
+  document.getElementById("teacherModeBtn").classList.remove("active");
+  refreshSlides();
+};
+document.getElementById("teacherModeBtn").onclick=()=>{
+  teacherMode=true;app.classList.add("teacher-mode");
+  document.getElementById("teacherModeBtn").classList.add("active");
+  document.getElementById("studentModeBtn").classList.remove("active");
+  refreshSlides();
+};
+saveAll(); saveAnswers(); refreshSlides();
+</script>
+</body>
+</html>
