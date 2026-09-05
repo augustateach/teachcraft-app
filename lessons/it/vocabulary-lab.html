@@ -289,7 +289,9 @@ function renderText(target, data){
   document.getElementById(target).innerHTML = data.map((x,i)=>`
   <div class="q" data-answer="${x[1]}">
     <div class="qnum">${i+1}.</div>
-    <div>${x[0].replace("____",`<input type="text" autocomplete="off" aria-label="Answer ${i+1}">`)}
+  <div>${x[0].includes("____")
+  ? x[0].replace("____",`<input type="text" autocomplete="off" aria-label="Answer ${i+1}">`)
+  : `${x[0]} <input type="text" autocomplete="off" aria-label="Answer ${i+1}">`}
       <span class="feedback"></span>
     </div>
   </div>`).join("");
