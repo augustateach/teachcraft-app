@@ -170,14 +170,22 @@
         <span class="word">underappreciated</span><span class="word">seamless</span><span class="word">concise</span><span class="word">encounter</span><span class="word">demand</span><span class="word">compete</span><span class="word">specialize in</span><span class="word">optimize</span><span class="word">from scratch</span><span class="word">stakeholders</span>
       </div>
       <div id="fill1"></div>
-      <div class="actions"><button class="primary" onclick="checkTextGroup('t1')">Run check</button><button onclick="resetTask('t1')">Reset</button></div>
+      <div class="actions">
+  <button class="primary" onclick="checkTextGroup('t1')">Run check</button>
+  <button id="answers-t1" onclick="showCorrectAnswers('t1')" style="display:none;">Check correct answers</button>
+  <button onclick="resetTask('t1')">Reset</button>
+</div>
     </div>
   </section>
 
   <section class="task" id="t2">
     <div class="task-head"><div><div class="num">TASK 02</div><h2 class="task-title">Choose the correct option</h2><p class="task-sub">Pick the option that makes the sentence precise and natural.</p></div><span class="badge">10 pts</span></div>
     <div class="task-body"><div id="choose2"></div>
-      <div class="actions"><button class="primary" onclick="checkChoiceGroup('t2')">Run check</button><button onclick="resetTask('t2')">Reset</button></div>
+     <div class="actions">
+  <button class="primary" onclick="checkChoiceGroup('t2')">Run check</button>
+  <button id="answers-t2" onclick="showCorrectAnswers('t2')" style="display:none;">Check correct answers</button>
+  <button onclick="resetTask('t2')">Reset</button>
+</div>
     </div>
   </section>
 
@@ -188,7 +196,11 @@
         <span class="word">collect</span><span class="word">handle</span><span class="word">take on</span><span class="word">classify</span><span class="word">shorten</span><span class="word">compete</span><span class="word">specialize in</span><span class="word">optimize</span><span class="word">encounter</span><span class="word">keep up with</span>
       </div>
       <div id="fill3"></div>
-      <div class="actions"><button class="primary" onclick="checkTextGroup('t3')">Run check</button><button onclick="resetTask('t3')">Reset</button></div>
+      <div class="actions">
+  <button class="primary" onclick="checkTextGroup('t3')">Run check</button>
+  <button id="answers-t3" onclick="showCorrectAnswers('t3')" style="display:none;">Check correct answers</button>
+  <button onclick="resetTask('t3')">Reset</button>
+</div>
     </div>
   </section>
 
@@ -199,7 +211,11 @@
         <span class="word">a variety</span><span class="word">cost-efficient</span><span class="word">transparent</span><span class="word">secretive</span><span class="word">stable</span><span class="word">unstable</span><span class="word">expertise</span><span class="word">core</span><span class="word">career path</span><span class="word">in a nutshell</span>
       </div>
       <div id="fill4"></div>
-      <div class="actions"><button class="primary" onclick="checkTextGroup('t4')">Run check</button><button onclick="resetTask('t4')">Reset</button></div>
+      <div class="actions">
+  <button class="primary" onclick="checkTextGroup('t4')">Run check</button>
+  <button id="answers-t4" onclick="showCorrectAnswers('t4')" style="display:none;">Check correct answers</button>
+  <button onclick="resetTask('t4')">Reset</button>
+</div>
     </div>
   </section>
 
@@ -310,6 +326,7 @@ function checkTextGroup(taskId){
     q.dataset.state=ok?"correct":"wrong";
   });
   updateProgress();
+document.getElementById(`answers-${taskId}`)?.style.setProperty("display","inline-block");  
 }
 function checkChoiceGroup(taskId){
   const task=document.getElementById(taskId);
@@ -325,13 +342,41 @@ function checkChoiceGroup(taskId){
     q.dataset.state=ok?"correct":"wrong";
   });
   updateProgress();
+  document.getElementById(`answers-${taskId}`)?.style.setProperty("display","inline-block");
 }
-function resetTask(taskId){
+function showCorrectAnswers(taskId){
+  const task=document.getElementById(taskId);
+  task.querySelectorAll(".q").forEach(q=>{
+    const input=q.querySelector("input");
+    if(input){
+      input.value=q.dataset.answer;
+      input.classList.remove("wrong");
+      input.classList.add("correct");
+      const fb=q.querySelector(".feedback");
+      fb.textContent="✓ correct answer";
+      fb.className="feedback good";
+    }
+    const options=q.querySelectorAll(".opt");
+if(options.length){
+  options.forEach(opt=>{
+    opt.classList.remove("wrong");
+    if(norm(opt.textContent)===norm(q.dataset.answer)){
+      opt.classList.add("correct");
+    }
+  });
+  const fb=q.querySelector(".feedback");
+  fb.textContent=`✓ correct answer: ${q.dataset.answer}`;
+  fb.className="feedback good";
+}
+  });
+}
+  function resetTask(taskId){
   const task=document.getElementById(taskId);
   task.querySelectorAll("input").forEach(x=>{x.value="";x.classList.remove("correct","wrong")});
   task.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected","correct","wrong"));
   task.querySelectorAll(".feedback").forEach(x=>{x.textContent="";x.className="feedback"});
   task.querySelectorAll(".q").forEach(x=>delete x.dataset.state);
+  document.getElementById(`answers-${taskId}`)?.style.setProperty("display","none");
   updateProgress();
 }
 function updateProgress(){
