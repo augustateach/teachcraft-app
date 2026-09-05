@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English for IT | TeachCraft</title>
+
+  <style>
+    :root {
+      --bg: #f4f9ff;
+      --navy: #17324d;
+      --blue: #4d95e8;
+      --blue-light: #e8f3ff;
+      --blue-mid: #cfe5fb;
+      --white: #ffffff;
+      --muted: #60758b;
+      --line: #d6e6f5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top right, #dceeff 0, transparent 32%),
+        var(--bg);
+      color: var(--navy);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    .page {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 30px 0 50px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+
+    .brand {
+      font-family: Georgia, serif;
+      font-size: 26px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--navy);
+    }
+
+    .back {
+      text-decoration: none;
+      color: var(--navy);
+      background: var(--white);
+      border: 1px solid var(--line);
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: clamp(48px, 7vw, 78px);
+      line-height: 1;
+    }
+
+    .intro {
+      max-width: 700px;
+      margin: 22px 0 45px;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 12px 28px rgba(49, 111, 173, 0.08);
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--blue-light);
+      color: #2d6fae;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    h2 {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      margin: 20px 0 12px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 24px;
+    }
+
+    .soon {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: var(--blue-mid);
+      color: #456b8e;
+      font-weight: 800;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <nav class="topbar">
+      <a class="brand" href="../../">TeachCraft</a>
+      <a class="back" href="../../">← Back to home</a>
+    </nav>
+
+    <header>
+      <div class="eyebrow">Technical English</div>
+
+      <h1>English for IT</h1>
+
+      <p class="intro">
+        Interactive English practice for programmers, developers
+        and future IT professionals.
+      </p>
+    </header>
+
+    <section class="grid">
+
+      <article class="card">
+        <span class="tag">Vocabulary · B1+/B2</span>
+
+        <h2>IT Vocabulary Lab</h2>
+
+        <p>
+          Practise useful workplace and technology vocabulary
+          through short interactive challenges.
+        </p>
+
+        <span class="soon">Coming next</span>
+      </article>
+
+    </section>
+
+    <footer>
+      TeachCraft by AugustaTeach · English for IT
+    </footer>
+
+  </main>
+</body>
+</html>
