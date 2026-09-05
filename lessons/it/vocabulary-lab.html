@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeachCraft // IT Vocabulary Lab</title>
+<style>
+  :root{
+    --bg:#eef7ff;
+    --panel:#ffffff;
+    --panel2:#f6fbff;
+    --border:#cfe3f7;
+    --text:#17324d;
+    --muted:#5f7c99;
+    --blue:#3d86e6;
+    --green:#1f9d75;
+    --red:#d9534f;
+    --yellow:#d8a521;
+    --purple:#7b66d9;
+    --soft:#e8f3ff;
+    --shadow:0 10px 28px rgba(61,134,230,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at top left, rgba(164,211,255,.55), transparent 32%),
+      radial-gradient(circle at top right, rgba(199,230,255,.45), transparent 25%),
+      linear-gradient(180deg, #f5fbff 0%, #eef7ff 100%);
+    color:var(--text);
+    font:16px/1.5 Inter,Segoe UI,Arial,sans-serif
+  }
+  a{color:var(--blue)}
+  .shell{max-width:1100px;margin:0 auto;padding:24px}
+  .topbar{
+    display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+    border:1px solid var(--border);background:rgba(255,255,255,.92);padding:14px 16px;border-radius:16px;
+    box-shadow:var(--shadow)
+  }
+  .repo{font-weight:700}.repo span{color:var(--muted);font-weight:500}
+  .badge{
+    border:1px solid var(--border);
+    background:linear-gradient(180deg,#f7fbff 0%,#e9f4ff 100%);
+    border-radius:999px;padding:4px 9px;color:var(--muted);font-size:13px
+  }
+  .hero{padding:34px 0 18px}
+  .eyebrow{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--green);font-size:14px}
+  h1{font-size:clamp(30px,5vw,52px);line-height:1.05;margin:8px 0 10px;letter-spacing:-.03em;color:#164675}
+  .lead{max-width:760px;color:var(--muted);font-size:18px}
+  .terminal{
+    margin-top:18px;border:1px solid #bddbf8;
+    background:linear-gradient(180deg,#fafdff 0%,#eef7ff 100%);
+    border-radius:16px;overflow:hidden;box-shadow:var(--shadow)
+  }
+  .terminal-head{
+    padding:9px 12px;border-bottom:1px solid #d7e9fb;color:var(--muted);font-size:13px;
+    background:#f6fbff
+  }
+  .terminal-body{padding:15px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+  .prompt{color:var(--green)} .cmd{color:var(--blue)}
+  .warmup{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 28px}
+  .warm-card{
+    border:1px solid var(--border);
+    background:linear-gradient(180deg,#ffffff 0%,#f5fbff 100%);
+    padding:16px;border-radius:16px;min-height:120px;box-shadow:var(--shadow)
+  }
+  .warm-card b{color:var(--blue)}
+  .progress-wrap{
+    position:sticky;top:0;z-index:5;background:rgba(245,251,255,.90);backdrop-filter:blur(8px);padding:10px 0
+  }
+  .progress-row{display:flex;gap:12px;align-items:center}
+  .progress{height:10px;background:#dfeeff;border-radius:99px;overflow:hidden;flex:1}
+  .bar{
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,#5ab0ff 0%, #1f9d75 100%);
+    transition:.25s
+  }
+  .score{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted);font-size:14px}
+  .task{
+    border:1px solid var(--border);background:var(--panel);border-radius:18px;margin:22px 0;overflow:hidden;
+    box-shadow:var(--shadow)
+  }
+  .task-head{
+    padding:18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:flex-start;
+    background:linear-gradient(180deg,#fbfeff 0%,#f1f8ff 100%)
+  }
+  .task-title{margin:0;font-size:22px;color:#174979}
+  .task-sub{color:var(--muted);margin:4px 0 0}
+  .num{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--purple);font-weight:700}
+  .task-body{padding:18px}
+  .wordbank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+  .word{
+    padding:5px 9px;background:#edf6ff;border:1px solid #d4e8fb;border-radius:10px;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:14px
+  }
+  .q{border-top:1px solid #e8f2fb;padding:13px 0;display:grid;grid-template-columns:28px 1fr;gap:9px}
+  .q:first-of-type{border-top:0}
+  .qnum{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+  input[type=text], select{
+    width:min(340px,100%);margin:4px 6px;padding:8px 10px;border-radius:10px;border:1px solid #c6dff6;
+    background:#ffffff;color:var(--text);font:inherit;outline:none
+  }
+  input[type=text]:focus, select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(61,134,230,.15)}
+  .options{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .opt{
+    border:1px solid #c6dff6;background:#ffffff;color:var(--text);padding:7px 10px;border-radius:10px;cursor:pointer
+  }
+  .opt:hover{border-color:var(--blue);background:#f4faff}
+  .opt.selected{border-color:var(--blue);background:#e8f3ff}
+  .correct{border-color:var(--green)!important;background:rgba(31,157,117,.10)!important}
+  .wrong{border-color:var(--red)!important;background:rgba(217,83,79,.08)!important}
+  .feedback{display:block;min-height:20px;margin-top:5px;font-size:13px;color:var(--muted)}
+  .feedback.good{color:var(--green)} .feedback.bad{color:var(--red)}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  button{
+    border:1px solid #c6dff6;background:#f4faff;color:var(--text);padding:9px 13px;border-radius:10px;cursor:pointer;font-weight:650
+  }
+  button.primary{
+    background:linear-gradient(180deg,#55a6ff 0%,#3d86e6 100%);
+    border-color:#3d86e6;color:#ffffff
+  }
+  button:hover{filter:brightness(1.03)}
+  .result{
+    border:1px dashed #b8d8f8;background:linear-gradient(180deg,#fbfeff 0%,#eef7ff 100%);
+    padding:18px;border-radius:16px;margin:26px 0 40px;display:none;box-shadow:var(--shadow)
+  }
+  .result strong{font-size:22px;color:#174979}
+  .hash{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--blue)}
+  .tiny{font-size:13px;color:var(--muted)}
+  footer{border-top:1px solid var(--border);padding:24px 0 36px;color:var(--muted);font-size:13px}
+  @media(max-width:760px){.warmup{grid-template-columns:1fr}.shell{padding:14px}.task-head{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="repo">TeachCraft / <span>it-vocabulary-lab</span></div>
+    <div><span class="badge">main</span> <span class="badge">English for IT</span></div>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">$ git checkout vocabulary-upgrade</div>
+    <h1>IT Vocabulary Lab</h1>
+    <p class="lead">A retrieval + precision workout. Complete the tasks, run the checks and see whether your language build passes.</p>
+
+    <div class="terminal">
+      <div class="terminal-head">terminal — vocabulary-lab</div>
+      <div class="terminal-body">
+        <span class="prompt">student@teachcraft</span>:<span class="cmd">~/english</span>$ npm run warmup<br>
+        <span style="color:var(--muted)">→ Retrieve first. Check later. No random guessing.</span>
+      </div>
+    </div>
+
+    <div class="warmup">
+      <div class="warm-card"><b>01 // RETRIEVE</b><br><br>What do you remember from the previous lesson? Write or say 3 words before opening your notes.</div>
+      <div class="warm-card"><b>02 // EXPLAIN</b><br><br>Choose one word you remember and explain it without translating it into Polish.</div>
+      <div class="warm-card"><b>03 // USE IT</b><br><br>Make one sentence connected with programming, networks, cybersecurity or tech work.</div>
+    </div>
+  </section>
+
+  <div class="progress-wrap">
+    <div class="progress-row"><div class="progress"><div id="bar" class="bar"></div></div><div id="scoreTop" class="score">0 / 40 checked</div></div>
+  </div>
+
+  <section class="task" id="t1">
+    <div class="task-head"><div><div class="num">TASK 01</div><h2 class="task-title">Fill in the blanks</h2><p class="task-sub">Use each word once. Spelling counts.</p></div><span class="badge">10 pts</span></div>
+    <div class="task-body">
+      <div class="wordbank">
+        <span class="word">underappreciated</span><span class="word">seamless</span><span class="word">concise</span><span class="word">encounter</span><span class="word">demand</span><span class="word">compete</span><span class="word">specialize in</span><span class="word">optimize</span><span class="word">from scratch</span><span class="word">stakeholders</span>
+      </div>
+      <div id="fill1"></div>
+      <div class="actions"><button class="primary" onclick="checkTextGroup('t1')">Run check</button><button onclick="resetTask('t1')">Reset</button></div>
+    </div>
+  </section>
+
+  <section class="task" id="t2">
+    <div class="task-head"><div><div class="num">TASK 02</div><h2 class="task-title">Choose the correct option</h2><p class="task-sub">Pick the option that makes the sentence precise and natural.</p></div><span class="badge">10 pts</span></div>
+    <div class="task-body"><div id="choose2"></div>
+      <div class="actions"><button class="primary" onclick="checkChoiceGroup('t2')">Run check</button><button onclick="resetTask('t2')">Reset</button></div>
+    </div>
+  </section>
+
+  <section class="task" id="t3">
+    <div class="task-head"><div><div class="num">TASK 03</div><h2 class="task-title">Complete the sentences</h2><p class="task-sub">Use the correct verb or phrase in the right form.</p></div><span class="badge">10 pts</span></div>
+    <div class="task-body">
+      <div class="wordbank">
+        <span class="word">collect</span><span class="word">handle</span><span class="word">take on</span><span class="word">classify</span><span class="word">shorten</span><span class="word">compete</span><span class="word">specialize in</span><span class="word">optimize</span><span class="word">encounter</span><span class="word">keep up with</span>
+      </div>
+      <div id="fill3"></div>
+      <div class="actions"><button class="primary" onclick="checkTextGroup('t3')">Run check</button><button onclick="resetTask('t3')">Reset</button></div>
+    </div>
+  </section>
+
+  <section class="task" id="t4">
+    <div class="task-head"><div><div class="num">TASK 04</div><h2 class="task-title">Replace the phrase</h2><p class="task-sub">Replace the bold phrase with one item from the word bank.</p></div><span class="badge">10 pts</span></div>
+    <div class="task-body">
+      <div class="wordbank">
+        <span class="word">a variety</span><span class="word">cost-efficient</span><span class="word">transparent</span><span class="word">secretive</span><span class="word">stable</span><span class="word">unstable</span><span class="word">expertise</span><span class="word">core</span><span class="word">career path</span><span class="word">in a nutshell</span>
+      </div>
+      <div id="fill4"></div>
+      <div class="actions"><button class="primary" onclick="checkTextGroup('t4')">Run check</button><button onclick="resetTask('t4')">Reset</button></div>
+    </div>
+  </section>
+
+  <div id="result" class="result">
+    <div class="tiny">BUILD RESULT</div>
+    <strong id="resultText"></strong>
+    <div id="resultMsg" style="margin:8px 0 12px;color:var(--muted)"></div>
+    <div class="hash">commit: <span id="hash"></span></div>
+    <div class="actions"><button onclick="copyResult()">Copy result</button><button onclick="location.reload()">Start again</button></div>
+  </div>
+
+  <footer>TeachCraft · English for IT · GitHub Pages friendly · no external libraries</footer>
+</div>
+
+<script>
+const data1 = [
+["System administrators are often ____ until something breaks.","underappreciated"],
+["The migration from the old repository to GitHub was surprisingly ____.","seamless"],
+["Keep your commit message short and ____.","concise"],
+["During deployment, we may ____ compatibility issues.","encounter"],
+["There is strong ____ for cybersecurity specialists.","demand"],
+["Start-ups often ____ for the same talented developers.","compete"],
+["She decided to ____ cloud security.","specialize in"],
+["DevOps engineers constantly try to ____ CI/CD pipelines.","optimize"],
+["The team built the internal tool ____ instead of adapting legacy code.","from scratch"],
+["All key ____ must approve the final release.","stakeholders"]
+];
+
+const data2 = [
+["Some backend work can ____ for months, even when it is critical.","go unnoticed","compete","go unnoticed"],
+["This documentation is too ____ and difficult to scan quickly.","lengthy","transparent","lengthy"],
+["Installation instructions must be ____ before the release.","clear","shaky","clear"],
+["Development teams have to ____ rapid technological change.","keep up with","classify","keep up with"],
+["The company offers ____ of cloud services.","a broad range","concise","a broad range"],
+["Automation can make repetitive processes more ____.","cost-efficient","secretive","cost-efficient"],
+["After the promotion, he agreed to ____ more responsibility.","take on","shorten","take on"],
+["Security software can ____ incoming traffic into risk categories.","classify","encounter","classify"],
+["A production system needs a ____ network connection.","stable","wasteful","stable"],
+["The bug report was ____ enough for another developer to reproduce the issue.","concise","unstable","concise"]
+];
+
+const data3 = [
+["Monitoring tools ____ huge amounts of data every minute.","collect"],
+["The help desk ____ user requests and incident reports every day.","handles"],
+["She agreed to ____ a new role in the development team.","take on"],
+["Machine-learning models can ____ images into different categories.","classify"],
+["The company wants to ____ its deployment process.","optimize"],
+["The editor asked us to ____ the technical description.","shorten"],
+["Small software houses often struggle to ____ with global platforms.","compete"],
+["He plans to ____ artificial intelligence and machine learning.","specialize in"],
+["When working with legacy systems, you may ____ unexpected dependencies.","encounter"],
+["Developers need to ____ new tools and frameworks.","keep up with"]
+];
+
+const data4 = [
+["<b>In short</b>, the migration failed because the team had no rollback plan.","in a nutshell"],
+["She has strong <b>special knowledge and skills</b> in cloud architecture.","expertise"],
+["The platform supports <b>many different types</b> of authentication methods.","a variety"],
+["They are looking for a <b>cheap but effective</b> hosting solution.","cost-efficient"],
+["The company promised a more <b>open and clear</b> security policy.","transparent"],
+["The vendor was criticized for being <b>closed and hiding information</b> about the breach.","secretive"],
+["The test environment became <b>not stable</b> after the update.","unstable"],
+["After the patch, the production environment was <b>strong and steady</b> again.","stable"],
+["Cybersecurity became her main <b>professional direction</b>.","career path"],
+["Clear communication is the <b>main and most important</b> part of incident response.","core"]
+];
+
+function norm(s){return s.toLowerCase().trim().replace(/\s+/g," ").replace(/[.?!,;:]+$/,"");}
+
+function renderText(target, data){
+  document.getElementById(target).innerHTML = data.map((x,i)=>`
+  <div class="q" data-answer="${x[1]}">
+    <div class="qnum">${i+1}.</div>
+    <div>${x[0].replace("____",`<input type="text" autocomplete="off" aria-label="Answer ${i+1}">`)}
+      <span class="feedback"></span>
+    </div>
+  </div>`).join("");
+}
+function renderChoices(target, data){
+  document.getElementById(target).innerHTML = data.map((x,i)=>`
+  <div class="q" data-answer="${x[3]}">
+    <div class="qnum">${i+1}.</div>
+    <div>${x[0].replace("____","<b>_____</b>")}
+      <div class="options">
+        <button class="opt" type="button" onclick="pick(this)">${x[1]}</button>
+        <button class="opt" type="button" onclick="pick(this)">${x[2]}</button>
+      </div><span class="feedback"></span>
+    </div>
+  </div>`).join("");
+}
+function pick(btn){
+  const opts=btn.parentElement.querySelectorAll(".opt");
+  opts.forEach(x=>x.classList.remove("selected","correct","wrong"));
+  btn.classList.add("selected");
+}
+function checkTextGroup(taskId){
+  const task=document.getElementById(taskId);
+  task.querySelectorAll(".q").forEach(q=>{
+    const input=q.querySelector("input");
+    const ans=q.dataset.answer;
+    const fb=q.querySelector(".feedback");
+    input.classList.remove("correct","wrong");
+    if(!input.value.trim()){fb.textContent="No answer yet.";fb.className="feedback bad";input.classList.add("wrong");q.dataset.state="wrong";return;}
+    const ok=norm(input.value)===norm(ans);
+    input.classList.add(ok?"correct":"wrong");
+    fb.textContent=ok?"✓ correct":`✗ try again`;
+    fb.className="feedback "+(ok?"good":"bad");
+    q.dataset.state=ok?"correct":"wrong";
+  });
+  updateProgress();
+}
+function checkChoiceGroup(taskId){
+  const task=document.getElementById(taskId);
+  task.querySelectorAll(".q").forEach(q=>{
+    const selected=q.querySelector(".opt.selected");
+    const fb=q.querySelector(".feedback");
+    q.querySelectorAll(".opt").forEach(x=>x.classList.remove("correct","wrong"));
+    if(!selected){fb.textContent="Choose an option.";fb.className="feedback bad";q.dataset.state="wrong";return;}
+    const ok=norm(selected.textContent)===norm(q.dataset.answer);
+    selected.classList.add(ok?"correct":"wrong");
+    fb.textContent=ok?"✓ correct":"✗ try again";
+    fb.className="feedback "+(ok?"good":"bad");
+    q.dataset.state=ok?"correct":"wrong";
+  });
+  updateProgress();
+}
+function resetTask(taskId){
+  const task=document.getElementById(taskId);
+  task.querySelectorAll("input").forEach(x=>{x.value="";x.classList.remove("correct","wrong")});
+  task.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected","correct","wrong"));
+  task.querySelectorAll(".feedback").forEach(x=>{x.textContent="";x.className="feedback"});
+  task.querySelectorAll(".q").forEach(x=>delete x.dataset.state);
+  updateProgress();
+}
+function updateProgress(){
+  const qs=[...document.querySelectorAll(".q")];
+  const checked=qs.filter(q=>q.dataset.state).length;
+  const correct=qs.filter(q=>q.dataset.state==="correct").length;
+  document.getElementById("bar").style.width=(checked/qs.length*100)+"%";
+  document.getElementById("scoreTop").textContent=`${correct} / ${qs.length} correct · ${checked} checked`;
+  if(checked===qs.length){
+    const pct=Math.round(correct/qs.length*100);
+    document.getElementById("result").style.display="block";
+    document.getElementById("resultText").textContent=`${correct}/${qs.length} · ${pct}%`;
+    document.getElementById("resultMsg").textContent =
+      pct>=90 ? "Build passed. Vocabulary is production-ready." :
+      pct>=75 ? "Build passed with warnings. Fix the weak spots and rerun." :
+      pct>=60 ? "Build unstable. Review the errors before the next attempt." :
+                "Build failed. Go back to the word banks and debug your choices.";
+    const seed=(correct*997 + checked*31 + Date.now()%100000).toString(16).padStart(7,"0").slice(0,7);
+    document.getElementById("hash").textContent=seed;
+  }
+}
+function copyResult(){
+  const text=`TeachCraft IT Vocabulary Lab — ${document.getElementById("resultText").textContent} — commit ${document.getElementById("hash").textContent}`;
+  navigator.clipboard?.writeText(text);
+}
+renderText("fill1",data1);
+renderChoices("choose2",data2);
+renderText("fill3",data3);
+renderText("fill4",data4);
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target.tagName==="INPUT"){
+    const task=e.target.closest(".task");
+    checkTextGroup(task.id);
+  }
+});
+</script>
+</body>
+</html>
