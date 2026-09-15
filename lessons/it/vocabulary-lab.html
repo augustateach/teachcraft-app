@@ -199,6 +199,15 @@ function renderText(target, data){
   </div>`).join("");
 }
 
+function renderButtons(optionA, optionB) {
+  if (Math.random() < 0.5) {
+    [optionA, optionB] = [optionB, optionA]
+  }
+  return `
+    <button class="opt" type="button" onclick="pick(this)">${optionA}</button>
+    <button class="opt" type="button" onclick="pick(this)">${optionB}</button>
+  `
+}
 
 function renderChoices(target, data){
   document.getElementById(target).innerHTML = data.map((x,i)=>`
@@ -206,8 +215,7 @@ function renderChoices(target, data){
     <div class="qnum">${i+1}.</div>
     <div>${x[0].replace("____","<b>_____</b>")}
       <div class="options">
-        <button class="opt" type="button" onclick="pick(this)">${x[1]}</button>
-        <button class="opt" type="button" onclick="pick(this)">${x[2]}</button>
+        ${renderButtons(x[1], x[2])}
       </div><span class="feedback"></span>
     </div>
   </div>`).join("");
