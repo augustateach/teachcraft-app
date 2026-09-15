@@ -228,6 +228,37 @@
 </div>
 
 <script>
+function fisherYatesShuffle(arr) {
+  // https://www.geeksforgeeks.org/javascript/how-to-shuffle-the-elements-of-an-array-in-javascript/
+  	for (let i = arr.length - 1; i > 0; i--) {
+    	const j = Math.floor(Math.random() * (i + 1));
+    	[arr[i], arr[j]] = [arr[j], arr[i]];
+  	}
+  	return arr;
+}
+
+// shuffle all words
+document.querySelectorAll(".wordbank").forEach((container)=>{
+  let words = []
+
+  let wordElements = container.querySelectorAll(".word")
+  wordElements.forEach((element) =>{
+    words.push(element.textContent)
+    element.remove()
+  })
+  
+  words = fisherYatesShuffle(words)
+
+  words.forEach((word) =>{
+    let wordElement = document.createElement("span")
+    wordElement.classList.add("word")
+    wordElement.textContent = word
+    container.appendChild(wordElement)
+  })
+})  
+
+
+
 const data1 = [
 ["System administrators are often ____ until something breaks.","underappreciated"],
 ["The migration from the old repository to GitHub was surprisingly ____.","seamless"],
@@ -293,6 +324,8 @@ function renderText(target, data){
     </div>
   </div>`).join("");
 }
+
+
 function renderChoices(target, data){
   document.getElementById(target).innerHTML = data.map((x,i)=>`
   <div class="q" data-answer="${x[3]}">
