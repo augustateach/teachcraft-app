@@ -112,7 +112,7 @@ function fisherYatesShuffle(arr) {
 }
 
 // shuffle all words
-document.querySelectorAll(".wordbank").forEach((container)=>{
+document.querySelectorAll(".wordbank").forEach((container,i)=>{
   let words = []
 
   let wordElements = container.querySelectorAll(".word")
@@ -123,10 +123,11 @@ document.querySelectorAll(".wordbank").forEach((container)=>{
   
   words = fisherYatesShuffle(words)
 
-  words.forEach((word) =>{
+  words.forEach((word, j) =>{
     let wordElement = document.createElement("span")
     wordElement.classList.add("word")
     wordElement.textContent = word
+    wordElement.draggable = true // allows drag and drop mechanic
     container.appendChild(wordElement)
   })
 })  
@@ -308,6 +309,13 @@ function copyResult(){
   const text=`TeachCraft IT Vocabulary Lab — ${document.getElementById("resultText").textContent} — commit ${document.getElementById("hash").textContent}`;
   navigator.clipboard?.writeText(text);
 }
+
+let dragStop = true; //scroll mechanic while drag and drop
+let dragBy = 10;
+setInterval(()=>{
+  if(!dragStop) window.scrollBy(0, dragBy);
+},16)
+
 renderText("fill1",data1);
 renderChoices("choose2",data2);
 renderText("fill3",data3);
@@ -319,6 +327,46 @@ document.addEventListener("keydown",e=>{
     checkTextGroup(task.id);
   }
 });
+
+
+
+document.querySelectorAll(".word").forEach(element => {
+  element.addEventListener("dragstart",e=>{
+    e.dataTransfer.setData("Text", event.target.innerHTML) //saves the word
+  })
+  
+  element.addEventListener("drag",e=> { //scroll mechanic while drag and drop
+    dragStop = true;
+
+    if(e.clientY < 150) {
+      dragStop = false;
+      dragBy = -10;
+    }
+
+    if(e.clientY > (window.innerHeight - 150)) {
+      dragStop = false;
+      dragBy = 10;
+    }
+  })
+  element.addEventListener("dragend",e=> { //scroll mechanic while drag and drop
+    dragStop = true;
+  })
+});
+
+document.querySelectorAll(".wordbank").forEach(element => {
+  element.addEventListener("dragover",e=>{
+    e.preventDefault();
+  })
+});
+document.querySelectorAll("input[type=text]").forEach(element => {
+  element.addEventListener("drop",e=>{
+    e.preventDefault();
+    e.target.value = e.dataTransfer.getData("Text"); //pastes the word into the input
+  })
+  element.addEventListener("dragover",e=>{
+    e.preventDefault();
+  })
+})
 </script>
 </body>
 </html>
