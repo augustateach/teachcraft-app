@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English for IT · Vocabulary Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b2a5b; --blue:#4a86c5; --ink:#1f2937; --muted:#5b6678;
+  --line:#d8dee8; --soft:#f5f8fc; --card:#ffffff; --bg:#ffffff;
+  --ok:#2f8f3a; --ok-bg:#eaf6ec; --bad:#c0392b; --bad-bg:#fdecea; --green:#5e9234;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --navy:#9cc0ff; --blue:#7fb0e6; --ink:#e5e9f0; --muted:#a3adbd;
+    --line:#334055; --soft:#18202c; --card:#111824; --bg:#0c121b;
+    --ok:#6fcf7a; --ok-bg:#16301b; --bad:#ff8a7a; --bad-bg:#3a1a17; --green:#6ea544;
+  }
+}
+:root[data-theme="dark"]{
+  --navy:#9cc0ff; --blue:#7fb0e6; --ink:#e5e9f0; --muted:#a3adbd;
+  --line:#334055; --soft:#18202c; --card:#111824; --bg:#0c121b;
+  --ok:#6fcf7a; --ok-bg:#16301b; --bad:#ff8a7a; --bad-bg:#3a1a17; --green:#6ea544;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.55}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top{max-width:860px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.logo{font-weight:800;font-size:26px;letter-spacing:-1px;color:var(--navy)}
+.logo span{color:var(--blue)}
+.brand{font-weight:700;color:var(--navy);line-height:1.2}
+.brand small{display:block;font-weight:400;color:var(--muted)}
+main{max-width:860px;margin:0 auto;padding:16px 16px 180px}
+.intro{color:var(--muted);margin:8px 0 24px}
+.unit{margin:40px 0 12px;display:flex;gap:16px;align-items:flex-start}
+.badge{flex:none;width:52px;height:52px;border-radius:12px;background:var(--navy);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:22px}
+.unit h2{margin:0;font-size:30px;color:var(--navy);line-height:1.15}
+.unit p{margin:4px 0 0;color:var(--muted)}
+h3{font-size:21px;color:var(--navy);margin:32px 0 6px;padding-bottom:10px;border-bottom:2px solid var(--line)}
+.instr{color:var(--muted);margin:10px 0 16px}
+.item{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+.num{display:inline-block;min-width:34px;padding:2px 8px;margin-right:8px;border-radius:8px;background:var(--soft);color:var(--navy);font-weight:800;text-align:center}
+.q{font-weight:600;margin:0 0 12px}
+.opt{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0;cursor:pointer}
+.opt input{accent-color:var(--navy);width:18px;height:18px}
+.opt b{color:var(--navy)}
+.item.ok{border-color:var(--ok);background:var(--ok-bg)}
+.item.bad{border-color:var(--bad);background:var(--bad-bg)}
+.text{background:var(--soft);border-left:5px solid var(--blue);border-radius:6px;padding:16px 18px;line-height:2.3}
+.gap{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;vertical-align:middle}
+.gap input,.gap select,.match select{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:4px 8px;min-width:120px}
+.gap.ok input,.gap.ok select,.match .ok select{border-color:var(--ok);background:var(--ok-bg)}
+.gap.bad input,.gap.bad select,.match .bad select{border-color:var(--bad);background:var(--bad-bg)}
+.hintbtn{font:inherit;font-size:14px;font-weight:600;color:var(--bad);background:transparent;border:1.5px solid var(--bad);border-radius:999px;padding:2px 10px;cursor:pointer;margin-left:4px}
+.reveal{font-size:15px;font-weight:700;color:var(--ok);margin-left:4px}
+.item .hintrow{margin-top:10px}
+.defs{display:grid;grid-template-columns:1fr;gap:6px;background:var(--soft);border-radius:10px;padding:12px 16px;margin:0 0 14px}
+.match{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 4px;border-bottom:1px solid var(--line)}
+.match .term{font-weight:600}
+.match .ctl{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.06)}
+.bar .in{max-width:860px;margin:0 auto;padding:10px 16px 14px}
+.bar .status{color:var(--muted);font-size:15px;margin-bottom:8px}
+.bar .status b{color:var(--ink)}
+.btns{display:flex;gap:12px}
+.btns button{flex:1;font:inherit;font-weight:800;font-size:18px;padding:14px;border-radius:12px;cursor:pointer}
+.reset{background:var(--card);color:var(--navy);border:1.5px solid var(--line)}
+.check{background:var(--green);color:#fff;border:none}
+footer{text-align:center;color:var(--muted);font-size:14px;margin-top:40px}
+</style>
+</head>
+<body>
+<header><div class="top"><div class="logo">T<span>C</span></div><div class="brand">TeachCraft · English for IT<small>Vocabulary practice for programmers</small></div></div></header>
+<main>
+<p class="intro">Revise the words from our lessons. Answer everything, then tap <b>Check answers</b>. If an answer is wrong, you can tap <b>Show answer</b>.</p>
+<div id="app"></div>
+<footer>TeachCraft · English for IT · built with vibe coding</footer>
+</main>
+<div class="bar"><div class="in">
+  <div class="status" id="status">Your answers are saved on this device.</div>
+  <div class="btns"><button class="reset" id="reset">Reset test</button><button class="check" id="check">Check answers</button></div>
+</div></div>
+
+<script>
+const UNITS = [
+ {letter:"A", title:"Git and GitHub", sub:"Lesson 2 · working as a team", exercises:[
+  {type:"mc", title:"Exercise 1. Multiple Choice", instr:"Choose the word (A, B, C or D) which best completes each sentence.", items:[
+   {q:"Before you start work, ____ the latest changes from the main branch.", opts:["push","pull","merge","clone"], ans:1},
+   {q:"Create a new ____ for each feature, so you don't work directly on main.", opts:["branch","commit","ticket","server"], ans:0},
+   {q:"A good commit ____ starts with a verb, for example “Fix typo in README”.", opts:["request","message","conflict","review"], ans:1},
+   {q:"When your fix is ready, ____ your branch to GitHub.", opts:["pull","clone","push","resolve"], ans:2},
+   {q:"Git shows a merge ____ when two people change the same lines.", opts:["conflict","error","crash","branch"], ans:0},
+   {q:"Tom ____ the pull request, so the team can merge it.", opts:["refactored","approved","cloned","pulled"], ans:1}
+  ]},
+  {type:"open", title:"Exercise 2. Open Cloze", instr:"Write one word in each gap.", heading:"Anna's day", parts:[
+   "Anna clones the ", {accept:["repository","repo"]}, " to her computer. During the day she saves her changes as small ",
+   {accept:["commits"]}, ". When the bug is fixed, she opens a pull ", {accept:["request"]},
+   " so that Tom can review the code. Git cannot combine two changes, so Anna has to ", {accept:["resolve","fix"]},
+   " the conflict. Finally, the team ", {accept:["merges","merged"]}, " the branch into main."
+  ]}
+ ]},
+ {letter:"B", title:"Code review", sub:"Lesson 3 · giving polite, useful feedback", exercises:[
+  {type:"match", title:"Exercise 3. Matching", instr:"Match each word (1–8) with its definition (A–H).",
+   defs:["easy to read and understand","an idea for how to improve something","to stop working because of an error","when another developer checks your code","a small, optional comment","an unusual situation, e.g. empty input","a short way to say the code is fine","change the structure, not what it does"],
+   items:[{t:"code review",ans:3},{t:"edge case",ans:5},{t:"nit",ans:4},{t:"refactor",ans:7},{t:"suggestion",ans:1},{t:"LGTM",ans:6},{t:"crash",ans:2},{t:"readable",ans:0}]},
+  {type:"select", title:"Exercise 4. Multiple-Choice Cloze", instr:"Choose the best word for each gap.", heading:"A review in five minutes", parts:[
+   "Tom starts small, optional comments with ", {opts:["nit","LGTM","bug","PR"],ans:0},
+   ", so the author knows they are not important. He also checks what happens in an ", {opts:["edge case","update","deadline","branch"],ans:0},
+   ", for example an empty list. The function works, but it is very long, so he asks Anna to ", {opts:["refactor","crash","clone","push"],ans:0},
+   " it. Two days later everything is fine and he writes ", {opts:["LGTM","nit","TODO","bug"],ans:0}, "."
+  ]}
+ ]},
+ {letter:"C", title:"Stand-up and Agile", sub:"Lesson 4 · progress and blockers", exercises:[
+  {type:"mc", title:"Exercise 5. Multiple Choice", instr:"Choose the word (A, B, C or D) which best completes each sentence.", items:[
+   {q:"Our team works in two-week ____.", opts:["sprints","tickets","backlogs","deadlines"], ans:0},
+   {q:"I can't continue, because I'm ____: the test server is down.", opts:["blocking","blocked","done","offline"], ans:1},
+   {q:"The ____ is the list of all tasks for the future.", opts:["board","backlog","sprint","ticket"], ans:1},
+   {q:"The ____ for the payment page is Friday, so it's a priority.", opts:["deadline","blocker","update","stand-up"], ans:0},
+   {q:"Let's take this ____ – we can talk about it after the meeting.", opts:["online","offline","off","outside"], ans:1},
+   {q:"Yesterday I ____ the search filter, so ticket 214 is done.", opts:["finish","am finishing","finished","will finish"], ans:2}
+  ]},
+  {type:"open", title:"Exercise 6. Open Cloze", instr:"Write one word in each gap. Use the word in brackets if there is one.", heading:"Kasia's update", parts:[
+   "“Yesterday I ", {accept:["fixed"], hint:"(fix)"}, " a bug in the cart. Today I'm ", {accept:["going"]},
+   " to write tests for the login form. I'm ", {accept:["blocked"], hint:"(block)"},
+   ", because I don't have access to the database. The ", {accept:["deadline"]},
+   " for this ticket is Friday, so I need help today.”"
+  ]}
+ ]}
+];
+
+const KEY = "teachcraft-it-vocab-v1";
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e) { saved = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e) {} };
+const checks = [];
+const L = "ABCDEFGH";
+const norm = s => (s||"").toLowerCase().replace(/[.,!?;:“”"']/g,"").replace(/\s+/g," ").trim();
+
+function hint(holder, answerText){
+  const b = document.createElement("button");
+  b.className = "hintbtn"; b.type = "button"; b.textContent = "Show answer";
+  b.onclick = () => { b.replaceWith(Object.assign(document.createElement("span"),{className:"reveal",textContent:"✓ "+answerText})); };
+  holder.appendChild(b);
+}
+function clearMark(el, holder){ el.classList.remove("ok","bad"); holder.innerHTML = ""; }
+
+function build(){
+  const app = document.getElementById("app");
+  let n = 0;
+  UNITS.forEach((u, ui) => {
+    const head = document.createElement("div"); head.className = "unit";
+    head.innerHTML = `<div class="badge">${u.letter}</div><div><h2>${u.title}</h2><p>${u.sub}</p></div>`;
+    app.appendChild(head);
+    u.exercises.forEach((ex, ei) => {
+      const h = document.createElement("h3"); h.textContent = ex.title; app.appendChild(h);
+      const p = document.createElement("p"); p.className = "instr"; p.textContent = ex.instr; app.appendChild(p);
+      const base = `u${ui}e${ei}`;
+      if (ex.type === "mc") {
+        ex.items.forEach((it, ii) => {
+          const id = `${base}i${ii}`; n++;
+          const card = document.createElement("div"); card.className = "item";
+          card.innerHTML = `<p class="q"><span class="num">${ii+1}</span>${it.q.replace("____","_____")}</p>`;
+          it.opts.forEach((o, oi) => {
+            const lab = document.createElement("label"); lab.className = "opt";
+            lab.innerHTML = `<input type="radio" name="${id}" value="${oi}"><b>${L[oi]}.</b> ${o}`;
+            const inp = lab.querySelector("input");
+            if (saved[id] == oi) inp.checked = true;
+            inp.onchange = () => { saved[id] = oi; save(); clearMark(card, row); };
+            card.appendChild(lab);
+          });
+          const row = document.createElement("div"); row.className = "hintrow"; card.appendChild(row);
+          app.appendChild(card);
+          checks.push(() => { clearMark(card,row); const ok = saved[id] == it.ans; card.classList.add(ok?"ok":"bad"); if(!ok) hint(row, `${L[it.ans]}. ${it.opts[it.ans]}`); return ok; });
+        });
+      } else if (ex.type === "match") {
+        const defs = document.createElement("div"); defs.className = "defs";
+        defs.innerHTML = ex.defs.map((d,i)=>`<div><b>${L[i]}</b> &nbsp;${d}</div>`).join("");
+        app.appendChild(defs);
+        const card = document.createElement("div"); card.className = "item";
+        ex.items.forEach((it, ii) => {
+          const id = `${base}i${ii}`; n++;
+          const row = document.createElement("div"); row.className = "match";
+          row.innerHTML = `<span class="term"><span class="num">${ii+1}</span>${it.t}</span>`;
+          const ctl = document.createElement("span"); ctl.className = "ctl";
+          const sel = document.createElement("select");
+          sel.innerHTML = `<option value="">Choose</option>` + ex.defs.map((d,i)=>`<option value="${i}">${L[i]}</option>`).join("");
+          if (saved[id] !== undefined) sel.value = saved[id];
+          const hold = document.createElement("span");
+          sel.onchange = () => { saved[id] = sel.value; save(); clearMark(ctl, hold); };
+          ctl.appendChild(sel); ctl.appendChild(hold); row.appendChild(ctl); card.appendChild(row);
+          checks.push(() => { clearMark(ctl,hold); const ok = saved[id] !== undefined && saved[id] !== "" && +saved[id] === it.ans; ctl.classList.add(ok?"ok":"bad"); if(!ok) hint(hold, `${L[it.ans]} – ${ex.defs[it.ans]}`); return ok; });
+        });
+        app.appendChild(card);
+      } else {
+        const box = document.createElement("div"); box.className = "text";
+        if (ex.heading) box.innerHTML = `<div style="font-weight:800;color:var(--navy);font-size:20px;text-align:center;line-height:1.4;margin-bottom:6px">${ex.heading}</div>`;
+        let g = 0;
+        ex.parts.forEach(part => {
+          if (typeof part === "string") { box.appendChild(document.createTextNode(part)); return; }
+          const id = `${base}g${g}`; g++; n++;
+          const wrap = document.createElement("span"); wrap.className = "gap";
+          const lbl = document.createElement("b"); lbl.textContent = `(${g})`; wrap.appendChild(lbl);
+          const hold = document.createElement("span");
+          let ctl;
+          if (ex.type === "open") {
+            ctl = document.createElement("input"); ctl.type = "text"; ctl.autocomplete = "off"; ctl.spellcheck = false;
+            ctl.setAttribute("autocapitalize","off");
+            ctl.value = saved[id] || "";
+            ctl.oninput = () => { saved[id] = ctl.value; save(); clearMark(wrap, hold); };
+            wrap.appendChild(ctl);
+            if (part.hint) { const s = document.createElement("span"); s.textContent = part.hint; s.style.color = "var(--muted)"; wrap.appendChild(s); }
+            checks.push(() => { clearMark(wrap,hold); const ok = part.accept.includes(norm(saved[id])); wrap.classList.add(ok?"ok":"bad"); if(!ok) hint(hold, part.accept[0]); return ok; });
+          } else {
+            ctl = document.createElement("select");
+            ctl.innerHTML = `<option value="">Choose</option>` + part.opts.map((o,i)=>`<option value="${i}">${L[i]}. ${o}</option>`).join("");
+            if (saved[id] !== undefined) ctl.value = saved[id];
+            ctl.onchange = () => { saved[id] = ctl.value; save(); clearMark(wrap, hold); };
+            wrap.appendChild(ctl);
+            checks.push(() => { clearMark(wrap,hold); const ok = saved[id] !== undefined && saved[id] !== "" && +saved[id] === part.ans; wrap.classList.add(ok?"ok":"bad"); if(!ok) hint(hold, `${L[part.ans]}. ${part.opts[part.ans]}`); return ok; });
+          }
+          wrap.appendChild(hold);
+          box.appendChild(wrap);
+        });
+        app.appendChild(box);
+      }
+    });
+  });
+  return n;
+}
+
+const total = build();
+document.getElementById("check").onclick = () => {
+  const score = checks.reduce((s, f) => s + (f() ? 1 : 0), 0);
+  document.getElementById("status").innerHTML = `Score: <b>${score} / ${total}</b>. Wrong answers are red – tap <b>Show answer</b> to see the correct one.`;
+};
+document.getElementById("reset").onclick = () => {
+  if (!confirm("Delete all your answers and start again?")) return;
+  saved = {}; save(); location.reload();
+};
+</script>
+</body>
+</html>
