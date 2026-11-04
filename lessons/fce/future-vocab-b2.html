@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2 Future and Vocabulary Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one narrow worksheet column inside a mauve-framed "paper" sheet; tasks as tabbed sections */
+:root{
+  --bg:#f6eef0; --paper:#fffdfc; --ink:#2a1f22; --muted:#7a666b; --mauve:#9b6470; --pale:#fbefec;
+  --line:#e3d2d6; --ok:#3f7d5c; --ok-bg:#e6f2ea; --bad:#c23b4a; --bad-bg:#fbe6e8;
+  --display:"Fraunces", Georgia, "Times New Roman", serif;
+  --body:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1c1517; --paper:#261d20; --ink:#f1e6e8; --muted:#b8a3a8; --mauve:#c98d9a; --pale:#33262a;
+  --line:#4a3a3f; --ok:#7cc49a; --ok-bg:#1f3328; --bad:#ef7d89; --bad-bg:#3d2126; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1c1517; --paper:#261d20; --ink:#f1e6e8; --muted:#b8a3a8; --mauve:#c98d9a; --pale:#33262a;
+  --line:#4a3a3f; --ok:#7cc49a; --ok-bg:#1f3328; --bad:#ef7d89; --bad-bg:#3d2126; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.sheet{max-width:760px;margin:0 auto;background:var(--paper);border:2px solid var(--mauve);border-radius:22px;overflow:hidden}
+header{padding:22px 28px 18px;border-bottom:3px solid var(--mauve);display:grid;gap:6px}
+.brand{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand b{font:italic 700 1.1rem var(--display);color:var(--mauve)}
+.cefr{font:500 .75rem var(--mono);letter-spacing:.08em;color:var(--paper);background:var(--mauve);padding:3px 9px;border-radius:99px}
+h1{font:700 clamp(1.7rem,5vw,2.4rem)/1.1 var(--display);margin:4px 0 0;text-wrap:balance}
+header p{margin:0;color:var(--muted)}
+section{padding:22px 28px 8px}
+.tab{display:flex;align-items:stretch;gap:10px;margin:0 -28px 18px}
+.tab span{background:var(--mauve);color:var(--paper);font:500 1rem var(--display);padding:8px 16px 8px 28px;display:flex;align-items:center;white-space:nowrap}
+.tab p{background:var(--pale);border-radius:8px;margin:0 28px 0 0;padding:8px 14px;font-size:.95rem;flex:1;min-width:0}
+ol{list-style:none;padding:0;margin:0;display:grid;gap:16px}
+li{display:grid;grid-template-columns:2rem 1fr;gap:4px;min-width:0}
+.n{font-weight:600;color:var(--mauve)}
+.s{min-width:0}
+strong{color:var(--mauve)}
+input[type=text],select{font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:2px dotted var(--muted);padding:0 4px;min-width:0}
+input[type=text]{width:min(14em,100%)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--mauve);outline-offset:2px}
+select{border:1.5px solid var(--line);border-radius:6px;padding:2px 4px;margin-left:6px}
+.mask{display:block;font:500 .85rem var(--mono);letter-spacing:.12em;color:var(--muted);margin-top:2px}
+.ok{background:var(--ok-bg);border-bottom-color:var(--ok)!important}
+.bad{background:var(--bad-bg);border-bottom-color:var(--bad)!important}
+.fb{display:block;font-size:.88rem;margin-top:3px}
+.fb.ok-t{color:var(--ok)} .fb.bad-t{color:var(--bad)}
+.box{background:var(--pale);border-radius:12px;padding:14px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:4px 18px;margin-bottom:20px;font-size:.95rem}
+.box b{color:var(--mauve)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:16px 28px 26px}
+button{font:600 1rem var(--body);border-radius:10px;padding:10px 18px;cursor:pointer;border:2px solid var(--mauve)}
+.primary{background:var(--mauve);color:var(--paper)}
+.ghost{background:transparent;color:var(--mauve)}
+.score{margin-left:auto;font:500 .95rem var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.tip{font-size:.9rem;color:var(--muted);padding:0 28px 6px}
+@media (max-width:520px){header,section{padding-left:18px;padding-right:18px}.tab{margin:0 -18px 16px}.tab span{padding-left:18px}.tab p{margin-right:18px}.bar{padding-inline:18px}.tip{padding-inline:18px}.score{margin-left:0;width:100%}}
+@media (prefers-reduced-motion:no-preference){input,select{transition:background .2s}}
+.back{display:inline-block;max-width:760px;margin:0 auto 12px;color:var(--mauve);font-weight:600;text-decoration:none}.top{max-width:760px;margin:0 auto}
+</style>
+</head>
+<body>
+
+
+<div class="top"><a class="back" href="./">← FCE lessons</a></div>
+<div class="sheet">
+<header>
+  <div class="brand"><span class="cefr">CEFR B2</span><b>TeachCraft</b></div>
+  <h1>Future Perfect, Future Continuous &amp; Vocabulary</h1>
+  <p>Fill in the gaps, then press <em>Check answers</em>. You can correct your mistakes and check again.</p>
+</header>
+
+<section>
+  <div class="tab"><span>TASK 1</span><p>Complete the sentences with the <u>Future Perfect</u> or <u>Future Continuous</u> form of the verbs in brackets. Look at the time expressions.</p></div>
+  <ol id="t1"></ol>
+</section>
+
+<section>
+  <div class="tab"><span>TASK 2</span><p>Complete the sentences. The dashes show the <u>number of letters</u>; one letter is given. Then choose the matching <u>synonym</u> (A–J).</p></div>
+  <div class="box" id="syn"></div>
+  <ol id="t2"></ol>
+</section>
+
+<p class="tip">Tip: contractions are accepted (e.g. <em>I'll have finished</em>).</p>
+<div class="bar">
+  <button class="primary" id="check" type="button">Check answers</button>
+  <button class="ghost" id="show" type="button">Show answers</button>
+  <button class="ghost" id="reset" type="button">Start again</button>
+  <span class="score" id="score" aria-live="polite">Score: – / 32</span>
+</div>
+</div>
+
+<script>
+const G=[
+ ["By the end of the year, the museum","<strong>preserve</strong>","over a thousand ancient manuscripts thanks to its new climate-controlled archive.",["will have preserved"],"FP"],
+ ["Don't call me between 9 and 11 tomorrow morning. I","<strong>deal with</strong>","customers' complaints at work, so I won't be able to answer.",["will be dealing with"],"FC"],
+ ["At 3 p.m. on Friday, Anna","sit","in the career adviser's office, trying to make a <strong>conscious choice</strong> about her future.",["will be sitting"],"FC"],
+ ["This time next month, we","drive","along a <strong>rough</strong> mountain road in Scotland, so don't expect us to reply to messages.",["will be driving"],"FC"],
+ ["By next summer, the council","resurface","the old cycle path, so it will finally be <strong>smooth</strong> and safe to ride on.",["will have resurfaced"],"FP"],
+ ["At 7 p.m. tomorrow, Tom","<strong>confide in</strong>","his best friend over dinner. He has been planning this honest conversation for weeks.",["will be confiding in"],"FC"],
+ ["By the time the storm reaches the coast, rescue teams","deliver","<strong>vital</strong> supplies of food and drinking water to the villages.",["will have delivered"],"FP"],
+ ["Don't worry about Mark. By the spring, he","get through","his <strong>rough patch</strong> and he will be ready to look for a new job.",["will have got through","will have gotten through"],"FP"],
+ ["At noon tomorrow, the marathon runners","try","to <strong>maintain</strong> a steady pace in the heat, so the organisers will be offering water every kilometre.",["will be trying"],"FC"],
+ ["By 2030, scientists","prove","whether this new drug plays a <strong>crucial</strong> role in treating the disease.",["will have proved","will have proven"],"FP"],
+ ["Don't touch the table at 10 a.m. tomorrow. The carpenter","sand","it to make the surface perfectly <strong>smooth</strong>.",["will be sanding"],"FC"],
+ ["By the time the manager comes back from holiday, I","<strong>deal with</strong>","all the urgent emails, so she will have nothing to worry about.",["will have dealt with"],"FP"]
+];
+const SYN=[["A","handle; tackle"],["B","bumpy; uneven"],["C","keep up; keep at the same level"],["D","a difficult period"],["E","necessary for life"],["F","a deliberate decision"],["G","open up to; tell secrets to"],["H","even; flat; without bumps"],["I","protect from decay; conserve"],["J","key; decisive; extremely important"]];
+const V=[
+ ["Hiking boots are a must on this path – the ground is very","and rocky.","rough",[2],"B"],
+ ["If you want to stay fit, you need to","a regular exercise routine.","maintain",[4],"C"],
+ ["Becoming a vegetarian was a",". I read a lot about it before I finally decided.","conscious choice",[3,3],"F"],
+ ["Sleep is","for good health; without it, the body cannot recover.","vital",[2],"E"],
+ ["After she used the new cream, her skin felt soft and",".","smooth",[3],"H"],
+ ["Teenagers often find it easier to","their friends than their parents.","confide in",[3,1],"G"],
+ ["The first few minutes after an accident are","– fast help can save a life.","crucial",[3],"J"],
+ ["For centuries, people used salt to","meat and fish.","preserve",[5],"I"],
+ ["Our relationship went through a","last year, but we're stronger now.","rough patch",[3,2],"D"],
+ ["Teachers have to","many different problems every single day.","deal with",[1,2],"A"]
+];
+const norm=s=>s.toLowerCase().replace(/[’‘]/g,"'").replace(/\b(i|you|he|she|it|we|they)'ll\b/g,"$1 will").replace(/[.,!?]/g,"").replace(/\s+/g," ").trim();
+const mask=(w,sh)=>w.split(" ").map((p,wi)=>[...p].map((c,i)=>i===sh[wi]?c:"_").join(" ")).join("   ");
+const t1=document.getElementById("t1"),t2=document.getElementById("t2");
+G.forEach((g,i)=>{const li=document.createElement("li");
+ li.innerHTML=`<span class="n">${i+1}.</span><span class="s">${g[0]} <input type="text" id="g${i}" aria-label="Sentence ${i+1} answer" autocomplete="off" autocapitalize="off" spellcheck="false"> (${g[1]}) ${g[2]}<span class="fb" id="gf${i}"></span></span>`;t1.append(li)});
+document.getElementById("syn").innerHTML=SYN.map(s=>`<div><b>${s[0]}.</b> ${s[1]}</div>`).join("");
+const opts='<option value="">–</option>'+SYN.map(s=>`<option>${s[0]}</option>`).join("");
+V.forEach((v,i)=>{const li=document.createElement("li");
+ li.innerHTML=`<span class="n">${i+1}.</span><span class="s">${v[0]} <input type="text" id="v${i}" aria-label="Sentence ${i+1} word" autocomplete="off" autocapitalize="off" spellcheck="false">${v[1].startsWith(".")?"":" "}${v[1]} <select id="vs${i}" aria-label="Sentence ${i+1} synonym">${opts}</select><span class="mask">${mask(v[2],v[3])}</span><span class="fb" id="vf${i}"></span></span>`;t2.append(li)});
+const mark=(el,ok)=>{el.classList.remove("ok","bad");if(el.value!=="")el.classList.add(ok?"ok":"bad")};
+const fb=(id,ok,txt)=>{const f=document.getElementById(id);f.className="fb "+(ok?"ok-t":"bad-t");f.textContent=txt};
+function check(){let pts=0;
+ G.forEach((g,i)=>{const el=document.getElementById("g"+i),ok=g[3].some(a=>norm(a)===norm(el.value));if(ok)pts++;mark(el,ok);
+  fb("gf"+i,ok,el.value===""?"":ok?"✓ Correct – "+(g[4]==="FP"?"Future Perfect":"Future Continuous"):"✗ Try again")});
+ V.forEach((v,i)=>{const el=document.getElementById("v"+i),se=document.getElementById("vs"+i),ok=norm(el.value)===v[2],ok2=se.value===v[4];
+  pts+=ok+ok2;mark(el,ok);se.classList.remove("ok","bad");if(se.value)se.classList.add(ok2?"ok":"bad");
+  const msg=[];if(el.value)msg.push(ok?"✓ word":"✗ word");if(se.value)msg.push(ok2?"✓ synonym":"✗ synonym");
+  fb("vf"+i,ok&&ok2,msg.join(" · "))});
+ document.getElementById("score").textContent=`Score: ${pts} / 32`}
+document.getElementById("check").onclick=check;
+document.getElementById("show").onclick=()=>{G.forEach((g,i)=>document.getElementById("g"+i).value=g[3][0]);V.forEach((v,i)=>{document.getElementById("v"+i).value=v[2];document.getElementById("vs"+i).value=v[4]});check();document.getElementById("score").textContent="Answers shown"};
+document.getElementById("reset").onclick=()=>{document.querySelectorAll("input,select").forEach(e=>{e.value="";e.classList.remove("ok","bad")});document.querySelectorAll(".fb").forEach(f=>f.textContent="");document.getElementById("score").textContent="Score: – / 32"};
+</script>
+
+</body>
+</html>
