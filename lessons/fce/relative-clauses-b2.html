@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2 Relative Clauses Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one narrow worksheet column inside a mauve-framed "paper" sheet; tasks as tabbed sections */
+:root{
+  --bg:#f6eef0; --paper:#fffdfc; --ink:#2a1f22; --muted:#7a666b; --mauve:#9b6470; --pale:#fbefec;
+  --line:#e3d2d6; --ok:#3f7d5c; --ok-bg:#e6f2ea; --bad:#c23b4a; --bad-bg:#fbe6e8;
+  --display:"Fraunces", Georgia, "Times New Roman", serif;
+  --body:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1c1517; --paper:#261d20; --ink:#f1e6e8; --muted:#b8a3a8; --mauve:#c98d9a; --pale:#33262a;
+  --line:#4a3a3f; --ok:#7cc49a; --ok-bg:#1f3328; --bad:#ef7d89; --bad-bg:#3d2126; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1c1517; --paper:#261d20; --ink:#f1e6e8; --muted:#b8a3a8; --mauve:#c98d9a; --pale:#33262a;
+  --line:#4a3a3f; --ok:#7cc49a; --ok-bg:#1f3328; --bad:#ef7d89; --bad-bg:#3d2126; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.sheet{max-width:760px;margin:0 auto;background:var(--paper);border:2px solid var(--mauve);border-radius:22px;overflow:hidden}
+header{padding:22px 28px 18px;border-bottom:3px solid var(--mauve);display:grid;gap:6px}
+.brand{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand b{font:italic 700 1.1rem var(--display);color:var(--mauve)}
+.cefr{font:500 .75rem var(--mono);letter-spacing:.08em;color:var(--paper);background:var(--mauve);padding:3px 9px;border-radius:99px}
+h1{font:700 clamp(1.7rem,5vw,2.4rem)/1.1 var(--display);margin:4px 0 0;text-wrap:balance}
+header p{margin:0;color:var(--muted)}
+section{padding:22px 28px 8px}
+.tab{display:flex;align-items:stretch;gap:10px;margin:0 -28px 18px}
+.tab span{background:var(--mauve);color:var(--paper);font:500 1rem var(--display);padding:8px 16px 8px 28px;display:flex;align-items:center;white-space:nowrap}
+.tab p{background:var(--pale);border-radius:8px;margin:0 28px 0 0;padding:8px 14px;font-size:.95rem;flex:1;min-width:0}
+ol{list-style:none;padding:0;margin:0;display:grid;gap:16px}
+li{display:grid;grid-template-columns:2rem 1fr;gap:4px;min-width:0}
+.n{font-weight:600;color:var(--mauve)}
+.s{min-width:0}
+strong{color:var(--mauve)}
+input[type=text],select{font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:2px dotted var(--muted);padding:0 4px;min-width:0}
+input[type=text]{width:min(14em,100%)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--mauve);outline-offset:2px}
+select{border:1.5px solid var(--line);border-radius:6px;padding:2px 4px;margin-left:6px}
+.mask{display:block;font:500 .85rem var(--mono);letter-spacing:.12em;color:var(--muted);margin-top:2px}
+.ok{background:var(--ok-bg);border-bottom-color:var(--ok)!important}
+.bad{background:var(--bad-bg);border-bottom-color:var(--bad)!important}
+.fb{display:block;font-size:.88rem;margin-top:3px}
+.fb.ok-t{color:var(--ok)} .fb.bad-t{color:var(--bad)}
+.box{background:var(--pale);border-radius:12px;padding:14px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:4px 18px;margin-bottom:20px;font-size:.95rem}
+.box b{color:var(--mauve)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:16px 28px 26px}
+button{font:600 1rem var(--body);border-radius:10px;padding:10px 18px;cursor:pointer;border:2px solid var(--mauve)}
+.primary{background:var(--mauve);color:var(--paper)}
+.ghost{background:transparent;color:var(--mauve)}
+.score{margin-left:auto;font:500 .95rem var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.tip{font-size:.9rem;color:var(--muted);padding:0 28px 6px}
+@media (max-width:520px){header,section{padding-left:18px;padding-right:18px}.tab{margin:0 -18px 16px}.tab span{padding-left:18px}.tab p{margin-right:18px}.bar{padding-inline:18px}.tip{padding-inline:18px}.score{margin-left:0;width:100%}}
+@media (prefers-reduced-motion:no-preference){input,select{transition:background .2s}}
+.back{display:inline-block;max-width:760px;margin:0 auto 12px;color:var(--mauve);font-weight:600;text-decoration:none}.top{max-width:760px;margin:0 auto}
+
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.opts label{border:1.5px solid var(--line);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:.95rem}
+.opts input{accent-color:var(--mauve);margin-right:4px}
+.opts label.ok{background:var(--ok-bg);border-color:var(--ok)}
+.opts label.bad{background:var(--bad-bg);border-color:var(--bad)}
+.wide{width:100%!important;display:block;margin-top:6px}
+.pair{background:var(--pale);border-radius:12px;padding:12px 16px;margin-bottom:16px;display:grid;gap:4px}
+.rules{background:var(--pale);border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:.93rem;display:grid;gap:4px}
+.ladders{display:grid;gap:18px}
+.ladder{border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+.ladder h3{margin:0 0 8px;font:700 1.05rem var(--display);color:var(--mauve);display:flex;justify-content:space-between;gap:8px}
+.ladder h3 small{font:500 .8rem var(--mono);color:var(--muted)}
+.clues{list-style:none;padding:0;margin:0 0 10px;display:grid;gap:6px}
+.clue{display:flex;gap:8px;align-items:baseline;padding:6px 10px;border-radius:8px;background:var(--pale);cursor:pointer;grid-template-columns:none}
+.clue.hidden{display:none}
+.clue .pr{font:500 .78rem var(--mono);color:var(--mauve);min-width:3.6rem}
+.clue.flag{outline:2px solid var(--bad)}
+.clue.right{outline:2px solid var(--ok)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.small{font-size:.9rem;padding:6px 12px}
+.check li{display:flex;gap:8px;grid-template-columns:none}
+</style>
+</head>
+<body>
+
+<div class="top"><a class="back" href="./">← FCE lessons</a></div>
+<div class="sheet">
+<header>
+  <div class="brand"><span class="cefr">CEFR B2</span><b>TeachCraft</b></div>
+  <h1>Relative Clauses: Who, Which, Whose, Where, When</h1>
+  <p>Play the warm-up game first. Then do Tasks 2–6 and press <em>Check answers</em>. You can correct your mistakes and check again.</p>
+</header>
+
+<section>
+  <div class="tab"><span>TASK 1</span><p><b>Who am I? – Pronoun Ladder.</b> Guess the job. Each clue uses a <u>different relative pronoun</u>. Fewer clues = more points.</p></div>
+  <div class="rules">
+    <div><b>Points:</b> guess after clue 1 = 5 points, after clue 2 = 4 … after clue 5 = 1.</div>
+    <div><b>Twist – Grammar Steal:</b> in every ladder, <u>one clue has a grammar mistake</u>. Click it and press <em>Steal</em> for +1 point.</div>
+  </div>
+  <div class="ladders" id="ladders"></div>
+  <p class="score" id="gscore" aria-live="polite" style="margin-top:14px">Game points: 0 / 24</p>
+</section>
+
+<section>
+  <div class="tab"><span>TASK 2</span><p>How many colleagues work remotely? Choose the correct meaning. Look at the <u>commas</u>.</p></div>
+  <ol id="t1"></ol>
+</section>
+
+<section>
+  <div class="tab"><span>TASK 3</span><p>Complete each sentence with <u>one word</u>: <b>who, which, whose, where</b> or <b>when</b>.</p></div>
+  <ol id="t2"></ol>
+</section>
+
+<section>
+  <div class="tab"><span>TASK 4</span><p>Can you <u>leave out</u> the relative pronoun? Choose <b>Yes</b> or <b>No</b>.</p></div>
+  <ol id="t3"></ol>
+</section>
+
+<section>
+  <div class="tab"><span>TASK 5</span><p>Join the two sentences with a relative clause. Decide about the <u>commas</u>. Write the whole sentence.</p></div>
+  <ol id="t4"></ol>
+</section>
+
+<section>
+  <div class="tab"><span>TASK 6</span><p>Each sentence has <u>one mistake</u>. Write the correct sentence.</p></div>
+  <ol id="t5"></ol>
+</section>
+
+<section>
+  <div class="tab"><span>TASK 7</span><p><b>Your dream job.</b> Write three sentences: one <u>defining</u>, one <u>non-defining</u> and one with <em>which</em> that comments on the <u>whole sentence</u>.</p></div>
+  <p style="margin-top:0;color:var(--muted);font-size:.93rem"><em>Example: I'd like to work for a company which designs video games, which would let me combine art and technology.</em></p>
+  <textarea id="dream" rows="5" style="width:100%;font:inherit;color:var(--ink);background:transparent;border:2px solid var(--mauve);border-radius:12px;padding:10px" aria-label="Your three sentences"></textarea>
+  <ul class="check" style="list-style:none;padding:0;margin:10px 0 0;display:grid;gap:4px;font-size:.93rem">
+    <li><input type="checkbox" id="c1"><label for="c1">My non-defining clause has commas.</label></li>
+    <li><input type="checkbox" id="c2"><label for="c2">I didn't use <em>that</em> after a comma.</label></li>
+    <li><input type="checkbox" id="c3"><label for="c3">My <em>, which …</em> comments on the whole sentence.</label></li>
+  </ul>
+</section>
+
+<p class="tip">Tip: in Tasks 5–6 write the full sentence. Punctuation matters only for commas.</p>
+<div class="bar">
+  <button class="primary" id="check" type="button">Check answers</button>
+  <button class="ghost" id="show" type="button">Show answers</button>
+  <button class="ghost" id="reset" type="button">Start again</button>
+  <span class="score" id="score" aria-live="polite">Score: – / 27</span>
+</div>
+</div>
+
+<script>
+/* ---------- TASK 1: ladders [job, accepted answers, clues [pronoun,text], index of wrong clue, correction] ---------- */
+const L=[
+ ["Job 1",["nurse"],[["where","I work in a place where people sometimes stay for days."],["when","My shifts often start at night, when most people are asleep."],["which","I use a small device which measures your temperature."],["whose","I'm someone who's uniform is usually blue or green."],["who","I'm a person who looks after patients in hospital."]],3,"who's → whose"],
+ ["Job 2",["firefighter","fire fighter","fireman","firewoman"],[["where","I work in a building where big red vehicles are parked."],["when","The worst time of year is summer, when forests are very dry."],["which","I wear a heavy jacket, that protects me from the heat."],["whose","I'm someone whose job is to save people and animals."],["who","I'm a person who puts out fires."]],2,"that → which (no that after a comma)"],
+ ["Job 3",["journalist","reporter"],[["where","The newspaper where I work for is very popular."],["when","Evenings, when the next day's news is ready, are very stressful."],["which","I write articles which thousands of people read."],["whose","I'm someone whose name appears under stories."],["who","I'm a person who interviews people and reports the news."]],0,"where … for → where I work / which I work for"],
+ ["Job 4",["chef","cook"],[["where","I work in a hot room where nobody has time to relax."],["when","My busiest time is Saturday evening, when everyone eats out."],["which","I use knives which are extremely sharp."],["whose","I'm someone whose uniform often includes a tall white hat."],["who","I'm a person cooks meals for guests in a restaurant."]],4,"a person cooks → a person who cooks"]
+];
+const lad=document.getElementById("ladders"),GS={};
+L.forEach((l,i)=>{GS[i]={open:1,done:false,stolen:false,pts:0,sel:null};
+ const d=document.createElement("div");d.className="ladder";
+ d.innerHTML=`<h3>${l[0]}<small id="lp${i}">5 points left</small></h3>
+ <ul class="clues">${l[2].map((c,j)=>`<li class="clue${j?" hidden":""}" id="cl${i}_${j}" data-i="${i}" data-j="${j}" tabindex="0"><span class="pr">${c[0]}</span><span>${c[1]}</span></li>`).join("")}</ul>
+ <div class="row">
+  <button class="ghost small" type="button" id="nx${i}">Next clue</button>
+  <input type="text" id="gu${i}" placeholder="Your guess…" aria-label="${l[0]} guess" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <button class="primary small" type="button" id="gb${i}">Guess</button>
+  <button class="ghost small" type="button" id="st${i}">Steal</button>
+ </div><span class="fb" id="lf${i}"></span>`;lad.append(d);
+ document.getElementById("nx"+i).onclick=()=>{const g=GS[i];if(g.open<5){document.getElementById(`cl${i}_${g.open}`).classList.remove("hidden");g.open++;
+   if(!g.done)document.getElementById("lp"+i).textContent=`${6-g.open} point${6-g.open===1?"":"s"} left`}};
+ document.getElementById("gb"+i).onclick=()=>{const g=GS[i];if(g.done)return;const v=document.getElementById("gu"+i).value.trim().toLowerCase();if(!v)return;
+   if(l[1].includes(v)){g.done=true;g.pts+=6-g.open;fb("lf"+i,true,`✓ Correct! +${6-g.open} points. Now find the wrong clue (open all clues).`);document.getElementById("lp"+i).textContent="solved";gUpd()}
+   else fb("lf"+i,false,"✗ Not this job – try again or open the next clue.")};
+ d.querySelectorAll(".clue").forEach(c=>{const sel=()=>{if(GS[i].stolen)return;d.querySelectorAll(".clue").forEach(x=>x.classList.remove("flag"));c.classList.add("flag");GS[i].sel=+c.dataset.j};
+   c.onclick=sel;c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();sel()}}});
+ document.getElementById("st"+i).onclick=()=>{const g=GS[i];if(g.stolen)return;if(g.sel===null){fb("lf"+i,false,"Click the clue with the mistake first.");return}
+   g.stolen=true;const c=document.getElementById(`cl${i}_${g.sel}`);c.classList.remove("flag");
+   if(g.sel===l[3]){g.pts++;c.classList.add("right");fb("lf"+i,true,"✓ Grammar steal! +1 point. Correction: "+l[4])}
+   else{c.classList.add("flag");const r=document.getElementById(`cl${i}_${l[3]}`);r.classList.remove("hidden");r.classList.add("right");fb("lf"+i,false,"✗ No steal. The mistake was: "+l[4])}gUpd()};
+});
+function gUpd(){document.getElementById("gscore").textContent=`Game points: ${Object.values(GS).reduce((a,g)=>a+g.pts,0)} / 24`}
+
+/* ---------- TASK 2 ---------- */
+const M=[["My colleagues who work remotely rarely come to meetings.",["Only some of my colleagues work remotely.","All my colleagues work remotely."],0,"Defining – it tells us WHICH colleagues."],
+ ["My colleagues, who work remotely, rarely come to meetings.",["Only some of my colleagues work remotely.","All my colleagues work remotely."],1,"Non-defining – extra information about all of them."]];
+/* ---------- TASK 3 ---------- */
+const G=[["A recruiter is a person","helps companies find new employees.",["who","that"]],
+ ["This is the start-up","my sister got her first job.",["where"]],
+ ["Ms Nowak,","team won the award, is retiring next year.",["whose"]],
+ ["The training course,","lasted three days, was very practical.",["which"]],
+ ["2020 was the year","many people started working from home.",["when","that"]],
+ ["He was offered a promotion,","surprised everyone.",["which"]],
+ ["The skills","employers value most are communication and teamwork.",["which","that"]],
+ ["An intern is someone","works for a short time to gain experience.",["who","that"]]];
+/* ---------- TASK 4 ---------- */
+const O=[["The CV <u>which</u> I sent last week got no reply.",1,"which is the object – you can leave it out."],
+ ["The manager <u>who</u> interviewed me was very friendly.",0,"who is the subject – you can't leave it out."],
+ ["The company <u>that</u> I'd like to work for pays well.",1,"that is the object – you can leave it out."],
+ ["My boss, <u>who</u> I really admire, is leaving.",0,"Non-defining clause – never leave out the pronoun."],
+ ["The colleague <u>that</u> I share an office with is moving to Kraków.",1,"that is the object – you can leave it out."],
+ ["The job <u>which</u> requires the most training is a pilot's.",0,"which is the subject – you can't leave it out."]];
+/* ---------- TASK 5 & 6: [prompt, accepted...] ---------- */
+const J=[["My cousin works in Berlin. She is a software developer.",["my cousin, who is a software developer, works in berlin"]],
+ ["I applied to a company. Its headquarters are in Warsaw.",["i applied to a company whose headquarters are in warsaw"]],
+ ["This is the office. I did my work placement there.",["this is the office where i did my work placement","this is the office which i did my work placement in","this is the office that i did my work placement in","this is the office i did my work placement in","this is the office in which i did my work placement"]],
+ ["She speaks four languages. This makes her very employable.",["she speaks four languages, which makes her very employable"]],
+ ["The job interview was on Monday. I was very nervous about it.",["the job interview, which i was very nervous about, was on monday","the job interview, about which i was very nervous, was on monday"]]];
+const E=[["My first employer, that ran a small café, taught me a lot.",["my first employer, who ran a small cafe, taught me a lot"],"no that after a comma"],
+ ["The firm where I did my internship in has closed down.",["the firm where i did my internship has closed down","the firm which i did my internship in has closed down","the firm that i did my internship in has closed down","the firm i did my internship in has closed down","the firm in which i did my internship has closed down"],"where already includes the preposition"],
+ ["The candidate which got the job has three years' experience.",["the candidate who got the job has three years experience","the candidate that got the job has three years experience"],"who/that for people"],
+ ["Tom is the colleague who's laptop was stolen.",["tom is the colleague whose laptop was stolen"],"whose = possession"],
+ ["I work for a company, that makes solar panels.",["i work for a company that makes solar panels","i work for a company which makes solar panels","i work for a company, which makes solar panels"],"no comma + that"],
+ ["The manager wanted to see me which made me nervous.",["the manager wanted to see me, which made me nervous"],"comma before which (whole sentence)"]];
+
+const norm=s=>s.toLowerCase().replace(/[’‘`]/g,"'").replace(/'/g,"").replace(/é/g,"e").replace(/\s*,\s*/g,", ").replace(/[.!?]+\s*$/,"").replace(/\s+/g," ").trim();
+const $=id=>document.getElementById(id);
+function fb(id,ok,txt){const f=$(id);f.className="fb "+(ok?"ok-t":"bad-t");f.textContent=txt}
+const li=(n,html)=>{const e=document.createElement("li");e.innerHTML=`<span class="n">${n}.</span><span class="s">${html}</span>`;return e};
+const inp=(id,lab,wide)=>`<input type="text" id="${id}" class="${wide?"wide":""}" aria-label="${lab}" autocomplete="off" autocapitalize="off" spellcheck="false">`;
+
+M.forEach((m,i)=>$("t1").append(li(i+1,`${m[0]}<div class="opts" role="radiogroup">${m[1].map((o,k)=>`<label id="ml${i}_${k}"><input type="radio" name="m${i}" value="${k}">${o}</label>`).join("")}</div><span class="fb" id="mf${i}"></span>`)));
+G.forEach((g,i)=>$("t2").append(li(i+1,`${g[0]} ${inp("g"+i,"Gap "+(i+1))} ${g[1]}<span class="fb" id="gf${i}"></span>`)));
+O.forEach((o,i)=>$("t3").append(li(i+1,`${o[0]}<div class="opts">${["No","Yes"].map((t,k)=>`<label id="ol${i}_${k}"><input type="radio" name="o${i}" value="${k}">${t}</label>`).join("")}</div><span class="fb" id="of${i}"></span>`)));
+J.forEach((j,i)=>$("t4").append(li(i+1,`${j[0]}${inp("j"+i,"Sentence "+(i+1),1)}<span class="fb" id="jf${i}"></span>`)));
+E.forEach((e,i)=>$("t5").append(li(i+1,`${e[0]}${inp("e"+i,"Correct sentence "+(i+1),1)}<span class="fb" id="ef${i}"></span>`)));
+
+const mark=(el,ok)=>{el.classList.remove("ok","bad");if(el.value!=="")el.classList.add(ok?"ok":"bad")};
+function radio(name,lp,correct,fid,expl){const r=document.querySelector(`input[name=${name}]:checked`);
+ document.querySelectorAll(`[id^=${lp}]`).forEach(l=>l.classList.remove("ok","bad"));if(!r){$(fid).textContent="";return 0}
+ const ok=+r.value===correct;$(lp+r.value).classList.add(ok?"ok":"bad");fb(fid,ok,(ok?"✓ ":"✗ ")+expl);return +ok}
+function check(){let p=0;
+ M.forEach((m,i)=>p+=radio("m"+i,`ml${i}_`,m[2],"mf"+i,m[3]));
+ G.forEach((g,i)=>{const el=$("g"+i),ok=g[2].includes(norm(el.value));p+=ok;mark(el,ok);
+   fb("gf"+i,ok,el.value===""?"":ok?(norm(el.value)==="that"?"✓ Correct – that also works here":"✓ Correct"):"✗ Try again")});
+ O.forEach((o,i)=>p+=radio("o"+i,`ol${i}_`,o[1],"of"+i,o[2]));
+ J.forEach((j,i)=>{const el=$("j"+i),ok=j[1].includes(norm(el.value));p+=ok;mark(el,ok);fb("jf"+i,ok,el.value===""?"":ok?"✓ Correct":"✗ Check the pronoun and the commas")});
+ E.forEach((e,i)=>{const el=$("e"+i),ok=e[1].includes(norm(el.value));p+=ok;mark(el,ok);fb("ef"+i,ok,el.value===""?"":ok?"✓ Correct – "+e[2]:"✗ Try again")});
+ $("score").textContent=`Score: ${p} / 27`}
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1)+".";
+$("check").onclick=check;
+$("show").onclick=()=>{
+ M.forEach((m,i)=>document.querySelector(`input[name=m${i}][value="${m[2]}"]`).checked=true);
+ G.forEach((g,i)=>$("g"+i).value=g[2][0]);
+ O.forEach((o,i)=>document.querySelector(`input[name=o${i}][value="${o[1]}"]`).checked=true);
+ J.forEach((j,i)=>$("j"+i).value=cap(j[1][0]));
+ E.forEach((e,i)=>$("e"+i).value=cap(e[1][0]));
+ check();$("score").textContent="Answers shown"};
+$("reset").onclick=()=>{document.querySelectorAll("section:not(:first-of-type) input[type=text]").forEach(e=>{e.value="";e.classList.remove("ok","bad")});
+ document.querySelectorAll("section:not(:first-of-type) input[type=radio],input[type=checkbox]").forEach(e=>e.checked=false);
+ document.querySelectorAll(".opts label").forEach(l=>l.classList.remove("ok","bad"));
+ document.querySelectorAll("section:not(:first-of-type) .fb").forEach(f=>f.textContent="");$("dream").value="";$("score").textContent="Score: – / 27"};
+</script>
+
+</body>
+</html>
