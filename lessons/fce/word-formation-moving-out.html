@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaving the Nest – FCE Word Formation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one "paper" sheet, FCE Part 3 text with two-stage gaps (word type, then word form) */
+:root{
+  --bg:#f6eef0; --paper:#fffdfc; --ink:#2a1f22; --muted:#7a666b; --mauve:#9b6470; --pale:#fbefec;
+  --line:#e3d2d6; --ok:#3f7d5c; --ok-bg:#e6f2ea; --bad:#c23b4a; --bad-bg:#fbe6e8;
+  --display:"Fraunces", Georgia, "Times New Roman", serif;
+  --body:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1c1517; --paper:#261d20; --ink:#f1e6e8; --muted:#b8a3a8; --mauve:#c98d9a; --pale:#33262a;
+  --line:#4a3a3f; --ok:#7cc49a; --ok-bg:#1f3328; --bad:#ef7d89; --bad-bg:#3d2126; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1c1517; --paper:#261d20; --ink:#f1e6e8; --muted:#b8a3a8; --mauve:#c98d9a; --pale:#33262a;
+  --line:#4a3a3f; --ok:#7cc49a; --ok-bg:#1f3328; --bad:#ef7d89; --bad-bg:#3d2126; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.top{max-width:780px;margin:0 auto}
+.back{display:inline-block;margin-bottom:12px;color:var(--mauve);font-weight:600;text-decoration:none}
+.sheet{max-width:780px;margin:0 auto;background:var(--paper);border:2px solid var(--mauve);border-radius:22px;overflow:hidden}
+header{padding:22px 28px 18px;border-bottom:3px solid var(--mauve);display:grid;gap:6px}
+.brand{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand b{font:italic 700 1.1rem var(--display);color:var(--mauve)}
+.cefr{font:500 .75rem var(--mono);letter-spacing:.08em;color:var(--paper);background:var(--mauve);padding:3px 9px;border-radius:99px}
+h1{font:700 clamp(1.7rem,5vw,2.4rem)/1.1 var(--display);margin:4px 0 0;text-wrap:balance}
+header p{margin:0;color:var(--muted)}
+section{padding:22px 28px 8px}
+.tab{display:flex;align-items:stretch;gap:10px;margin:0 -28px 18px}
+.tab span{background:var(--mauve);color:var(--paper);font:500 1rem var(--display);padding:8px 16px 8px 28px;display:flex;align-items:center;white-space:nowrap}
+.tab p{background:var(--pale);border-radius:8px;margin:0 28px 0 0;padding:8px 14px;font-size:.95rem;flex:1;min-width:0}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:10px;margin-bottom:18px;font-size:.95rem}
+.steps div{background:var(--pale);border-radius:10px;padding:10px 14px}
+.steps b{color:var(--mauve)}
+h2{font:700 1.5rem var(--display);text-align:center;margin:6px 0 14px}
+.text p{margin:0 0 1.1em;line-height:2.3}
+.gap{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px;vertical-align:middle;line-height:1.4}
+.num{font:600 .8rem var(--mono);color:var(--paper);background:var(--mauve);border-radius:99px;min-width:1.6rem;text-align:center;padding:1px 6px}
+.base{font:500 .85rem var(--mono);letter-spacing:.06em;color:var(--mauve);border:1.5px solid var(--mauve);border-radius:5px;padding:0 5px}
+select,input[type=text]{font:inherit;font-size:.95rem;color:var(--ink);background:transparent;min-width:0}
+select{border:1.5px solid var(--line);border-radius:6px;padding:1px 2px}
+input[type=text]{border:0;border-bottom:2px dotted var(--muted);padding:0 4px;width:9.5em}
+input:disabled{opacity:.55}
+.hint{font:600 .75rem var(--body);color:var(--mauve);background:transparent;border:1.5px dashed var(--mauve);border-radius:99px;padding:0 8px;cursor:pointer}
+.ex{color:var(--mauve);font-weight:600;border-bottom:2px solid var(--mauve)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--mauve);outline-offset:2px}
+.ok{background:var(--ok-bg)!important;border-color:var(--ok)!important}
+.bad{background:var(--bad-bg)!important;border-color:var(--bad)!important}
+.notes{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.notes li{display:grid;grid-template-columns:2rem 1fr;gap:6px;font-size:.95rem;padding:8px 12px;border-radius:10px;background:var(--pale)}
+.notes .n{font:600 .85rem var(--mono);color:var(--mauve)}
+.notes .r{font-weight:600}
+.notes .r.ok-t{color:var(--ok)} .notes .r.bad-t{color:var(--bad)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:16px 28px 26px}
+button.b{font:600 1rem var(--body);border-radius:10px;padding:10px 18px;cursor:pointer;border:2px solid var(--mauve)}
+.primary{background:var(--mauve);color:var(--paper)}
+.ghost{background:transparent;color:var(--mauve)}
+.score{margin-left:auto;font:500 .95rem var(--mono);font-variant-numeric:tabular-nums}
+.toast{font-size:.9rem;color:var(--mauve);padding:0 28px}
+@media (max-width:540px){header,section{padding-left:18px;padding-right:18px}.tab{margin:0 -18px 16px}.tab span{padding-left:18px}.tab p{margin-right:18px}.bar,.toast{padding-inline:18px}.score{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="top"><a class="back" href="./">← FCE lessons</a></div>
+<div class="sheet">
+<header>
+  <div class="brand"><span class="cefr">CEFR B2 · FCE Use of English Part 3</span><b>TeachCraft</b></div>
+  <h1>Leaving the Nest: Word Formation</h1>
+  <p>Twelve gaps about moving out of your parents' home. Expect negative prefixes, double changes and spelling changes.</p>
+</header>
+
+<section>
+  <div class="tab"><span>TASK</span><p>Read the text. Use the word in <u>CAPITALS</u> to form a word that fits in each gap. Work in <u>two steps</u>.</p></div>
+  <div class="steps">
+    <div><b>Step 1.</b> Decide what type of word is missing (noun, adjective, adverb or verb) and choose it from the list. Then press <em>Check word types</em>.</div>
+    <div><b>Step 2.</b> The word boxes open. Write the correct form, then press <em>Check answers</em>. Need help? Press <em>hint</em>.</div>
+  </div>
+
+  <h2>Leaving the Nest</h2>
+  <div class="text" id="text"></div>
+</section>
+
+<p class="toast" id="toast" aria-live="polite"></p>
+<div class="bar">
+  <button class="b primary" id="checkType" type="button">Check word types</button>
+  <button class="b primary" id="checkForm" type="button" hidden>Check answers</button>
+  <button class="b ghost" id="show" type="button">Show answers</button>
+  <button class="b ghost" id="reset" type="button">Start again</button>
+  <span class="score" id="score">Types: – / 12 · Words: – / 12</span>
+</div>
+
+<section id="notesWrap" hidden>
+  <div class="tab"><span>WHY?</span><p>Read the explanations. Compare them with your answers.</p></div>
+  <ol class="notes" id="notes"></ol>
+</section>
+<div style="height:20px"></div>
+</div>
+
+<script>
+const T=["noun","adjective","adverb","verb"];
+const GAPS=[
+ {b:"AFFORD",a:["unaffordable"],t:"adjective",h:"negative prefix + suffix",w:"After <i>almost</i> + <i>become</i> we need an adjective. Rents are too high, so the meaning is negative: <b>un</b>+afford+<b>able</b>."},
+ {b:"NEIGHBOUR",a:["neighbourhoods","neighborhoods"],t:"noun",h:"suffix + plural",w:"<i>cheaper</i> describes a noun. There is no article, so it must be plural: neighbour+<b>hood</b>+<b>s</b>."},
+ {b:"WIDE",a:["width"],t:"noun",h:"spelling change",w:"<i>three metres in …</i> needs a noun of measurement. Like long → length, wide → <b>width</b>."},
+ {b:"CONVENIENCE",a:["inconvenient"],t:"adjective",h:"negative prefix + change of ending",w:"After <i>extremely</i> we need an adjective. A long commute is a problem, so it is negative: <b>in</b>+conveni+<b>ent</b>."},
+ {b:"RESPONSIBLE",a:["responsibilities"],t:"noun",h:"suffix + plural (y → ies)",w:"<i>new …, from paying bills to …</i>: a list of things, so a plural noun. responsib<b>ility</b> → responsib<b>ilities</b>."},
+ {b:"AGREE",a:["disagreements"],t:"noun",h:"negative prefix + suffix + plural",w:"Subject of <i>are almost inevitable</i>, so a plural noun. Arguments about cleaning are negative: <b>dis</b>+agree+<b>ment</b>+<b>s</b>."},
+ {b:"UNDERSTAND",a:["misunderstandings"],t:"noun",h:"prefix + suffix + plural",w:"<i>most of them turn out to be simple …</i>: plural noun. When people understand each other wrongly, it is a <b>mis</b>understand<b>ing</b>."},
+ {b:"SUIT",a:["unsuitable"],t:"adjective",h:"negative prefix + suffix",w:"<i>bulky and completely …</i>: an adjective after an adverb. Big furniture does not fit a tiny room: <b>un</b>+suit+<b>able</b>."},
+ {b:"DECORATE",a:["redecorate"],t:"verb",h:"prefix meaning 'again'",w:"<i>allow tenants to …</i>: infinitive, so a verb. The walls are already painted, so tenants want to decorate them again: <b>re</b>decorate."},
+ {b:"DEPEND",a:["independence"],t:"noun",h:"negative prefix + suffix",w:"<i>The sense of …</i> needs a noun. Living alone gives you freedom, so the opposite of dependence: <b>in</b>depend<b>ence</b>."},
+ {b:"LONE",a:["loneliness"],t:"noun",h:"two suffixes (y → i)",w:"Subject of <i>can hit hard</i>, so a noun. lone → lonely → lonel<b>iness</b> (y changes to i)."},
+ {b:"EXPECT",a:["unexpectedly"],t:"adverb",h:"negative prefix + two suffixes",w:"It modifies the adjective <i>high</i>, so an adverb. Nobody is ready for it: <b>un</b>+expect+<b>ed</b>+<b>ly</b>."}
+];
+const TXT=[
+ "Moving out of your parents' home is one of the most <span class='ex'>exciting</span> <span class='base'>EXCITE</span> steps a young person can take. Yet for many, the biggest obstacle is financial: in large cities, rents have become almost {0} for anyone on a starting salary. As a result, first-time tenants often end up in cheaper {1} far from the centre, in rooms barely three metres in {2}. A long commute can be extremely {3}, especially if you start work early.",
+ "Money is not the only challenge. Suddenly you have new {4}, from paying bills on time to remembering to buy toilet paper. If you share a flat, {5} about cleaning and noise are almost inevitable, although most of them turn out to be simple {6} that a calm conversation can solve.",
+ "Furnishing a rented room is another test. The furniture your parents offer is often bulky and completely {7} for a tiny space, and many landlords do not allow tenants to {8} the walls, so creativity is essential.",
+ "Is it worth it? Most young people say yes. The sense of {9} they gain is priceless, even if {10} can hit hard in the first few weeks. Just be prepared: the first winter heating bill may arrive {11} high."
+];
+const opts='<option value="">type?</option>'+T.map(t=>`<option value="${t}">${t}</option>`).join("");
+const gapHTML=i=>`<span class="gap"><span class="num">${i+1}</span><select id="t${i}" aria-label="Gap ${i+1} word type">${opts}</select><input type="text" id="f${i}" aria-label="Gap ${i+1} word" autocomplete="off" autocapitalize="off" spellcheck="false" disabled placeholder="…"><span class="base">${GAPS[i].b}</span><button class="hint" type="button" data-i="${i}" aria-label="Hint for gap ${i+1}">hint</button></span>`;
+document.getElementById("text").innerHTML=TXT.map(p=>"<p>"+p.replace(/\{(\d+)\}/g,(_,n)=>gapHTML(+n))+"</p>").join("");
+const $=id=>document.getElementById(id), toast=m=>$("toast").textContent=m;
+let tScore="–",fScore="–";
+const showScore=()=>$("score").textContent=`Types: ${tScore} / 12 · Words: ${fScore} / 12`;
+const mark=(el,ok)=>{el.classList.remove("ok","bad");el.classList.add(ok?"ok":"bad")};
+document.querySelectorAll(".hint").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;b.textContent=GAPS[i].h;b.disabled=true});
+function checkTypes(){
+  let s=0,empty=0;
+  GAPS.forEach((g,i)=>{const el=$("t"+i);if(!el.value){empty++;el.classList.remove("ok","bad");return}const ok=el.value===g.t;if(ok)s++;mark(el,ok)});
+  tScore=s;showScore();
+  if(empty){toast(`Choose a word type for all gaps (${empty} missing).`);return}
+  GAPS.forEach((g,i)=>$("f"+i).disabled=false);
+  $("checkForm").hidden=false;
+  toast(s===12?"All word types correct! Now write the words.":"Red types are wrong: change them before you write the word. The word boxes are now open.");
+  $("f0").focus();
+}
+const norm=s=>s.toLowerCase().trim();
+function checkForms(){
+  let s=0,ts=0;
+  GAPS.forEach((g,i)=>{const t=$("t"+i);if(t.value){const ok=t.value===g.t;if(ok)ts++;mark(t,ok)}
+    const el=$("f"+i),ok=g.a.includes(norm(el.value));if(ok)s++;if(el.value)mark(el,ok);else el.classList.remove("ok","bad")});
+  tScore=ts;fScore=s;showScore();
+  $("notes").innerHTML=GAPS.map((g,i)=>{const v=norm($("f"+i).value),ok=g.a.includes(v);
+    return `<li><span class="n">${i+1}</span><span><span class="r ${ok?"ok-t":"bad-t"}">${ok?"✓":"✗"} ${g.a[0]}</span> <span class="base">${g.b}</span> · ${g.t}<br>${g.w}</span></li>`}).join("");
+  $("notesWrap").hidden=false;
+  toast(s===12?"Excellent! All twelve words are correct.":`${s} / 12 correct. Read the explanations below, fix the red gaps and check again.`);
+}
+$("checkType").onclick=checkTypes;
+$("checkForm").onclick=checkForms;
+$("show").onclick=()=>{GAPS.forEach((g,i)=>{$("t"+i).value=g.t;const f=$("f"+i);f.disabled=false;f.value=g.a[0]});$("checkForm").hidden=false;checkForms();toast("Answers shown.")};
+$("reset").onclick=()=>{GAPS.forEach((g,i)=>{const t=$("t"+i),f=$("f"+i);t.value="";f.value="";f.disabled=true;t.classList.remove("ok","bad");f.classList.remove("ok","bad")});
+  document.querySelectorAll(".hint").forEach(b=>{b.textContent="hint";b.disabled=false});
+  $("checkForm").hidden=true;$("notesWrap").hidden=true;tScore=fScore="–";showScore();toast("")};
+</script>
+</body>
+</html>
