@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C2 Transformation Bank · Self-Study | TeachCraft</title>
+<style>
+:root{--cream:#f8f7f2;--navy:#1b2a47;--gold:#cfa144;--white:#fff;--muted:#667085;--line:#d9dfe7;
+--ok:#15803d;--okbg:#e8f6ec;--bad:#b42335;--badbg:#fdecee;--lilac:#ede7fb;--violet:#4c1d95;--pale:#fbf6ea}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--navy);font-family:Inter,Arial,sans-serif;line-height:1.5}
+.page{width:min(860px,calc(100% - 28px));margin:0 auto;padding:22px 0 60px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:28px}
+.brand{font-family:Georgia,serif;font-size:23px;font-weight:700;color:var(--navy);text-decoration:none}
+.back{color:var(--navy);font-weight:700;text-decoration:none;padding:9px 14px;border:1px solid var(--line);border-radius:12px;background:var(--white);font-size:14px}
+.eyebrow{margin:0 0 8px;color:#9b6811;font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+h1{margin:0;font-family:Georgia,serif;font-size:clamp(32px,6vw,52px);line-height:1.05}
+.intro{color:var(--muted);font-size:17px;margin:14px 0 22px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:18px;scrollbar-width:thin}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--white);color:var(--navy);border-radius:999px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.tab.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.tab .sc{font-weight:400;opacity:.75;margin-left:4px}
+.session-head{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:20px 22px;margin-bottom:18px;box-shadow:0 10px 28px rgba(27,42,71,.06)}
+.session-head h2{font-family:Georgia,serif;margin:0 0 6px;font-size:26px}
+.session-head p{margin:0;color:var(--muted)}
+.bar{height:8px;background:#e9eef5;border-radius:99px;margin-top:14px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.stats{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:14px;color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:none;border-radius:12px;padding:10px 15px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-ghost{background:var(--white);border:1px solid var(--line);color:var(--navy)}
+.btn-small{padding:7px 11px;font-size:13px;border-radius:10px}
+.task{margin:26px 0 10px}
+.task h3{font-family:Georgia,serif;font-size:21px;margin:0 0 4px}
+.task .instr{background:var(--pale);border-left:4px solid var(--gold);padding:9px 12px;border-radius:8px;font-size:15px;margin-bottom:12px}
+.item{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0}
+.item.ok{border-color:#9fd8b0;background:var(--okbg)}
+.item.bad{border-color:#f1b3bb;background:var(--badbg)}
+.item.hidden{display:none}
+.num{display:inline-block;min-width:26px;color:var(--muted);font-weight:700}
+.q{font-size:17px;margin:0 0 10px}
+.orig{font-size:16px;margin:0 0 8px}
+.kw{display:inline-block;padding:3px 9px;border-radius:7px;background:var(--lilac);color:var(--violet);font-weight:800;letter-spacing:.05em;font-size:14px;margin:2px 0 8px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--white);border-radius:11px;padding:10px 12px;font-size:16px;cursor:pointer;font-family:inherit;color:var(--navy)}
+.opt:hover:not(:disabled){border-color:var(--gold)}
+.opt.right{border-color:var(--ok);background:#d6f0de;font-weight:700}
+.opt.wrong{border-color:var(--bad);background:#fbd9de}
+.opt:disabled{cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input.ans,textarea.ans{flex:1 1 220px;min-width:0;width:100%;padding:10px 12px;border:1px solid #c5ceda;border-radius:10px;font-size:16px;font-family:inherit;color:var(--navy);background:var(--white)}
+textarea.ans{min-height:92px;resize:vertical}
+input.ans:focus,textarea.ans:focus{outline:2px solid var(--gold);border-color:transparent}
+.fb{margin-top:10px;font-size:15px}
+.fb .verdict{font-weight:800}
+.fb .verdict.okv{color:var(--ok)}
+.fb .verdict.badv{color:var(--bad)}
+.model{background:var(--white);border:1px dashed #c9b27a;border-radius:10px;padding:10px 12px;margin-top:8px}
+.model b.lbl{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9b6811;margin-bottom:3px}
+.crit{margin:8px 0 0;padding:0;list-style:none}
+.crit li{margin:5px 0}
+.crit label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.crit input{margin-top:4px;width:17px;height:17px;accent-color:var(--navy)}
+.self{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.why{color:#344054;margin-top:4px}
+.done-msg{display:none;text-align:center;background:var(--navy);color:var(--white);border-radius:16px;padding:16px;margin-top:20px}
+.note{font-size:13px;color:var(--muted);margin-top:30px;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){.item{padding:13px}.q{font-size:16px}.session-head{padding:16px}}
+</style>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="brand" href="../../">TeachCraft</a>
+    <a class="back" href="./">← C1 lessons</a>
+  </nav>
+  <header>
+    <p class="eyebrow">C1 → C2 · Self-study</p>
+    <h1>Transformation &amp; Expression Bank</h1>
+    <p class="intro">6 sesji po ok. 20 minut. Najpierw rozpoznajesz, potem transformujesz, na końcu piszesz i mówisz. Postęp zapisuje się w tej przeglądarce.</p>
+  </header>
+  <div class="tabs" id="tabs"></div>
+  <section id="session"></section>
+  <p class="note">Transformacje: akceptowane są typowe warianty (wielkość liter, skróty <i>n't</i>, końcowa kropka bez znaczenia). Jeśli Twoja odpowiedź jest poprawna, a system jej nie uznał, kliknij „Zaliczam”. W zadaniach otwartych klucz jest modelem, nie jedyną poprawną wersją.</p>
+  <footer class="note" style="border:none;margin-top:0">TeachCraft by AugustaTeach</footer>
+</main>
+<script>
+const DATA = [{"id": "s1", "title": "Sesja 1 · Gusta, nawyki, opis zdjęcia", "short": "Gusta i zdjęcia", "focus": "Bank: 01–13. Najpierw rozróżnianie, potem transformacje i krótka produkcja.", "tasks": [{"title": "Wybierz poprawną opcję", "instr": "Wybierz <u>jedną</u> odpowiedź. Zwróć uwagę na kolokację i rejestr.", "items": [{"type": "choice", "q": "Flawed as it is, I still have a ___ for that film.", "opts": ["soft spot", "penchant", "kick"], "a": 0, "why": "<i>soft spot</i> = czuła słabość do konkretnej rzeczy. <i>penchant</i> to stała skłonność do pewnego typu rzeczy, nie do jednego filmu."}, {"type": "choice", "q": "She ___ a liking to the new conductor almost immediately.", "opts": ["had", "took", "got"], "a": 1, "why": "<i>take a liking to</i> = polubić (początek sympatii); <i>have a liking for</i> = stan."}, {"type": "choice", "q": "Which phrase is <b>least</b> suitable for a formal essay?", "opts": ["the advent of", "not least because", "get a kick out of"], "a": 2, "why": "<i>get a kick out of</i> jest potoczne; w rozprawce brzmi nie na miejscu."}, {"type": "choice", "q": "Which is <b>not</b> acceptable?", "opts": ["Judging by her expression, …", "Judging from her expression, …", "Judging on her expression, …"], "a": 2, "why": "Tylko <i>judging by / judging from</i>."}]}, {"title": "Uzupełnij lukę", "instr": "Wpisz <u>jedno</u> brakujące słowo.", "items": [{"type": "gap", "q": "Free concerts in this area are few and far ___.", "a": ["between"], "why": "Stałe wyrażenie, zwykle z podmiotem w liczbie mnogiej."}, {"type": "gap", "q": "An improvised jazz concert would be right up her ___.", "a": ["street", "alley"], "why": "<i>street</i> – BrE, <i>alley</i> – AmE. Potoczne."}, {"type": "gap", "q": "I'm not in the habit ___ attending concerts during the week.", "a": ["of"], "why": "<i>be in the habit of + -ing</i>."}, {"type": "gap", "q": "I got ___ on the podcast almost immediately.", "a": ["hooked"], "why": "<i>get hooked on</i> = wciągnąć się (proces); <i>be hooked on</i> = stan."}, {"type": "gap", "q": "At ___ glance, the event appears rather formal.", "a": ["first"], "why": "<i>at first glance</i> – bez <i>the</i>."}, {"type": "gap", "q": "It looks as ___ they're enjoying themselves.", "a": ["though", "if"], "why": "<i>look as though / as if</i> – oba poprawne."}]}, {"title": "Transformacje", "instr": "Dokończ drugie zdanie tak, by znaczyło to samo. Użyj <u>słowa kluczowego</u> bez zmiany formy.", "items": [{"type": "kwt", "q": "Discovering new artists really excites me.", "kw": "KICK", "stem": "What I ___ discovering new artists.", "a": ["get a kick out of is", "get a real kick out of is", "really get a kick out of is"], "why": "Zdanie rozszczepione: <i>What I get a kick out of is + -ing</i>."}, {"type": "kwt", "q": "I rarely go to the theatre.", "kw": "FAR", "stem": "My visits to the theatre ___.", "a": ["are few and far between"], "why": "Podmiot w l. mnogiej (<i>visits</i>) pasuje do <i>few and far between</i>."}, {"type": "kwt", "q": "I don't usually attend concerts on weekdays.", "kw": "HABIT", "stem": "I'm ___ concerts during the week.", "a": ["not in the habit of attending", "not in the habit of going to"], "why": "<i>not be in the habit of + -ing</i> = zwykle tego nie robię (a nie: nigdy)."}]}, {"title": "Opis zdjęcia – produkcja", "instr": "Napisz 2 zdania. Oddziel to, co <u>widać</u>, od tego, co <u>wnioskujesz</u> (may / appears to / suggests).", "items": [{"type": "open", "q": "Scene: a cellist is playing in a park; people are sitting on the grass very close to her; a small child is holding a drum. Use: <b>The first thing that strikes me…</b>, <b>…, which suggests that…</b>, <b>Judging by…</b>.", "model": "The first thing that strikes me is how close the listeners are sitting to the cellist, which suggests that the performance is meant to feel informal. Judging by the child holding a drum, the audience may even be invited to join in.", "criteria": ["Fakt (to, co widać) jest oddzielony od wniosku", "Wniosek jest złagodzony: may / appears to / suggests", "Użyte wszystkie 3 struktury, bez <i>at the first glance</i>"]}]}]}, {"id": "s2", "title": "Sesja 2 · Porównania", "short": "Porównania", "focus": "Bank: 14–22. that of / those of, nothing like, every bit as, no less, so too, inwersja.", "tasks": [{"title": "that of czy those of?", "instr": "Wpisz <u>that</u> albo <u>those</u>. Sprawdź, jaki rzeczownik zastępujesz.", "items": [{"type": "gap", "q": "Attendance today is lower than ___ of 50 years ago.", "a": ["that"], "why": "<i>attendance</i> – niepoliczalny → <i>that</i>."}, {"type": "gap", "q": "Today's attendance figures are lower than ___ of previous generations.", "a": ["those"], "why": "<i>figures</i> – l. mnoga → <i>those</i>."}, {"type": "gap", "q": "The values of younger people differ from ___ of their parents.", "a": ["those"], "why": "<i>values</i> – l. mnoga → <i>those</i>."}]}, {"title": "Wybierz poprawną opcję", "instr": "Wybierz <u>jedną</u> odpowiedź.", "items": [{"type": "choice", "q": "Listening to a recording is ___ like attending a live performance.", "opts": ["nothing", "anything", "nowhere"], "a": 0, "why": "<i>nothing like</i> = zupełnie inne niż. <i>nowhere near</i> łączy się ze stopniem: <i>nowhere near as good</i>."}, {"type": "choice", "q": "Audience numbers aren't ___ like as high as they used to be.", "opts": ["nothing", "anything", "nowhere"], "a": 1, "why": "<i>anything like</i> – w zdaniach przeczących/pytaniach: <i>not anything like as high</i>."}, {"type": "choice", "q": "Equally important ___ the practical benefits.", "opts": ["is", "are", "does"], "a": 1, "why": "Inwersja: podmiotem jest <i>the practical benefits</i> (l. mnoga) → <i>are</i>."}, {"type": "choice", "q": "___ meditation, violin practice can help people unwind.", "opts": ["Much as", "Much like"], "a": 1, "why": "<i>much like</i> = podobnie jak (porównanie). <i>much as + zdanie</i> = chociaż (koncesja)."}]}, {"title": "Uzupełnij lukę", "instr": "Wpisz <u>jedno</u> słowo (operator).", "items": [{"type": "gap", "q": "Just as a concert can bring strangers together, so too ___ playing music as a group.", "a": ["can"], "why": "Operator powtarza <i>can</i> z pierwszej części."}, {"type": "gap", "q": "Live performance creates a sense of community, and so too ___ shared music-making.", "a": ["does"], "why": "<i>creates</i> (Present Simple, 3 os.) → <i>does</i>."}]}, {"title": "Transformacje", "instr": "Dokończ drugie zdanie, używając <u>słowa kluczowego</u>.", "items": [{"type": "kwt", "q": "Connecting with audiences matters just as much as technical accuracy.", "kw": "LESS", "stem": "Connecting with audiences is ___ technical accuracy.", "a": ["no less important than"], "why": "<i>no less + adj + than</i> = wcale nie mniej… niż."}, {"type": "kwt", "q": "It's much less popular now than it once was.", "kw": "NOWHERE", "stem": "It's ___ it once was.", "a": ["nowhere near as popular as", "now nowhere near as popular as"], "why": "<i>nowhere near as + adj + as</i>."}, {"type": "kwt", "q": "Online events can be just as valuable as face-to-face ones.", "kw": "BIT", "stem": "Online events can be ___ face-to-face ones.", "a": ["every bit as valuable as"], "why": "<i>every bit as … as</i> – nie <i>than</i>."}, {"type": "kwt", "q": "Today's attendance is roughly 45% of what it used to be.", "kw": "BARELY", "stem": "Today's attendance is ___ it used to be.", "a": ["barely half what", "barely half of what"], "why": "<i>barely half</i> – tylko gdy dane to uzasadniają."}, {"type": "kwt", "q": "Informal concerts attract younger listeners. Workshops also do.", "kw": "SAID", "stem": "Informal concerts attract younger listeners, and the ___ workshops.", "a": ["same can be said of", "same could be said of", "same can be said for"], "why": "<i>the same can be said of X</i> = to samo dotyczy X."}]}, {"title": "Popraw błąd", "instr": "Zdanie zawiera <u>jeden</u> błąd. Napisz poprawną wersję, potem porównaj z kluczem.", "items": [{"type": "fix", "q": "The informal performance is every bit engaging than the traditional recital.", "a": "The informal performance is every bit as engaging as the traditional recital.", "why": "<i>every bit as … as</i>."}]}]}, {"id": "s3", "title": "Sesja 3 · Koncesja, preferencje, warunki", "short": "Koncesja i preferencje", "focus": "Bank: 23–29 i 64–66. much as, adj + as … may be, I'd rather, I wish, high time, unless / only if, nor / as do.", "tasks": [{"title": "Transformacje", "instr": "Dokończ drugie zdanie, używając <u>słowa kluczowego</u>.", "items": [{"type": "kwt", "q": "Core subjects are important, but arts education also matters.", "kw": "MAY", "stem": "Important ___, arts education also matters.", "a": ["as core subjects may be", "though core subjects may be"], "why": "<i>Adj + as + podmiot + may be</i> – formalna koncesja."}, {"type": "kwt", "q": "I want schools to offer music lessons.", "kw": "RATHER", "stem": "I'd ___ music lessons.", "a": ["rather schools offered"], "why": "<i>I'd rather + podmiot + past simple</i> = preferencja co do teraźniejszości/przyszłości."}, {"type": "kwt", "q": "They removed the programme last year, and I regret it.", "kw": "WISH", "stem": "I ___ the programme last year.", "a": ["wish they hadn't removed", "wish they had not removed"], "why": "Żal dotyczący przeszłości → <i>wish + past perfect</i>."}, {"type": "kwt", "q": "Schools should have recognised the value of the arts long ago.", "kw": "HIGH", "stem": "It's ___ the value of the arts.", "a": ["high time schools recognised", "high time schools recognized", "high time that schools recognised", "high time that schools recognized"], "why": "<i>It's high time + past simple</i> = już najwyższy czas."}, {"type": "kwt", "q": "I love classical music, but I rarely attend concerts.", "kw": "MUCH", "stem": "___, I rarely attend concerts.", "a": ["much as i love classical music"], "why": "<i>Much as I love…,</i> – bez <i>but</i> w drugiej części."}]}, {"title": "Popraw błąd", "instr": "Każde zdanie ma <u>jeden</u> błąd. Napisz poprawną wersję.", "items": [{"type": "fix", "q": "Much as I appreciate the idea, but I doubt it would work.", "a": "Much as I appreciate the idea, I doubt it would work.", "why": "Koncesję sygnalizuje już <i>much as</i>, więc <i>but</i> jest zbędne."}, {"type": "fix", "q": "They'd better to act before enrolment falls further.", "a": "They'd better act before enrolment falls further.", "why": "<i>had better + bezokolicznik bez to</i>."}, {"type": "fix", "q": "I wish schools take music more seriously.", "a": "I wish schools took music more seriously.", "why": "Nierzeczywista teraźniejszość → <i>wish + past simple</i>."}]}, {"title": "Wybierz poprawną opcję", "instr": "Wybierz <u>jedną</u> odpowiedź.", "items": [{"type": "choice", "q": "I won't attend ___ the tickets are reasonably priced.", "opts": ["if", "unless", "only if"], "a": 1, "why": "<i>won't … unless</i> = nie pójdę, chyba że…"}, {"type": "choice", "q": "I'll attend ___ the tickets are affordable – otherwise, forget it.", "opts": ["only if", "unless", "even if"], "a": 0, "why": "<i>only if</i> = warunek konieczny."}, {"type": "choice", "q": "People are choosing neither the cinema ___ the theatre.", "opts": ["or", "nor", "and"], "a": 1, "why": "<i>neither … nor</i>."}]}, {"title": "Uzupełnij lukę", "instr": "Wpisz <u>jeden</u> operator (inwersja po <i>nor / as</i>).", "items": [{"type": "gap", "q": "Concerts haven't recovered, nor ___ theatres.", "a": ["have"], "why": "<i>nor + operator + podmiot</i>."}, {"type": "gap", "q": "Young people value accessibility, as ___ older listeners.", "a": ["do"], "why": "<i>value</i> (Present Simple) → <i>as do</i>."}, {"type": "gap", "q": "Schools will benefit from the initiative, as ___ local communities.", "a": ["will"], "why": "<i>will benefit</i> → <i>as will</i>."}]}]}, {"id": "s4", "title": "Sesja 4 · Argumentacja i przeformułowanie", "short": "Argumentacja", "focus": "Bank: 30–40 i 67–68. Funkcje dyskursu: doprecyzuj / zawęź / wzmocnij / przekieruj.", "tasks": [{"title": "Funkcja w dyskursie", "instr": "Wybierz łącznik, który pełni <u>właściwą funkcję</u> w tym kontekście.", "items": [{"type": "choice", "q": "Recordings have transformed music consumption. ___ live performance has lost its value.", "opts": ["That is not to say that", "Put differently,", "More to the point,"], "a": 0, "why": "Zawężenie poprzedniego twierdzenia → <i>That is not to say that</i>."}, {"type": "choice", "q": "Tickets are expensive. ___, many people simply can't get home after an evening concert.", "opts": ["That is to say", "More to the point", "The paradox is that"], "a": 1, "why": "Przekierowanie do ważniejszego argumentu → <i>More to the point</i>."}, {"type": "choice", "q": "Instrument prices are high. ___, private lessons are becoming increasingly expensive.", "opts": ["To make matters worse", "In other words", "That is not to say that"], "a": 0, "why": "Nasilenie problemu → <i>To make matters worse</i>."}, {"type": "choice", "q": "The event lacked interaction; ___, the audience had virtually no chance to engage with the performers.", "opts": ["put differently", "to make matters worse", "not least because"], "a": 0, "why": "Przeformułowanie tej samej myśli → <i>put differently</i>."}, {"type": "choice", "q": "Which sentence uses <i>The paradox is that</i> correctly?", "opts": ["The paradox is that some schools cannot afford music teachers.", "The paradox is that music education is widely praised yet often struggles to secure funding."], "a": 1, "why": "<i>paradox</i> wymaga realnego napięcia lub sprzeczności (yet)."}]}, {"title": "Uzupełnij lukę", "instr": "Wpisz <u>jedno</u> słowo.", "items": [{"type": "gap", "q": "Music lessons matter, not ___ because they encourage cooperation.", "a": ["least"], "why": "<i>not least because</i> = nie w ostatniej kolejności dlatego, że…"}, {"type": "gap", "q": "I'd go so far ___ to say that music education is indispensable.", "a": ["as"], "why": "<i>go so far as to say</i> – mocna opinia."}, {"type": "gap", "q": "The experience was intimidating, by ___ I mean that the audience was expected to remain completely silent.", "a": ["which"], "why": "<i>by which I mean</i> – doprecyzowanie."}]}, {"title": "Transformacje", "instr": "Dokończ drugie zdanie, używając <u>słowa kluczowego</u>.", "items": [{"type": "kwt", "q": "We could introduce shorter, more accessible concerts.", "kw": "WHAT", "stem": "___ introduce shorter, more accessible concerts.", "a": ["what we can do is", "what we could do is", "what we can do is to", "what we could do is to"], "why": "Zdanie rozszczepione <i>What we can do is + bezokolicznik</i>."}, {"type": "kwt", "q": "Inviting musicians into schools might help.", "kw": "THING", "stem": "One ___ inviting musicians into schools.", "a": ["thing that might help is", "thing which might help is"], "why": "<i>One thing that might help is + -ing</i>."}, {"type": "kwt", "q": "The best measure is subsidised tickets for students.", "kw": "SINGLE", "stem": "If I had to ___, it would be subsidised tickets for students.", "a": ["single out one measure", "single one measure out", "single out a measure"], "why": "Wskazanie priorytetu – przydatne w Speaking Part 3/4."}, {"type": "kwt", "q": "The lack of funding worries teachers most.", "kw": "WHAT", "stem": "___ the lack of funding.", "a": ["what worries teachers most is", "what worries teachers the most is"], "why": "Zdanie rozszczepione z <i>what</i>."}, {"type": "kwt", "q": "Music education matters because it develops concentration.", "kw": "MAKES", "stem": "What ___ is that it helps develop concentration.", "a": ["makes music education important", "makes music education so important"], "why": "<i>What makes X important is that…</i>"}]}, {"title": "Dokończ myśl", "instr": "Dopisz zdanie. Klucz to <u>model</u> – oceń się według kryteriów, nie co do słowa.", "items": [{"type": "open", "q": "The scheme has widened access to concerts. <b>That is not to say that …</b>", "model": "That is not to say that every barrier has disappeared; for families outside the city, transport remains a serious obstacle.", "criteria": ["Dopisane zdanie to realne ograniczenie lub wyjątek, a nie powtórzenie", "Nie przeczy w całości pierwszemu zdaniu"]}, {"type": "open", "q": "Concerts can feel inaccessible. <b>What I mean by that is that …</b>", "model": "What I mean by that is that the unwritten rules – when to clap, how to dress – may put off people who have never attended one.", "criteria": ["Dodaje konkret (przykład, mechanizm)", "Nie parafrazuje tylko słowa <i>inaccessible</i>"]}]}]}, {"id": "s5", "title": "Sesja 5 · Zmiana, trendy, publiczność", "short": "Trendy i publiczność", "focus": "Bank: 41–63. Kolokacje, inwersja po <i>no longer / gone are</i>, idiomy o widowni.", "tasks": [{"title": "Wybierz poprawną opcję", "instr": "Wybierz <u>jedną</u> odpowiedź.", "items": [{"type": "choice", "q": "There was a ___ decline in participation after the fees went up.", "opts": ["strong", "sharp", "heavy"], "a": 1, "why": "<i>sharp / steep / marked decline</i>; <i>strong decline</i> brzmi nienaturalnie."}, {"type": "choice", "q": "Traditional instruments have, in some homes, been supplanted ___ digital devices.", "opts": ["with", "by", "for"], "a": 1, "why": "W stronie biernej standardowo <i>supplanted by</i>."}, {"type": "choice", "q": "Some schools offer a lot, others almost nothing: provision is ___.", "opts": ["patchy", "anything but patchy"], "a": 0, "why": "<i>anything but patchy</i> = wcale nie nierówne, czyli odwrotny sens."}, {"type": "choice", "q": "There were ___ interruptions throughout the lesson.", "opts": ["continuous", "continual"], "a": 1, "why": "<i>continual</i> = powtarzające się; <i>continuous</i> = bez przerwy."}, {"type": "choice", "q": "Audience members, ___ they schoolchildren or seasoned subscribers, responded enthusiastically.", "opts": ["be", "being", "whether"], "a": 0, "why": "Formalne <i>be they … or …</i> (l. mnoga). Bezpieczniej w mowie: <i>whether schoolchildren or …</i>"}, {"type": "choice", "q": "The benefits of learning music may ___ into other areas of education.", "opts": ["spill over", "spread out", "overflow"], "a": 0, "why": "<i>spill over into</i> = przenosić się na inne dziedziny."}]}, {"title": "Uzupełnij lukę", "instr": "Wpisz <u>jedno</u> słowo. Uważaj na pisownię.", "items": [{"type": "gap", "q": "The benefits clearly ___ the drawbacks.", "a": ["outweigh"], "why": "<i>outweigh</i> – nie <i>overweigh</i>."}, {"type": "gap", "q": "The ___ of recording technology transformed how people consumed music.", "a": ["advent"], "why": "<i>the advent of</i> – formalne."}, {"type": "gap", "q": "Streaming helped sow the ___ of the decline in physical music sales.", "a": ["seeds"], "why": "<i>sow the seeds of</i> = zapoczątkować (późniejszy rozwój)."}, {"type": "gap", "q": "The unusual programme ___ my interest.", "a": ["piqued"], "why": "Pisownia: <i>pique</i>, a nie <i>peak/peek</i>."}, {"type": "gap", "q": "The experiment went ___ extremely well with the audience.", "a": ["down"], "why": "<i>go down well with</i> = spodobać się."}, {"type": "gap", "q": "Talking informally helps break ___ the barriers between performers and listeners.", "a": ["down"], "why": "<i>break down barriers</i>."}, {"type": "gap", "q": "Young and old ___ joined in.", "a": ["alike"], "why": "<i>young and old alike</i>."}, {"type": "gap", "q": "She's well ___ in music theory.", "a": ["versed"], "why": "<i>well versed in</i> + dziedzina."}, {"type": "gap", "q": "The free outdoor concert drew ___ the crowds.", "a": ["in"], "why": "<i>draw in the crowds</i>."}]}, {"title": "Transformacje", "instr": "Dokończ drugie zdanie, używając <u>słowa kluczowego</u>.", "items": [{"type": "kwt", "q": "People no longer regard learning the piano as essential.", "kw": "DO", "stem": "No longer ___ learning the piano as essential.", "a": ["do people regard"], "why": "Przeczący element na początku → inwersja: <i>do people regard</i>."}, {"type": "kwt", "q": "Pianos used to be routinely passed down through families, but this rarely happens now.", "kw": "GONE", "stem": "___ a piano was routinely passed down through the family.", "a": ["gone are the days when"], "why": "<i>Gone are the days when…</i> – nie <i>Gone the days</i>."}, {"type": "kwt", "q": "Today's concerts are very different from those of the past.", "kw": "CRY", "stem": "Today's concerts are ___ those of the past.", "a": ["a far cry from"], "why": "<i>a far cry from</i> – emfatyczne."}, {"type": "kwt", "q": "The organisers made the audience feel part of the performance.", "kw": "FABRIC", "stem": "The organisers wove the audience ___ the performance.", "a": ["into the fabric of"], "why": "Metafora – pasuje do kontekstów społecznych i kulturowych."}]}]}, {"id": "s6", "title": "Finał · Produkcja B2 → C2", "short": "Finał: produkcja", "focus": "Upgrade chains, audyt przesadyzmu, Speaking. Klucz = model + kryteria. Oceń się sam/a.", "tasks": [{"title": "Upgrade chain", "instr": "Przepisz zdanie B2 na wersję <u>C1</u>, potem <u>C2</u>. Nie upychaj kilku fraz na siłę.", "items": [{"type": "open", "q": "B2: <b>I like unusual concerts.</b>", "model": "C1: I have a penchant for unconventional concert formats.<br>C2: Much as I appreciate traditional recitals, I have a penchant for performances that break down the barriers between artists and audiences.", "criteria": ["C1: jedno trafne wyrażenie zamiast <i>like</i>", "C2: koncesja albo rozbudowa + konkret", "Rejestr spójny w całym zdaniu"]}, {"type": "open", "q": "B2: <b>Fewer children play instruments.</b>", "model": "C1: There has been a gradual decline in the number of children learning musical instruments.<br>C2: Gone are the days when instrumental lessons were widely seen as a routine part of childhood – at least in some communities.", "criteria": ["Kolokacja <i>sharp/gradual decline in</i>", "Inwersja poprawna", "Twierdzenie złagodzone (at least / in some …)"]}, {"type": "open", "q": "B2: <b>We should introduce cheap tickets.</b>", "model": "C1: One thing that might help is introducing affordable tickets for students.<br>C2: If I had to single out one measure, it would be targeted ticket subsidies, which could help break down financial barriers to attendance.", "criteria": ["<i>-ing</i> po <i>One thing that might help is</i>", "Uzasadnienie w zdaniu względnym"]}, {"type": "open", "q": "B2: <b>Both methods work well.</b>", "model": "C1: The interactive concert is every bit as engaging as the traditional one.<br>C2: The first approach makes performers more approachable; equally engaging, however, is the second, which gives listeners a direct role in the music-making.", "criteria": ["<i>every bit as … as</i> bez <i>than</i>", "Inwersja z <i>equally + adj</i> zgodna co do liczby"]}]}, {"title": "Audyt przesadyzmu", "instr": "Akapit jest <u>przeładowany</u>. Przepisz go: maks. 3 frazy z banku, bez przesady i bez potocznych wtrętów.", "items": [{"type": "open", "q": "Gone are the days when concerts were the only way to hear music; indeed, the advent of streaming has been a total game changer. Much as I have a soft spot for live performance, I'd go so far as to say that, nine times out of ten, recordings are every bit as engaging, not least because they are right up everyone's street.", "model": "The advent of streaming has transformed the way people listen to music. Much as I have a soft spot for live performance, I find that recordings can be every bit as engaging, not least because listeners can choose exactly what they hear and when.", "criteria": ["Najwyżej 3 frazy z banku", "Usunięte przesadzone twierdzenia (<i>total game changer, nine times out of ten</i>)", "Usunięty potoczny wtręt (<i>right up everyone's street</i>)", "Każda fraza służy argumentowi"]}]}, {"title": "Speaking – nagraj się", "instr": "Mów 1–1,5 min. Nagraj, odsłuchaj, odhacz checklistę.", "items": [{"type": "open", "q": "<b>Should music lessons be compulsory in secondary schools?</b> Use at least 4: <i>much as…, not least because…, that is not to say that…, what makes X important is…, if I had to single out…, I'd rather + past</i>.", "model": "Much as I understand the financial constraints schools face, I'd rather music remained part of the curriculum. What makes it so important is that it develops concentration and cooperation, not least because pupils have to listen to one another. That is not to say that every pupil should be forced to learn an instrument – if I had to single out one solution, it would be a choice between choir, an instrument and music production.", "criteria": ["Użyte co najmniej 4 struktury, każda naturalnie", "Jasne stanowisko + zawężenie (<i>that is not to say</i>)", "Brak <i>Much as…, but</i>", "Tempo płynne, bez czytania z kartki"]}]}]}];
+const KEY = "tc-c2-bank-selfstudy-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { state = {}; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+let current = DATA[0].id;
+try { const h = location.hash.slice(1); if (DATA.some(s => s.id === h)) current = h; } catch (e) {}
+let onlyWrong = false;
+
+function norm(s){
+  return (s||"").toLowerCase()
+    .replace(/[‘’ʼ`]/g,"'").replace(/[–—]/g,"-")
+    .replace(/\bcan't\b/g,"cannot").replace(/\bwon't\b/g,"will not").replace(/n't\b/g," not")
+    .replace(/\bi'd\b/g,"i would").replace(/\bit's\b/g,"it is").replace(/\bi'm\b/g,"i am")
+    .replace(/[.,!?;:"]/g," ").replace(/\s+/g," ").trim();
+}
+function itemsOf(s){ const out=[]; s.tasks.forEach((t,ti)=>t.items.forEach((it,ii)=>out.push({id:`${s.id}-${ti}-${ii}`,it}))); return out; }
+function score(s){ const all=itemsOf(s); let done=0, ok=0; all.forEach(x=>{const r=state[x.id]; if(r && r.ok!==undefined){done++; if(r.ok) ok++;}}); return {n:all.length,done,ok}; }
+
+function renderTabs(){
+  const el=document.getElementById("tabs"); el.innerHTML="";
+  DATA.forEach(s=>{
+    const sc=score(s); const b=document.createElement("button");
+    b.className="tab"+(s.id===current?" active":"");
+    b.innerHTML=`${s.short}<span class="sc">${sc.done?sc.ok+"/"+sc.n:""}</span>`;
+    b.onclick=()=>{current=s.id; onlyWrong=false; try{history.replaceState(null,"","#"+s.id);}catch(e){} render(); window.scrollTo({top:0,behavior:"smooth"});};
+    el.appendChild(b);
+  });
+}
+function updateHead(s){
+  const sc=score(s);
+  document.getElementById("bar").style.width=(sc.n?100*sc.done/sc.n:0)+"%";
+  document.getElementById("stat").textContent=`Zrobione: ${sc.done}/${sc.n}`;
+  document.getElementById("stat2").textContent=`Poprawnie: ${sc.ok}`;
+  document.getElementById("done").style.display=(sc.done===sc.n)?"block":"none";
+  document.getElementById("done").innerHTML=`Sesja ukończona: <b>${sc.ok}/${sc.n}</b>. ${sc.ok<sc.n?"Kliknij „Tylko błędne”, żeby powtórzyć to, co nie wyszło.":"Świetnie – przejdź do kolejnej sesji."}`;
+  renderTabs();
+}
+function mark(id, ok, extra){ state[id]=Object.assign({ok}, extra||{}); save(); }
+
+function verdict(ok){ return `<span class="verdict ${ok?"okv":"badv"}">${ok?"✓ Dobrze.":"✗ Nie tym razem."}</span>`; }
+
+function render(){
+  renderTabs();
+  const s=DATA.find(x=>x.id===current);
+  const root=document.getElementById("session");
+  root.innerHTML=`<div class="session-head"><h2>${s.title}</h2><p>${s.focus}</p>
+    <div class="bar"><span id="bar"></span></div>
+    <div class="stats"><span id="stat"></span><span id="stat2"></span></div>
+    <div class="actions">
+      <button class="btn btn-ghost btn-small" id="wrongBtn">${onlyWrong?"Pokaż wszystko":"Tylko błędne / niezrobione"}</button>
+      <button class="btn btn-ghost btn-small" id="resetBtn">Wyczyść sesję</button>
+    </div></div>`;
+  let n=0;
+  s.tasks.forEach((t,ti)=>{
+    const tw=document.createElement("div"); tw.className="task";
+    tw.innerHTML=`<h3>Task ${ti+1} · ${t.title}</h3><div class="instr">${t.instr}</div>`;
+    t.items.forEach((it,ii)=>{ n++; tw.appendChild(buildItem(`${s.id}-${ti}-${ii}`, it, n, s)); });
+    root.appendChild(tw);
+  });
+  const done=document.createElement("div"); done.className="done-msg"; done.id="done"; root.appendChild(done);
+  document.getElementById("wrongBtn").onclick=()=>{onlyWrong=!onlyWrong; render();};
+  document.getElementById("resetBtn").onclick=()=>{ itemsOf(s).forEach(x=>delete state[x.id]); save(); onlyWrong=false; render(); };
+  updateHead(s);
+}
+
+function buildItem(id, it, n, s){
+  const box=document.createElement("div"); box.className="item";
+  const prev=state[id];
+  if(onlyWrong && prev && prev.ok===true) box.classList.add("hidden");
+  const fb=document.createElement("div"); fb.className="fb";
+  const setCls=ok=>{box.classList.remove("ok","bad"); box.classList.add(ok?"ok":"bad");};
+  const num=`<span class="num">${n}.</span>`;
+
+  if(it.type==="choice"){
+    box.innerHTML=`<p class="q">${num}${it.q.replace("___","<b>_____</b>")}</p>`;
+    const opts=document.createElement("div"); opts.className="opts";
+    it.opts.forEach((o,oi)=>{
+      const b=document.createElement("button"); b.className="opt"; b.innerHTML=o;
+      b.onclick=()=>{ const ok=oi===it.a; mark(id,ok,{pick:oi}); showChoice(oi); updateHead(s); };
+      opts.appendChild(b);
+    });
+    box.appendChild(opts); box.appendChild(fb);
+    function showChoice(pick){
+      [...opts.children].forEach((b,bi)=>{ b.disabled=true; if(bi===it.a) b.classList.add("right"); else if(bi===pick) b.classList.add("wrong"); });
+      const ok=pick===it.a; setCls(ok);
+      fb.innerHTML=`${verdict(ok)} <div class="why">${it.why}</div>`;
+    }
+    if(prev && prev.pick!==undefined) showChoice(prev.pick);
+    return box;
+  }
+
+  if(it.type==="gap" || it.type==="kwt"){
+    if(it.type==="gap") box.innerHTML=`<p class="q">${num}${it.q.replace("___","<b>_____</b>")}</p>`;
+    else box.innerHTML=`<p class="orig">${num}${it.q}</p><span class="kw">${it.kw}</span><p class="q">${it.stem.replace("___","<b>_____</b>")}</p>`;
+    const row=document.createElement("div"); row.className="row";
+    const inp=document.createElement("input"); inp.className="ans"; inp.type="text"; inp.autocomplete="off"; inp.autocapitalize="off"; inp.spellcheck=false;
+    inp.placeholder= it.type==="gap" ? "jedno słowo" : "3–6 słów";
+    const chk=document.createElement("button"); chk.className="btn btn-gold btn-small"; chk.textContent="Sprawdź";
+    const show=document.createElement("button"); show.className="btn btn-ghost btn-small"; show.textContent="Pokaż";
+    row.append(inp,chk,show); box.appendChild(row); box.appendChild(fb);
+    const ansHtml=it.a.map(a=>`<b>${a}</b>`).join(" / ");
+    function result(ok, given, revealed){
+      setCls(ok);
+      let h=`${verdict(ok)} <div class="why">Klucz: ${ansHtml}<br>${it.why}</div>`;
+      if(!ok && !revealed) h+=`<div class="self"><button class="btn btn-ghost btn-small ovr">Zaliczam – mam wariant poprawny</button></div>`;
+      fb.innerHTML=h;
+      const o=fb.querySelector(".ovr"); if(o) o.onclick=()=>{ mark(id,true,{val:given,ovr:1}); result(true,given,false); updateHead(s); };
+    }
+    const check=()=>{ const v=inp.value; if(!v.trim()) return; const ok=it.a.some(a=>norm(a)===norm(v)); mark(id,ok,{val:v}); result(ok,v,false); updateHead(s); };
+    chk.onclick=check; inp.addEventListener("keydown",e=>{ if(e.key==="Enter") check(); });
+    show.onclick=()=>{ mark(id,false,{val:inp.value,rev:1}); result(false,inp.value,true); updateHead(s); };
+    if(prev){ inp.value=prev.val||""; result(prev.ok, prev.val, !!prev.rev); }
+    return box;
+  }
+
+  // fix + open: self-assessed
+  const isFix=it.type==="fix";
+  box.innerHTML = isFix ? `<p class="q">${num}<s style="text-decoration-color:#b42335">${it.q}</s></p>` : `<p class="q">${num}${it.q}</p>`;
+  const ta=document.createElement("textarea"); ta.className="ans"; ta.placeholder=isFix?"Napisz poprawne zdanie…":"Twoja wersja…";
+  if(isFix) ta.style.minHeight="60px";
+  const reveal=document.createElement("button"); reveal.className="btn btn-gold btn-small"; reveal.textContent= isFix?"Pokaż poprawkę":"Pokaż model i kryteria"; reveal.style.marginTop="8px";
+  box.append(ta, reveal, fb);
+  ta.addEventListener("input",()=>{ state[id]=Object.assign(state[id]||{},{txt:ta.value}); if(state[id].ok===undefined) delete state[id].ok; persistDraft(); });
+  function persistDraft(){ save(); }
+  function open(){
+    reveal.style.display="none";
+    let h = isFix ? `<div class="model"><b class="lbl">Poprawnie</b>${it.a}</div><div class="why">${it.why}</div>`
+                  : `<div class="model"><b class="lbl">Model</b>${it.model}</div><ul class="crit">${it.criteria.map((c,ci)=>`<li><label><input type="checkbox" data-ci="${ci}"> <span>${c}</span></label></li>`).join("")}</ul>`;
+    h+=`<div class="self"><button class="btn btn-ghost btn-small y">✓ Mam to</button><button class="btn btn-ghost btn-small n">✗ Do powtórki</button></div>`;
+    fb.innerHTML=h;
+    const st=state[id]||{};
+    fb.querySelectorAll(".crit input").forEach(c=>{ c.checked=!!(st.crit||[])[c.dataset.ci]; c.onchange=()=>{ const s2=state[id]||{}; s2.crit=s2.crit||[]; s2.crit[c.dataset.ci]=c.checked; state[id]=s2; save(); }; });
+    fb.querySelector(".y").onclick=()=>{ const s2=state[id]||{}; s2.ok=true; state[id]=s2; save(); setCls(true); updateHead(s); };
+    fb.querySelector(".n").onclick=()=>{ const s2=state[id]||{}; s2.ok=false; state[id]=s2; save(); setCls(false); updateHead(s); };
+    if(st.ok!==undefined) setCls(st.ok);
+  }
+  reveal.onclick=()=>{ const s2=state[id]||{}; s2.open=1; state[id]=s2; save(); open(); };
+  if(prev){ ta.value=prev.txt||""; if(prev.open) open(); }
+  return box;
+}
+render();
+</script>
+</body>
+</html>
