@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Literacy 3 · Getting Better Results from AI · Vocabulary Practice | TeachCraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b2a5b; --blue:#4a86c5; --ink:#1f2937; --muted:#5b6678;
+  --line:#d8dee8; --soft:#f5f8fc; --card:#ffffff; --bg:#ffffff;
+  --ok:#2f8f3a; --ok-bg:#eaf6ec; --bad:#c0392b; --bad-bg:#fdecea; --accent:#e8f1fb;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --navy:#9cc0ff; --blue:#7fb0e6; --ink:#e5e9f0; --muted:#a3adbd;
+    --line:#334055; --soft:#18202c; --card:#111824; --bg:#0c121b;
+    --ok:#6fcf7a; --ok-bg:#16301b; --bad:#ff8a7a; --bad-bg:#3a1a17; --accent:#17253a;
+  }
+}
+:root[data-theme="dark"]{
+  --navy:#9cc0ff; --blue:#7fb0e6; --ink:#e5e9f0; --muted:#a3adbd;
+  --line:#334055; --soft:#18202c; --card:#111824; --bg:#0c121b;
+  --ok:#6fcf7a; --ok-bg:#16301b; --bad:#ff8a7a; --bad-bg:#3a1a17; --accent:#17253a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.55}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.logo{font-weight:800;font-size:24px;letter-spacing:-1px;color:var(--navy);text-decoration:none}
+.logo span{color:var(--blue)}
+.brand{font-weight:700;color:var(--navy);line-height:1.2;flex:1}
+.brand small{display:block;font-weight:400;color:var(--muted)}
+.tbtn{font:inherit;font-size:14px;font-weight:700;border:1.5px solid var(--line);background:var(--card);color:var(--navy);border-radius:10px;padding:7px 11px;cursor:pointer;text-decoration:none}
+main{max-width:900px;margin:0 auto;padding:16px 16px 140px}
+.eyebrow{color:var(--blue);font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin:22px 0 6px}
+h1{margin:0;font-size:clamp(30px,5vw,44px);color:var(--navy);line-height:1.1}
+.intro{color:var(--muted);margin:10px 0 18px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.toc a{font-size:14px;font-weight:700;color:var(--navy);background:var(--accent);border-radius:999px;padding:6px 12px;text-decoration:none}
+section{margin:44px 0 0}
+.unit{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+.badge{flex:none;width:46px;height:46px;border-radius:12px;background:var(--navy);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:20px}
+.unit h2{margin:0;font-size:26px;color:var(--navy);line-height:1.15}
+.unit p{margin:3px 0 0;color:var(--muted)}
+.item{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 12px}
+.item.ok{border-color:var(--ok);background:var(--ok-bg)}
+.item.bad{border-color:var(--bad);background:var(--bad-bg)}
+.num{display:inline-block;min-width:30px;padding:1px 7px;margin-right:8px;border-radius:8px;background:var(--soft);color:var(--navy);font-weight:800;text-align:center}
+.q{font-weight:600;margin:0 0 10px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;background:var(--card)}
+.opt input{accent-color:var(--navy);width:17px;height:17px}
+select,input[type=text]{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:6px 9px;max-width:100%}
+input[type=text]{width:min(340px,100%)}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.row .term{font-weight:700;color:var(--navy);min-width:230px}
+.row select{flex:1;min-width:240px}
+.bank{background:var(--accent);border-radius:12px;padding:12px 14px;margin:0 0 14px;display:flex;flex-wrap:wrap;gap:8px}
+.bank span{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-weight:600;color:var(--navy)}
+.hint{color:var(--muted);font-size:14px;font-family:ui-monospace,Consolas,monospace;letter-spacing:1px}
+.pl{color:var(--muted);font-style:italic;font-size:15px}
+.ans{display:none;margin-top:8px;color:var(--ok);font-weight:700}
+.reveal .ans{display:block}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0 0}
+.btn{font:inherit;font-weight:800;border:none;border-radius:10px;padding:10px 18px;cursor:pointer;background:var(--navy);color:var(--bg)}
+.btn.sec{background:var(--accent);color:var(--navy)}
+.btn[hidden]{display:none}
+.score{font-weight:800;color:var(--navy)}
+/* flashcards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.fc{perspective:900px;height:190px;cursor:pointer}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .f,.fc .b{position:absolute;inset:0;border:1.5px solid var(--line);border-radius:14px;padding:14px;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;background:var(--card)}
+.fc .f b{font-size:20px;color:var(--navy)}
+.fc .f small{color:var(--muted);margin-top:8px;font-size:14px}
+.fc .b{transform:rotateY(180deg);background:var(--accent);font-size:15px}
+.fc .b .pl{margin-top:6px}
+.tip{color:var(--muted);font-size:14px;margin:0 0 10px}
+.total{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);z-index:6}
+.total .in{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bar{flex:1;min-width:160px;height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--blue);transition:width .4s}
+footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="top">
+  <a class="logo" href="../../">Teach<span>Craft</span></a>
+  <div class="brand">English for IT<small id="sub"></small></div>
+  <a class="tbtn" href="./">← All IT lessons</a>
+  <button class="tbtn" id="theme" aria-label="Toggle dark mode">Dark / light</button>
+</div></header>
+<main>
+  <div class="eyebrow">AI Literacy · Vocabulary practice</div>
+  <h1 id="h1"></h1>
+  <p class="intro" id="intro"></p>
+  <nav class="toc" id="toc"></nav>
+  <div id="app"></div>
+  <footer>TeachCraft · English for IT · Revise before the quiz: check your answers, then use <b>Show answers</b> to see the key.</footer>
+</main>
+<div class="total"><div class="in">
+  <span class="score" id="tot">Score: 0 / 0</span>
+  <div class="bar"><i id="bar"></i></div>
+  <button class="btn sec" id="resetAll">Start again</button>
+</div></div>
+<script>
+const D = {"num": 3, "title": "Getting Better Results from AI", "topic": "reasoning models, latency, follow-up prompts and AI translation", "box": ["follow-up prompt", "human in the loop", "latency", "preserve the meaning", "professional register", "reasoning effort", "reasoning model", "regenerate the response"], "flash": [{"t": "reasoning model", "d": "a model that \"thinks\" through intermediate steps before its final answer", "pl": "model rozumujący", "ex": "The reasoning model took 40 seconds to answer."}, {"t": "reasoning effort", "d": "how much \"thinking\" (computation) a model spends on a task", "pl": "nakład rozumowania", "ex": "Some tasks benefit from extra reasoning effort."}, {"t": "chain of thought", "d": "the intermediate reasoning steps a model produces before answering", "pl": "łańcuch rozumowania", "ex": "The model's intermediate steps are called a chain of thought."}, {"t": "latency", "d": "the time you wait before a system responds", "pl": "opóźnienie, czas oczekiwania", "ex": "Users complained about the chatbot's high latency."}, {"t": "follow-up prompt", "d": "a message you send after the first answer to improve or continue it", "pl": "prompt uzupełniający", "ex": "\"Make it shorter and more formal\" is a typical follow-up prompt."}, {"t": "request a revision", "d": "ask the AI to improve or change its previous output", "pl": "poprosić o poprawkę", "ex": "You can request a revision instead of starting over."}, {"t": "regenerate a response", "d": "create a new answer to the same prompt", "pl": "wygenerować odpowiedź ponownie", "ex": "The answer was off-topic, so I clicked regenerate."}, {"t": "professional register", "d": "a formal, neutral style suitable for work", "pl": "rejestr / styl formalny", "ex": "\"Hey guys, we fixed some stuff\" is not in a professional register."}, {"t": "preserve the meaning", "d": "keep the original message without adding or removing information", "pl": "zachować znaczenie", "ex": "When you translate the guide, preserve the meaning."}, {"t": "technical terminology", "d": "the specialist words used in a field, e.g. \"deployment\", \"commit\"", "pl": "terminologia techniczna", "ex": "Keep technical terminology consistent in the manual."}, {"t": "evaluation criteria", "d": "the standards used to judge an output, e.g. accuracy and clarity", "pl": "kryteria oceny", "ex": "Use clear evaluation criteria: accuracy and clarity."}, {"t": "human in the loop", "d": "a person checks or approves the AI's work before it is used", "pl": "kontrola człowieka („człowiek w pętli”)", "ex": "A translator checks every AI translation: we keep a human in the loop."}], "match": [{"t": "reasoning model", "d": "a model that \"thinks\" through intermediate steps before its final answer"}, {"t": "reasoning effort", "d": "how much \"thinking\" (computation) a model spends on a task"}, {"t": "chain of thought", "d": "the intermediate reasoning steps a model produces before answering"}, {"t": "latency", "d": "the time you wait before a system responds"}, {"t": "follow-up prompt", "d": "a message you send after the first answer to improve or continue it"}, {"t": "request a revision", "d": "ask the AI to improve or change its previous output"}, {"t": "regenerate a response", "d": "create a new answer to the same prompt"}, {"t": "professional register", "d": "a formal, neutral style suitable for work"}, {"t": "preserve the meaning", "d": "keep the original message without adding or removing information"}, {"t": "technical terminology", "d": "the specialist words used in a field, e.g. \"deployment\", \"commit\""}, {"t": "evaluation criteria", "d": "the standards used to judge an output, e.g. accuracy and clarity"}, {"t": "human in the loop", "d": "a person checks or approves the AI's work before it is used"}], "trans": [{"q": "opóźnienie, czas oczekiwania", "opts": ["evaluation criteria", "latency", "reasoning effort", "reasoning model"], "a": 1}, {"q": "terminologia techniczna", "opts": ["professional register", "technical terminology", "latency", "preserve the meaning"], "a": 1}, {"q": "zachować znaczenie", "opts": ["latency", "preserve the meaning", "chain of thought", "technical terminology"], "a": 1}, {"q": "łańcuch rozumowania", "opts": ["reasoning effort", "latency", "human in the loop", "chain of thought"], "a": 3}, {"q": "poprosić o poprawkę", "opts": ["request a revision", "preserve the meaning", "follow-up prompt", "professional register"], "a": 0}, {"q": "prompt uzupełniający", "opts": ["regenerate a response", "chain of thought", "reasoning effort", "follow-up prompt"], "a": 3}, {"q": "kontrola człowieka („człowiek w pętli”)", "opts": ["human in the loop", "regenerate a response", "latency", "follow-up prompt"], "a": 0}, {"q": "wygenerować odpowiedź ponownie", "opts": ["evaluation criteria", "regenerate a response", "request a revision", "technical terminology"], "a": 1}], "gaps": [{"s": "The ______ took 40 seconds to answer because it generated many intermediate steps first.", "a": "reasoning model"}, {"s": "For a simple greeting, high ______ is a waste of time.", "a": "reasoning effort"}, {"s": "Users complained about the chatbot's high ______: it took ages to reply.", "a": "latency"}, {"s": "The answer was completely off-topic, so I clicked the button to ______.", "a": "regenerate the response"}, {"s": "\"Make it shorter and more formal\" is a typical ______.", "a": "follow-up prompt"}, {"s": "When you translate the guide, ______: don't add or remove any information.", "a": "preserve the meaning"}, {"s": "\"Hey guys, we fixed some stuff\" is not written in a ______.", "a": "professional register"}, {"s": "A translator checks every AI translation before publication: the company keeps a ______.", "a": "human in the loop"}], "typ": [{"s": "A ______ generates intermediate steps before its final answer.", "acc": ["reasoning model"], "show": "reasoning model", "hint": "r________ m____", "pl": "model rozumujący"}, {"s": "Complex bugs may need more ______.", "acc": ["reasoning effort"], "show": "reasoning effort", "hint": "r________ e_____", "pl": "nakład rozumowania"}, {"s": "The steps a model produces before answering are a ______.", "acc": ["chain of thought"], "show": "chain of thought", "hint": "c____ o_ t______", "pl": "łańcuch rozumowania"}, {"s": "The bot took ages to reply: its ______ was too high.", "acc": ["latency"], "show": "latency", "hint": "l______", "pl": "opóźnienie, czas oczekiwania"}, {"s": "Instead of starting over, send a ______.", "acc": ["follow-up prompt"], "show": "follow-up prompt", "hint": "f_____-u_ p_____", "pl": "prompt uzupełniający"}, {"s": "\"Keep the meaning but use a formal tone\": you ______.", "acc": ["request a revision"], "show": "request a revision", "hint": "r______ a r_______", "pl": "poprosić o poprawkę"}, {"s": "To get a completely new answer to the same prompt, ______.", "acc": ["regenerate the response", "regenerate a response", "regenerate the answer", "regenerate"], "show": "regenerate the response", "hint": "r_________ t__ r_______", "pl": "wygenerować odpowiedź ponownie"}, {"s": "The release note was too informal: it needed a ______.", "acc": ["professional register"], "show": "professional register", "hint": "p___________ r_______", "pl": "rejestr / styl formalny"}, {"s": "Don't add or remove information: ______.", "acc": ["preserve the meaning"], "show": "preserve the meaning", "hint": "p_______ t__ m______", "pl": "zachować znaczenie"}, {"s": "Use the same ______ throughout the document.", "acc": ["technical terminology"], "show": "technical terminology", "hint": "t________ t__________", "pl": "terminologia techniczna"}, {"s": "Accuracy, clarity and consistency are ______.", "acc": ["evaluation criteria"], "show": "evaluation criteria", "hint": "e_________ c_______", "pl": "kryteria oceny"}, {"s": "A person approves the AI's work before it is used: a ______.", "acc": ["human in the loop"], "show": "human in the loop", "hint": "h____ i_ t__ l___", "pl": "kontrola człowieka („człowiek w pętli”)"}], "col": [{"s": "Some tasks benefit ___ extra reasoning effort.", "opts": ["from", "of", "with"], "a": 0}, {"s": "Instead of starting over, you can ___ a revision.", "opts": ["require", "request", "ask"], "a": 1}, {"s": "Thinking modes usually ___ latency.", "opts": ["grow", "raise up", "increase"], "a": 2}, {"s": "For important documents, keep a human ___ the loop.", "opts": ["in", "on", "at"], "a": 0}, {"s": "Keep technical terminology ___ throughout the manual.", "opts": ["constant", "consistent", "stable"], "a": 1}, {"s": "This step is often described ___ keeping a human in the loop.", "opts": ["like", "for", "as"], "a": 2}]};
+const $ = (s, r=document) => r.querySelector(s);
+const el = (t, cls, html) => { const e = document.createElement(t); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm = s => String(s).toLowerCase().replace(/[’`]/g, "'").replace(/\s+/g, ' ').replace(/[.!?]+$/, '').trim();
+function shuffle(a, seed){ a = a.slice(); let s = seed || 7; for (let i = a.length - 1; i > 0; i--) { s = (s * 9301 + 49297) % 233280; const j = Math.floor(s / 233280 * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('tc-theme'); if (t) root.dataset.theme = t; } catch(e) {}
+$('#theme').onclick = () => { const dark = getComputedStyle(root).getPropertyValue('--bg').trim() === '#0c121b'; root.dataset.theme = dark ? 'light' : 'dark'; try { localStorage.setItem('tc-theme', root.dataset.theme); } catch(e) {} };
+
+document.title = `AI Literacy ${D.num} · ${D.title} · Vocabulary Practice | TeachCraft`;
+$('#sub').textContent = `AI Literacy ${D.num}`;
+$('#h1').textContent = D.title;
+$('#intro').textContent = `Key vocabulary: ${D.topic}. Six short tasks: start with the flashcards, then test yourself.`;
+
+const scores = {};
+function updateTotal(){ let g = 0, t = 0; Object.values(scores).forEach(s => { g += s[0]; t += s[1]; }); $('#tot').textContent = `Score: ${g} / ${t}`; $('#bar').style.width = t ? (100 * g / t) + '%' : '0'; }
+
+function section(id, n, title, desc){
+  const s = el('section'); s.id = id;
+  s.append(el('div', 'unit', `<div class="badge">${n}</div><div><h2>${title}</h2><p>${desc}</p></div>`));
+  $('#app').append(s); $('#toc').append(Object.assign(el('a', null, title), {href: '#' + id}));
+  return s;
+}
+// generic checker: items = [{node, check():bool}]
+function controls(sec, id, items){
+  const c = el('div', 'controls');
+  const chk = el('button', 'btn', 'Check answers'), show = el('button', 'btn sec', 'Show answers'), again = el('button', 'btn sec', 'Try again'), sc = el('span', 'score');
+  show.hidden = true; again.hidden = true;
+  chk.onclick = () => { let g = 0; items.forEach(it => { const ok = it.check(); it.node.classList.toggle('ok', ok); it.node.classList.toggle('bad', !ok); if (ok) g++; });
+    sc.textContent = `${g} / ${items.length}`; scores[id] = [g, items.length]; updateTotal(); show.hidden = false; again.hidden = false; };
+  show.onclick = () => sec.classList.add('reveal');
+  again.onclick = () => { items.forEach(it => { it.node.classList.remove('ok', 'bad'); it.reset(); }); sec.classList.remove('reveal'); sc.textContent = ''; show.hidden = true; again.hidden = true; delete scores[id]; updateTotal(); };
+  c.append(chk, show, again, sc); sec.append(c);
+  return again;
+}
+
+/* A · Flashcards */
+(() => {
+  const s = section('cards', 'A', 'Flashcards', 'Read the term, guess the meaning, then click the card to flip it.');
+  s.append(el('p', 'tip', 'Tip: say an example sentence before you flip the card.'));
+  const g = el('div', 'cards');
+  D.flash.forEach(f => { const c = el('div', 'fc', `<div class="in"><div class="f"><b>${esc(f.t)}</b><small>${esc(f.ex)}</small></div><div class="b"><div>${esc(f.d)}</div><div class="pl">${esc(f.pl)}</div></div></div>`); c.onclick = () => c.classList.toggle('flip'); g.append(c); });
+  s.append(g);
+})();
+
+/* 1 · Match */
+(() => {
+  const s = section('match', 1, 'Match the definitions', 'Choose the right definition for each term.');
+  const defs = shuffle(D.match.map(m => m.d), D.num * 3);
+  const items = D.match.map((m, i) => {
+    const node = el('div', 'item'); const row = el('div', 'row');
+    row.append(el('span', 'term', `<span class="num">${i + 1}</span>${esc(m.t)}`));
+    const sel = el('select'); sel.append(new Option('— choose —', '')); defs.forEach(d => sel.append(new Option(d, d)));
+    row.append(sel); node.append(row, el('div', 'ans', '✓ ' + esc(m.d))); s.append(node);
+    return { node, check: () => sel.value === m.d, reset: () => sel.value = '' };
+  });
+  controls(s, 'match', items);
+})();
+
+/* 2 · Translate (PL → EN) */
+function mcq(id, n, title, desc, data, qfmt){
+  const s = section(id, n, title, desc);
+  const items = data.map((q, i) => {
+    const node = el('div', 'item'); node.append(el('p', 'q', `<span class="num">${i + 1}</span>${qfmt(q)}`));
+    const box = el('div', 'opts'); const name = id + i;
+    q.opts.forEach((o, k) => { const lab = el('label', 'opt', `<input type="radio" name="${name}" value="${k}"> ${esc(o)}`); box.append(lab); });
+    node.append(box, el('div', 'ans', '✓ ' + esc(q.opts[q.a]))); s.append(node);
+    return { node, check: () => { const r = node.querySelector('input:checked'); return !!r && +r.value === q.a; }, reset: () => node.querySelectorAll('input').forEach(r => r.checked = false) };
+  });
+  controls(s, id, items);
+}
+mcq('trans', 2, 'From Polish to English', 'Which English term matches the Polish meaning?', D.trans, q => `<span class="pl" style="font-size:17px">${esc(q.q)}</span>`);
+
+/* 3 · Gap-fill (drop-down) */
+(() => {
+  const s = section('gaps', 3, 'Complete the sentences', 'Choose the right term for each gap. Use each term once.');
+  const bank = el('div', 'bank'); D.box.forEach(w => bank.append(el('span', null, esc(w)))); s.append(bank);
+  const items = D.gaps.map((g, i) => {
+    const node = el('div', 'item'); const sel = el('select'); sel.append(new Option('— choose —', '')); D.box.forEach(w => sel.append(new Option(w, w)));
+    const parts = g.s.split('______'); const p = el('p', 'q'); p.innerHTML = `<span class="num">${i + 1}</span>${esc(parts[0])}`; p.append(sel); p.append(document.createTextNode(parts[1] || ''));
+    node.append(p, el('div', 'ans', '✓ ' + esc(g.a))); s.append(node);
+    return { node, check: () => sel.value === g.a, reset: () => sel.value = '' };
+  });
+  controls(s, 'gaps', items);
+})();
+
+/* 4 · Type the term */
+(() => {
+  const s = section('type', 4, 'Type the term', 'Write the missing term. The first letters and the Polish meaning will help you.');
+  const items = D.typ.map((t, i) => {
+    const node = el('div', 'item'); const inp = el('input'); inp.type = 'text'; inp.autocomplete = 'off'; inp.spellcheck = false; inp.placeholder = 'type here';
+    const p = el('p', 'q', `<span class="num">${i + 1}</span>${esc(t.s)}`);
+    const row = el('div', 'row'); row.append(inp, el('span', 'hint', esc(t.hint)), el('span', 'pl', esc(t.pl)));
+    node.append(p, row, el('div', 'ans', '✓ ' + esc(t.show))); s.append(node);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { const n = node.nextElementSibling && node.nextElementSibling.querySelector('input'); if (n) n.focus(); } });
+    return { node, check: () => t.acc.map(norm).includes(norm(inp.value)), reset: () => inp.value = '' };
+  });
+  controls(s, 'type', items);
+})();
+
+/* 5 · Collocations */
+mcq('col', 5, 'Collocations', 'Choose the word that goes with the term. Watch the prepositions!', D.col, q => esc(q.s));
+
+$('#resetAll').onclick = () => { document.querySelectorAll('.controls .btn.sec').forEach(b => { if (b.textContent === 'Try again' && !b.hidden) b.click(); }); document.querySelectorAll('.fc.flip').forEach(c => c.classList.remove('flip')); window.scrollTo({top: 0, behavior: 'smooth'}); };
+</script>
+</body>
+</html>
